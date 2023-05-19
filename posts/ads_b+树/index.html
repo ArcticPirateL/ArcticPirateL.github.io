@@ -41,7 +41,28 @@
     </style>
     
     
-    
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [["\\(", "\\)"]],
+      },
+      displayMath: [
+        ["$$", "$$"],
+        ["\[\[", "\]\]"],
+      ],
+      svg: {
+        fontCache: "global",
+      },
+    };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+></script>
+
+
     
     <script src="/js/lazysizes.min.js" async=""></script>
     <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
