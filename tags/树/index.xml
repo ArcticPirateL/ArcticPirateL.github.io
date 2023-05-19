@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>树 on ArcticHome</title>
+    <link>https://arcticpiratel.github.io/tags/%E6%A0%91/</link>
+    <description>Recent content in 树 on ArcticHome</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 19 May 2023 19:27:26 +0800</lastBuildDate><atom:link href="https://arcticpiratel.github.io/tags/%E6%A0%91/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ADS_Splay树</title>
+      <link>https://arcticpiratel.github.io/posts/ads_splay%E6%A0%91/</link>
+      <pubDate>Fri, 19 May 2023 19:27:26 +0800</pubDate>
+      
+      <guid>https://arcticpiratel.github.io/posts/ads_splay%E6%A0%91/</guid>
+      <description>Splay Tree 目标 从空树开始的任何M个连续操作的最大时间开销为O(Mlog N)。（不表示所有操作均为O(log</description>
+    </item>
+    
+  </channel>
+</rss>
