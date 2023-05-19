@@ -249,7 +249,7 @@
 <p>存在的问题：其他节点被换到更低的位置</p>
 </blockquote>
 <p>最坏情况：依次插入1……N，最终的树形式仍然非常不平衡。循环查找1……N，时间复杂度会非常坏。</p>
-<p><img src="https://arcticpiratel.github.io/posts/image-20230424184013704.png" alt="image-20230424184013704"></p>
+<p><img src="https://arcticpiratel.github.io/posts/images/image-20230424184013704.png" alt="image-20230424184013704"></p>
 <h3 id="使用double-rotation">使用double-rotation</h3>
 <p>不仅考虑父子节点（X、P），同时加上祖父节点（G）。</p>
 <p><strong>三种情况：</strong></p>
@@ -262,17 +262,17 @@
 <ul>
 <li>
 <p>zig-zag：</p>
-<p><img src="https://arcticpiratel.github.io/posts/image-20230424184051313.png" alt="image-20230424184051313"></p>
+<p><img src="https://arcticpiratel.github.io/posts/images/image-20230424184051313.png" alt="image-20230424184051313"></p>
 </li>
 <li>
 <p>zig-zig：</p>
-<p><img src="https://arcticpiratel.github.io/posts/image-20230424184114629.png" alt="image-20230424184114629"></p>
+<p><img src="https://arcticpiratel.github.io/posts/images/image-20230424184114629.png" alt="image-20230424184114629"></p>
 </li>
 </ul>
 </li>
 </ul>
 <p>使用double-rotation的方式可以大致将最底层的深度减半，是更好的选择。</p>
-<p><img src="https://arcticpiratel.github.io/posts/image-20230424184515790.png" alt="image-20230424184515790"></p>
+<p><img src="https://arcticpiratel.github.io/posts/images/image-20230424184515790.png" alt="image-20230424184515790"></p>
 <h2 id="删除方法">删除方法</h2>
 <p>四个步骤：</p>
 <ul>
