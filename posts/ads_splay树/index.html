@@ -3,18 +3,20 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>ArcticHome | Series</title>
-    <meta name="description" content=" ">
-    <link rel="canonical" href="https://arcticpiratel.github.io/series/" />
+    <title>ArcticHome | ADS_Splay树</title>
+    <meta name="description" content="Splay Tree 目标 从空树开始的任何M个连续操作的最大时间开销为O(Mlog N)。（不表示所有操作均为O(log ">
+    <link rel="canonical" href="https://arcticpiratel.github.io/posts/ads_splay%E6%A0%91/" />
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-    <meta property="og:title" content="Series" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://arcticpiratel.github.io/series/" />
+    <meta property="og:title" content="ADS_Splay树" />
+<meta property="og:description" content="Splay Tree 目标 从空树开始的任何M个连续操作的最大时间开销为O(Mlog N)。（不表示所有操作均为O(log" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://arcticpiratel.github.io/posts/ads_splay%E6%A0%91/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-05-19T19:27:26+08:00" />
+<meta property="article:modified_time" content="2023-05-19T19:27:26+08:00" />
 
     <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Series"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:title" content="ADS_Splay树"/>
+<meta name="twitter:description" content="Splay Tree 目标 从空树开始的任何M个连续操作的最大时间开销为O(Mlog N)。（不表示所有操作均为O(log"/>
 
     
         
@@ -163,27 +165,36 @@
 
 
         <div id="content">
-    
 
 
 
 
-
-
-    
-        
-        
-        
-    
 
 
 
 
     <div class="hero">
         
+            <div class="hero-img">
+                <img class="lazyload" src="/images/thumbnail.gif" data-src="/images/default.jpg" alt="">
+            </div>
+        
         <div class="hero-content">
-            <div class="hero-title">系列</div>
-            <div></div>
+            <div class="hero-title">ADS_Splay树</div>
+            <div class="hero-subtitle"></div>
+            <div class="hero-date">
+                    <span class="no-wrap"><i class="fa fa-calendar"></i> 发布于: 2023-5-19 &nbsp;</span>
+                    <span class="no-wrap"><i class="fa fa-calendar-check-o"></i> 更新于: 2023-5-19 &nbsp;</span>
+                    <span class="no-wrap"><i class="fa fa-folder"></i>
+                        未收录
+                        
+                    </span>    
+            </div>
+            <div class="timelong">
+                <span class="no-wrap"><i class="fa fa-pencil"></i> 文章字数: 579 &nbsp;</span>
+                <span class="no-wrap"><i class="fa fa-clock-o"></i> 阅读时间: 2 分钟 &nbsp;</span>
+                <span class="no-wrap"><i class="fa fa-eye"></i> 阅读量: <span id="busuanzi_value_page_pv"></span></span>
+            </div>
         </div>
     </div>
 
@@ -202,7 +213,7 @@
     
 
 
-<div class="taxo-body">
+<div class="content-root">
     <div class="long">
         <button class="tosides-1 text-wbd">
             <i class="fa fa-arrow-right"></i>
@@ -215,15 +226,109 @@
         </button>
     </div>
     
-        <div class='taxo-row '>
+        <div class="content">
+            <div class="content-self">
+                <h1 id="splay-tree">Splay Tree</h1>
+<h2 id="目标">目标</h2>
+<p>从空树开始的任何M个连续操作的<strong>最大</strong>时间开销为O(Mlog N)。（不表示所有操作均为O(log N)，实际上是<strong>amortized time</strong>为O(logN)）</p>
+<blockquote>
+<p>AVL树属于Splay树。因为AVL对于所有操作的时间复杂度均为O(log N)。</p>
+<p>amortized time：摊还时间</p>
+</blockquote>
+<h2 id="核心思想">核心思想</h2>
+<p>最坏情况为O(N)，但总时间保持不变。为避免连续多次最坏情况，出现过一次最坏情况的点，下次访问时一定需要到达最好情况。</p>
+<p>Splay树定义了这种移动方法：每次访问一个节点后，将其使用AVL树的规则翻转至根节点。</p>
+<blockquote>
+<p>不考虑平衡情况。</p>
+</blockquote>
+<h2 id="查找方法">查找方法</h2>
+<h3 id="使用single-rotation">使用single-rotation</h3>
+<blockquote>
+<p>存在的问题：其他节点被换到更低的位置</p>
+</blockquote>
+<p>最坏情况：依次插入1……N，最终的树形式仍然非常不平衡。循环查找1……N，时间复杂度会非常坏。</p>
+<p><img src="images%5Cimage-20230424184013704.png" alt="image-20230424184013704"></p>
+<h3 id="使用double-rotation">使用double-rotation</h3>
+<p>不仅考虑父子节点（X、P），同时加上祖父节点（G）。</p>
+<p><strong>三种情况：</strong></p>
+<ul>
+<li>
+<p>P是根节点：X和P进行single-rotation</p>
+</li>
+<li>
+<p>P不是根节点：</p>
+<ul>
+<li>
+<p>zig-zag：</p>
+<p><img src="images%5Cimage-20230424184051313.png" alt="image-20230424184051313"></p>
+</li>
+<li>
+<p>zig-zig：</p>
+<p><img src="images%5Cimage-20230424184114629.png" alt="image-20230424184114629"></p>
+</li>
+</ul>
+</li>
+</ul>
+<p>使用double-rotation的方式可以大致将最底层的深度减半，是更好的选择。</p>
+<p><img src="images%5Cimage-20230424184515790.png" alt="image-20230424184515790"></p>
+<h2 id="删除方法">删除方法</h2>
+<p>四个步骤：</p>
+<ul>
+<li>
+<p>首先查找X：此时X为根。</p>
+</li>
+<li>
+<p>删除X：得到左右两个子树。</p>
+</li>
+<li>
+<p>找到左子树中的最大值：这个最大值成为左子树的根，且没有右子树。</p>
+</li>
+<li>
+<p>将原右子树连接到左子树上。</p>
+</li>
+</ul>
+<h2 id="splay树--avl树">Splay树 &amp; AVL树</h2>
+<p>Splay树实现更简单（不需要时刻考虑BF）</p>
+
+            </div>
             
-                
+                <div class="tags">
+                    
+                </div>
+            
+        </div>
+        
+            
+                <div class="pre-next">
+                    
+    
+        
+        <a href="https://arcticpiratel.github.io/posts/ads_%E7%BB%AA%E8%AE%BA/" class="pre pre-last" style="text-align: center;">
+            <span class="pre-icon"><i class="fa fa-hand-o-left"></i></span>
+            <div class="pre-title-root">
+                <span>ADS_绪论</span>
+            </div>
+        </a>
+        
+    
+    
 
+                </div>
+            
+        
+    
+</div>
 
+    
+        <div class="content-last">
+            
+                <button class="aixin content-last-item efct-button">
+                    <i class="fa fa-heart"></i>
+                </button>
+            
             
         </div>
     
-</div>
 
 
             </div>
@@ -300,33 +405,16 @@
 
 
 
+    
+    
+
 
 <div class="other">
     <div class="other-up">
-        <div class="other-qita text-wbd">最新文章</div>
+        <div class="other-qita text-wbd">相关文章</div>
         <div class="xian"></div>
     </div>
     <div class="list">
-        
-            <a href="https://arcticpiratel.github.io/posts/ads_splay%E6%A0%91/">
-                
-<a href="https://arcticpiratel.github.io/posts/ads_splay%E6%A0%91/">
-    <div class="list-item">
-        <div class="icon-other-root">
-            
-                <div class="icon-other" style="background-image: url( /images/default.jpg );"></div>
-            
-        </div>
-        <div class="list-right">
-            <div class="other-title">
-                ADS_Splay树
-            </div>
-            <div class="other-summary">Splay Tree 目标 从空树开始的任何M个连续操作的最大时间开销为O(Mlog N)。（不表示所有操作均为O(log</div>
-            <div class="other-date">2023-5-19</div>
-        </div>
-    </div>
-</a>
-            </a>
         
             <a href="https://arcticpiratel.github.io/posts/ads_%E7%BB%AA%E8%AE%BA/">
                 
@@ -379,6 +467,46 @@
 
             </div>
         </div>
+    </div>
+</div>
+
+    
+
+<div class="sponsor">
+    <div class="sponsor-self">
+        <div class="sponsor-title">赞赏</div>
+        <div class="sponsor-btn">
+            
+                
+                    
+                        <div class="sponsor-btn-1 border-r">Wechat</div>
+                    
+                
+                
+            
+                
+                    
+                        <div class="sponsor-btn-2 border-l">Alipay</div>
+                    
+                
+                
+            
+        </div>
+        
+        <div class="sponsor-img">
+            
+                
+                    <img class="sponsor-img-1" src="/images/sponsor/wechat.jpeg" alt="">
+                
+                
+            
+                
+                    <img class="sponsor-img-2" src="/images/sponsor/alipay.jpeg" alt="" style="display: none;">
+                
+                
+            
+        </div>
+        <div class="cancel efct-button">取消</div>
     </div>
 </div>
 
