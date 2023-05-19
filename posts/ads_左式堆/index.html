@@ -285,7 +285,7 @@
 <h3 id="节点数据结构">节点数据结构</h3>
 <p>element、left pointer、right pointer、Npl</p>
 <h3 id="实例递归求解">实例（递归求解）</h3>
-<p><img src="D:%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424223917757.png" alt="image-20230424223917757"></p>
+<p><img src="https://arcticpiratel.github.io/posts/images/image-20230424223917757.png" alt="image-20230424223917757"></p>
 <ul>
 <li>
 <p>首先比较根节点大小，较小的一方不变。即将H2与H1的右子堆合并。Merge(H1-&gt;right, H2)</p>
@@ -297,10 +297,10 @@
 <p>如果不符合左式堆条件，交换左右子堆。Swap(H1-&gt;left, H1-&gt;right)</p>
 </li>
 </ul>
-<p><img src="D:%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424224400869.png" alt="image-20230424224400869"></p>
+<p><img src="https://arcticpiratel.github.io/posts/images/image-20230424224400869.png" alt="image-20230424224400869"></p>
 <h3 id="代码实现">代码实现</h3>
-<p><img src="D:%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424224500870.png" alt="image-20230424224500870"></p>
-<p><img src="D:%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424224520960.png" alt="image-20230424224520960"></p>
+<p><img src="https://arcticpiratel.github.io/posts/images/image-20230424224500870.png" alt="image-20230424224500870"></p>
+<p><img src="https://arcticpiratel.github.io/posts/images/image-20230424224520960.png" alt="image-20230424224520960"></p>
 <pre tabindex="0"><code class="language-math" data-lang="math">时间复杂度：\(T_p=O(logN)\)
 </code></pre><h3 id="实例迭代求解">实例（迭代求解）</h3>
 <ul>
@@ -308,8 +308,8 @@
 <li>两个堆的右路径按大小排序，依次插入到上一步选择出的堆的右子堆上。（每个节点与其左子堆绑定）（此时并不符合左式堆）</li>
 <li>对于右路径，从底层到顶层，检查Npl，如果不符合左式堆则调换左右子堆。</li>
 </ul>
-<p><img src="D:%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424225620229.png" alt="image-20230424225620229"></p>
-<p><img src="D:%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424225731255.png" alt="image-20230424225731255"></p>
+<p><img src="https://arcticpiratel.github.io/posts/images/image-20230424225620229.png" alt="image-20230424225620229"></p>
+<p><img src="https://arcticpiratel.github.io/posts/images/image-20230424225731255.png" alt="image-20230424225731255"></p>
 <p><strong>对于递归和迭代，所有操作时间复杂度均为log N。</strong></p>
 <h3 id="删除最小操作">删除最小操作</h3>
 <ul>
