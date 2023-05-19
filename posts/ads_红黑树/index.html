@@ -3,18 +3,20 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>ArcticHome | Tags</title>
-    <meta name="description" content=" ">
-    <link rel="canonical" href="https://arcticpiratel.github.io/tags/" />
+    <title>ArcticHome | ADS_红黑树</title>
+    <meta name="description" content="红黑树 概述 AVL树是首个自平衡树，定义了“平衡”的衡量标准（BF）。 Splay树是AVL树的简化版， ">
+    <link rel="canonical" href="https://arcticpiratel.github.io/posts/ads_%E7%BA%A2%E9%BB%91%E6%A0%91/" />
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-    <meta property="og:title" content="Tags" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://arcticpiratel.github.io/tags/" />
+    <meta property="og:title" content="ADS_红黑树" />
+<meta property="og:description" content="红黑树 概述 AVL树是首个自平衡树，定义了“平衡”的衡量标准（BF）。 Splay树是AVL树的简化版，" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://arcticpiratel.github.io/posts/ads_%E7%BA%A2%E9%BB%91%E6%A0%91/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-05-20T00:04:35+08:00" />
+<meta property="article:modified_time" content="2023-05-20T00:04:35+08:00" />
 
     <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Tags"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:title" content="ADS_红黑树"/>
+<meta name="twitter:description" content="红黑树 概述 AVL树是首个自平衡树，定义了“平衡”的衡量标准（BF）。 Splay树是AVL树的简化版，"/>
 
     
         
@@ -43,7 +45,28 @@
     
         <script src='//cdnjs.cloudflare.com/ajax/libs/valine/1.5.0/Valine.min.js'></script>
     
-    
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [["\\(", "\\)"]],
+      },
+      displayMath: [
+        ["$$", "$$"],
+        ["\[\[", "\]\]"],
+      ],
+      svg: {
+        fontCache: "global",
+      },
+    };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+></script>
+
+
     
     <script src="/js/lazysizes.min.js" async=""></script>
     <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -167,18 +190,10 @@
 
 
         <div id="content">
-    
 
 
 
 
-
-
-    
-        
-        
-        
-    
 
 
 
@@ -186,12 +201,30 @@
     <div class="hero">
         
             <div class="hero-img">
-                <img class="lazyload" src="/images/thumbnail.gif" data-src="/images/tag.jpg" alt="">
+                <img class="lazyload" src="/images/thumbnail.gif" data-src="/images/default.jpg" alt="">
             </div>
         
         <div class="hero-content">
-            <div class="hero-title">标签</div>
-            <div>description of tags page</div>
+            <div class="hero-title">ADS_红黑树</div>
+            <div class="hero-subtitle"></div>
+            <div class="hero-date">
+                    <span class="no-wrap"><i class="fa fa-calendar"></i> 发布于: 2023-5-20 &nbsp;</span>
+                    <span class="no-wrap"><i class="fa fa-calendar-check-o"></i> 更新于: 2023-5-20 &nbsp;</span>
+                    <span class="no-wrap"><i class="fa fa-folder"></i>
+                        收录于:
+                        
+                            <a href='
+                                /categories/ads
+                            '>
+                                ADS
+                            </a>
+                    </span>    
+            </div>
+            <div class="timelong">
+                <span class="no-wrap"><i class="fa fa-pencil"></i> 文章字数: 1587 &nbsp;</span>
+                <span class="no-wrap"><i class="fa fa-clock-o"></i> 阅读时间: 4 分钟 &nbsp;</span>
+                <span class="no-wrap"><i class="fa fa-eye"></i> 阅读量: <span id="busuanzi_value_page_pv"></span></span>
+            </div>
         </div>
     </div>
 
@@ -210,7 +243,7 @@
     
 
 
-<div class="taxo-body">
+<div class="content-root">
     <div class="long">
         <button class="tosides-1 text-wbd">
             <i class="fa fa-arrow-right"></i>
@@ -223,94 +256,218 @@
         </button>
     </div>
     
-        <div class='taxo-row taxo-row-tag'>
+        <div class="content">
+            <div class="content-self">
+                <h1 id="红黑树">红黑树</h1>
+<h2 id="概述">概述</h2>
+<p>AVL树是首个自平衡树，定义了“平衡”的衡量标准（BF）。</p>
+<p>Splay树是AVL树的简化版，无需考虑平衡，表现与AVL树相同。</p>
+<p>现实应用中存在其他定义“平衡”的方法：如红黑树、B+树，红黑树应用于C++STL中的map等类型。</p>
+<h2 id="目标">目标</h2>
+<p>平衡二叉搜索树。</p>
+<p>节点结构如下：</p>
+<p><img src="https://arcticpiratel.github.io/posts/images/image-20230424191052131.png" alt="image-20230424191052131"></p>
+<p>NULL节点也称为NIL。</p>
+<h2 id="定义">定义</h2>
+<h3 id="五个特性">五个特性</h3>
+<ul>
+<li>每个节点是红色或黑色中的一个。</li>
+<li>根节点为黑色。</li>
+<li>每个NULL叶子节点为黑色。</li>
+<li>红色节点的两个儿子一定为黑色。</li>
+<li>对于每个节点，其到叶子节点的所有简单路径上黑色节点的个数相同。</li>
+</ul>
+<blockquote>
+<p>black_height：从x到叶子节点的黑色节点的个数，不包括root包括NULL。bh(Tree) = bh(root)</p>
+<p>internal_nodes：除NIL节点外的结点。</p>
+<p>external_nodes：NIL节点。</p>
+</blockquote>
+<h3 id="定理">定理</h3>
+<p>拥有N个internal_nodes的红黑树，其高度最大为<strong>2ln(N+1)</strong>。</p>
+<blockquote>
+<p>即使没有AVL更为严格的平衡定义，红黑树也将其高度限制在了O(lgN)的水平。</p>
+</blockquote>
+<ul>
+<li>
+<p>对于任何节点x，以x为根的所有子树的internal_nodes个数<strong>大于等于</strong>2^bh(x)^-1。通过数学归纳法证明。</p>
+<p><img src="https://arcticpiratel.github.io/posts/images/image-20230424192753971.png" alt="image-20230424192753971"></p>
+<p>将x替换为root，则sizeof(x) = N，得到N&gt;=2^bh^-1。</p>
+</li>
+<li>
+<p>bh(Tree) &gt;= h(Tree)/2。</p>
+<blockquote>
+<p>证明：每条路径上，除根节点外，至少有一半的节点时黑色。</p>
+</blockquote>
+<p>N &gt;= 2^bh^-1 &gt;= 2^h/2^-1，证明结束。</p>
+</li>
+</ul>
+<h2 id="插入操作">插入操作</h2>
+<p>需要尽可能避免改变红黑树的bh，避免重新平衡。因此新插入的节点颜色应为<strong>红色</strong>。但再次插入红节点时需要重新平衡，引出三种情况：</p>
+<h3 id="case-1">Case 1</h3>
+<p>新节点为红色，父节点为红色，父节点的兄弟节点也为红色。</p>
+<p><img src="https://arcticpiratel.github.io/posts/images/image-20230424193633301.png" alt="image-20230424193633301"></p>
+<blockquote>
+<p>解决方式：父代所有节点和祖父节点红黑颜色调换。</p>
+</blockquote>
+<p><img src="https://arcticpiratel.github.io/posts/images/image-20230424194001212.png" alt="image-20230424194001212"></p>
+<h3 id="case-2">Case 2</h3>
+<p>新节点为红色且是父节点的<strong>右儿子</strong>，父节点为红色，父节点的兄弟节点为黑色。</p>
+<p><img src="https://arcticpiratel.github.io/posts/images/image-20230424194107181.png" alt="image-20230424194107181"></p>
+<blockquote>
+<p>解决方式：将新节点和其父节点进行一次旋转。</p>
+</blockquote>
+<p><img src="https://arcticpiratel.github.io/posts/images/image-20230424194701803.png" alt="image-20230424194701803"></p>
+<h3 id="case-3">Case 3</h3>
+<p>新节点为红色且是父亲的<strong>左儿子</strong>，父节点为红色，父节点的兄弟节点为黑色。</p>
+<p><img src="https://arcticpiratel.github.io/posts/images/image-20230424195232716.png" alt="image-20230424195232716"></p>
+<blockquote>
+<p>解决方式：首先将父节点和祖父节点互换颜色，再将父节点作为新的根节点进行旋转。</p>
+</blockquote>
+<p><img src="https://arcticpiratel.github.io/posts/images/image-20230424195345408.png" alt="image-20230424195345408"></p>
+<h3 id="avl树--红黑树">AVL树 &amp; 红黑树</h3>
+<ul>
+<li>step 1：向二叉搜索树中插入节点。</li>
+<li>step 2：从底层到顶层，检查BF/颜色是否符合规定。</li>
+</ul>
+<p>最坏情况相同，都需要进行两次rotation。</p>
+<h3 id="时间复杂度">时间复杂度</h3>
+<pre tabindex="0"><code class="language-math" data-lang="math">$$T=O(h)=O(logN)$$
+</code></pre><h2 id="删除操作">删除操作</h2>
+<p>需要从底层向顶层平衡，AVL树的最坏情况是从叶子节点开始，直到整棵树平衡，消耗O(log N)；</p>
+<p>而红黑树的优势在于，最坏情况只需要3次旋转即可。</p>
+<p><strong>二叉树的删除</strong></p>
+<p><img src="https://arcticpiratel.github.io/posts/images/image-20230424200653981.png" alt="image-20230424200653981"></p>
+<p><strong>红黑树的删除</strong></p>
+<p>对于degree 2 node，替换节点的同时保留原节点的颜色，不需要重新平衡。</p>
+<p>对于degree 1 node，同样不需要重新平衡。</p>
+<p>对于叶子节点，需要重新平衡，会出现一条路径黑色节点少一个的情况。因此需要向这条路径中加入一个黑色节点。</p>
+<h3 id="case-1-1">Case 1</h3>
+<p>删除的节点为黑色，兄弟结点为红色，父节点为黑色。</p>
+<p><img src="https://arcticpiratel.github.io/posts/images/image-20230424201348457.png" alt="image-20230424201348457"></p>
+<blockquote>
+<p>解决方法：先将兄弟节点与父节点颜色调换，再旋转兄弟节点，最后把新成为父节点的节点加上一个黑节点。（仍未解决）</p>
+</blockquote>
+<h3 id="case-2--case-3--case-4">Case 2 &amp; Case 3 &amp; Case 4</h3>
+<p>删除的节点为黑色，其兄弟节点均为黑色。</p>
+<p><img src="https://arcticpiratel.github.io/posts/images/image-20230424201707874.png" alt="image-20230424201707874"></p>
+<p><strong>Case 2</strong>：兄弟节点的两个儿子均为黑色。</p>
+<p><img src="https://arcticpiratel.github.io/posts/images/image-20230424201827592.png" alt="image-20230424201827592"></p>
+<blockquote>
+<p>解决方法：首先将兄弟节点变为红色，面临两种情况。</p>
+<p>①如果父节点为红色，将父节点变为黑色。</p>
+<p>②如果父节点为黑色，更新x指向父节点，继续向x所在路径添加黑节点。这是最坏的情况，需要向上继续执行操作直到遇到case3或case4的情况或x最终为根节点，但不需要旋转，只进行了改变颜色的操作。</p>
+</blockquote>
+<p>**Case 3：**兄弟节点的左儿子为红色，右儿子为黑色。</p>
+<p><img src="https://arcticpiratel.github.io/posts/images/image-20230424202617315.png" alt="image-20230424202617315"></p>
+<blockquote>
+<p>解决方法：首先调换兄弟节点及其左儿子的颜色，再进行一次旋转。更新w指向旋转后的兄弟节点，可跳转到case4。</p>
+</blockquote>
+<p>**Case 4：**兄弟节点的右儿子是红色，左儿子任意。</p>
+<p><img src="https://arcticpiratel.github.io/posts/images/image-20230424205520138.png" alt="image-20230424205520138"></p>
+<blockquote>
+<p>解决方法：w节点的父亲和右儿子都变成黑色，w节点本身与原父亲节点的颜色相同，再进行一次旋转，最终解决问题。</p>
+</blockquote>
+<p>共有3次旋转。</p>
+<h3 id="举例">举例</h3>
+<p><img src="https://arcticpiratel.github.io/posts/images/image-20230424211304733.png" alt="image-20230424211304733"></p>
+<h2 id="旋转次数分析">旋转次数分析</h2>
+<table>
+<thead>
+<tr>
+<th>operation</th>
+<th>AVL树</th>
+<th>红黑树</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>插入</td>
+<td>&lt;=2</td>
+<td>&lt;=2</td>
+</tr>
+<tr>
+<td>删除</td>
+<td>O(log N)</td>
+<td>&lt;=3</td>
+</tr>
+</tbody>
+</table>
+<p>当主要操作为查找时，AVL更快，由于其高度较低；</p>
+<p>当存在大量插入或删除操作时，红黑树更好。</p>
+
+            </div>
             
-                
+                <div class="tags">
                     
-
-
-
-<div class="taxo-col taxo-col-tag">
-    <a href="https://arcticpiratel.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-        <div class="tag-taxo-card">
-            <div class="tag-taxo-text">
-                <span><i class="fa fa-tag"></i></span>
-                数据结构
-            </div>
+                    <span class="down-type-item">
+                        <div class="type-text">
+                            <a href='
+                                        /tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84
+                                    '>
+                                <i class="fa fa-tag"></i> 数据结构
+                            </a>
+                        </div>
+                    </span>
+                    
+                    <span class="down-type-item">
+                        <div class="type-text">
+                            <a href='
+                                        /tags/%E7%AE%97%E6%B3%95
+                                    '>
+                                <i class="fa fa-tag"></i> 算法
+                            </a>
+                        </div>
+                    </span>
+                    
+                    <span class="down-type-item">
+                        <div class="type-text">
+                            <a href='
+                                        /tags/%E6%A0%91
+                                    '>
+                                <i class="fa fa-tag"></i> 树
+                            </a>
+                        </div>
+                    </span>
+                    
+                </div>
+            
         </div>
-    </a>
+        
+            
+                <div class="pre-next">
+                    
+    
+        
+        <a href="https://arcticpiratel.github.io/posts/ads_b&#43;%E6%A0%91/" class="pre pre-last" style="text-align: center;">
+            <span class="pre-icon"><i class="fa fa-hand-o-left"></i></span>
+            <div class="pre-title-root">
+                <span>ADS_B&#43;树</span>
+            </div>
+        </a>
+        
+    
+    
+
+                </div>
+            
+        
+    
 </div>
 
-
-
-<div class="taxo-col taxo-col-tag">
-    <a href="https://arcticpiratel.github.io/tags/%E7%AE%97%E6%B3%95/">
-        <div class="tag-taxo-card">
-            <div class="tag-taxo-text">
-                <span><i class="fa fa-tag"></i></span>
-                算法
-            </div>
-        </div>
-    </a>
-</div>
-
-
-
-<div class="taxo-col taxo-col-tag">
-    <a href="https://arcticpiratel.github.io/tags/%E6%A0%91/">
-        <div class="tag-taxo-card">
-            <div class="tag-taxo-text">
-                <span><i class="fa fa-tag"></i></span>
-                树
-            </div>
-        </div>
-    </a>
-</div>
-
-
-
-<div class="taxo-col taxo-col-tag">
-    <a href="https://arcticpiratel.github.io/tags/%E6%A0%B7%E4%BE%8B/">
-        <div class="tag-taxo-card">
-            <div class="tag-taxo-text">
-                <span><i class="fa fa-tag"></i></span>
-                样例
-            </div>
-        </div>
-    </a>
-</div>
-
-
-
-<div class="taxo-col taxo-col-tag">
-    <a href="https://arcticpiratel.github.io/tags/%E6%B5%8B%E8%AF%95/">
-        <div class="tag-taxo-card">
-            <div class="tag-taxo-text">
-                <span><i class="fa fa-tag"></i></span>
-                测试
-            </div>
-        </div>
-    </a>
-</div>
-
-
-
-<div class="taxo-col taxo-col-tag">
-    <a href="https://arcticpiratel.github.io/tags/%E7%BB%AA%E8%AE%BA/">
-        <div class="tag-taxo-card">
-            <div class="tag-taxo-text">
-                <span><i class="fa fa-tag"></i></span>
-                绪论
-            </div>
-        </div>
-    </a>
-</div>
-
-                
+    
+        <div class="content-last">
+            
+                <button class="aixin content-last-item efct-button">
+                    <i class="fa fa-heart"></i>
+                </button>
+            
+            
+                <button class="pinglun content-last-item efct-button">
+                    <i class="fa fa-comment"></i>
+                </button>
             
         </div>
     
-</div>
 
 
             </div>
@@ -318,6 +475,11 @@
                 
 <div class="zhuti-r-0">
     <div class="zhuti-r-1">
+        
+            <div class="button-r">
+                <button class="button-mulu efct-button" type="button"><span><i class="fa fa-bars"></i></span><span class="bars-text"> 目录</span></button>
+                <button class="button-comment efct-button" type="button"><span><i class="fa fa-comment"></i></span><span class="comment-text"> 评论</span></button>
+            </div>
         
         <div id="r1">
             
@@ -387,33 +549,16 @@
 
 
 
+    
+    
+
 
 <div class="other">
     <div class="other-up">
-        <div class="other-qita text-wbd">最新文章</div>
+        <div class="other-qita text-wbd">相关文章</div>
         <div class="xian"></div>
     </div>
     <div class="list">
-        
-            <a href="https://arcticpiratel.github.io/posts/ads_%E7%BA%A2%E9%BB%91%E6%A0%91/">
-                
-<a href="https://arcticpiratel.github.io/posts/ads_%E7%BA%A2%E9%BB%91%E6%A0%91/">
-    <div class="list-item">
-        <div class="icon-other-root">
-            
-                <div class="icon-other" style="background-image: url( /images/default.jpg );"></div>
-            
-        </div>
-        <div class="list-right">
-            <div class="other-title">
-                ADS_红黑树
-            </div>
-            <div class="other-summary">红黑树 概述 AVL树是首个自平衡树，定义了“平衡”的衡量标准（BF）。 Splay树是AVL树的简化版，</div>
-            <div class="other-date">2023-5-20</div>
-        </div>
-    </div>
-</a>
-            </a>
         
             <a href="https://arcticpiratel.github.io/posts/ads_b&#43;%E6%A0%91/">
                 
@@ -499,13 +644,67 @@
 </div>
         </div>
         <div id="r2">
-            
+            <div id="vcomments"></div>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script type="text/javascript">
+    new Valine({
+        el: '#vcomments',
+        appId: "Y6HPrUN0yWAZkI4lxPC39ozZ-gzGzoHsz",
+        appKey: "lWgSrZsqoJBFnP14METBcOX8",
+        avatar: "robohash",
+        placeholder: "输入你的评论",
+        requiredFields: ["nick","mail"],
+        visitor:  true ,
+        pageSize:  10 ,
+});
+</script>
+
         </div> 
     </div>
 </div>
 
             </div>
         </div>
+    </div>
+</div>
+
+    
+
+<div class="sponsor">
+    <div class="sponsor-self">
+        <div class="sponsor-title">赞赏</div>
+        <div class="sponsor-btn">
+            
+                
+                    
+                        <div class="sponsor-btn-1 border-r">Wechat</div>
+                    
+                
+                
+            
+                
+                    
+                        <div class="sponsor-btn-2 border-l">Alipay</div>
+                    
+                
+                
+            
+        </div>
+        
+        <div class="sponsor-img">
+            
+                
+                    <img class="sponsor-img-1" src="/images/sponsor/wechat.jpeg" alt="">
+                
+                
+            
+                
+                    <img class="sponsor-img-2" src="/images/sponsor/alipay.jpeg" alt="" style="display: none;">
+                
+                
+            
+        </div>
+        <div class="cancel efct-button">取消</div>
     </div>
 </div>
 

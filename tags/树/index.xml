@@ -6,7 +6,16 @@
     <description>Recent content in 树 on ArcticHome</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 19 May 2023 20:46:26 +0800</lastBuildDate><atom:link href="https://arcticpiratel.github.io/tags/%E6%A0%91/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 20 May 2023 00:04:35 +0800</lastBuildDate><atom:link href="https://arcticpiratel.github.io/tags/%E6%A0%91/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ADS_红黑树</title>
+      <link>https://arcticpiratel.github.io/posts/ads_%E7%BA%A2%E9%BB%91%E6%A0%91/</link>
+      <pubDate>Sat, 20 May 2023 00:04:35 +0800</pubDate>
+      
+      <guid>https://arcticpiratel.github.io/posts/ads_%E7%BA%A2%E9%BB%91%E6%A0%91/</guid>
+      <description>红黑树 概述 AVL树是首个自平衡树，定义了“平衡”的衡量标准（BF）。 Splay树是AVL树的简化版，</description>
+    </item>
+    
     <item>
       <title>ADS_B&#43;树</title>
       <link>https://arcticpiratel.github.io/posts/ads_b&#43;%E6%A0%91/</link>
