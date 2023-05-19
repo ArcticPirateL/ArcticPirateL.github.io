@@ -6,7 +6,16 @@
     <description>Recent content in 数据结构 on ArcticHome</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 20 May 2023 01:30:28 +0800</lastBuildDate><atom:link href="https://arcticpiratel.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 20 May 2023 01:51:47 +0800</lastBuildDate><atom:link href="https://arcticpiratel.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ADS_NP问题</title>
+      <link>https://arcticpiratel.github.io/posts/ads_np%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Sat, 20 May 2023 01:51:47 +0800</pubDate>
+      
+      <guid>https://arcticpiratel.github.io/posts/ads_np%E9%97%AE%E9%A2%98/</guid>
+      <description>NP问题 回顾 FDS中提到的问题： 欧拉回路：不重复地遍历所有边。使用DFS算法，简单。 **哈密顿回路：</description>
+    </item>
+    
     <item>
       <title>ADS_贪婪算法</title>
       <link>https://arcticpiratel.github.io/posts/ads_%E8%B4%AA%E5%A9%AA%E7%AE%97%E6%B3%95/</link>
