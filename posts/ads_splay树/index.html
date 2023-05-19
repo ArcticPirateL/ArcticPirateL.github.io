@@ -35,6 +35,8 @@
     <link rel="stylesheet" href='/css/shortcode.css' />
     
     
+        <link rel="stylesheet" href='/css/style-dark.css' />
+    
     <link rel="stylesheet" href='/css/_custom.css' />
     <style>
          
@@ -119,11 +121,6 @@
             
             
             <div class="search-in"><span><i class="fa fa-search"></i></span></div>
-            
-                <div class="mode">
-                    <span class="sun"><i class="fa fa-sun-o"></i></span>
-                    <span class="moon"><i class="fa fa-moon-o"></i></span>
-                </div>
             
         </div>
     </nav>
@@ -269,7 +266,7 @@
 </li>
 <li>
 <p>zig-zig：</p>
-<p><img src="images%5Cimage-20230424184114629.png" alt="image-20230424184114629"></p>
+<p><img src="..%5Cimages%5Cimage-20230424184114629.png" alt="image-20230424184114629"></p>
 </li>
 </ul>
 </li>
@@ -617,7 +614,7 @@
 
 
 <script type="text/javascript">
-    var mode_custom = "auto";
+    var mode_custom = "dark";
     var postsCount =  3 ;
     var arrPosts = [{"link":"https://arcticpiratel.github.io/posts/ads_splay%E6%A0%91/","plain":"Splay Tree 目标 从空树开始的任何M个连续操作的最大时间开销为O(Mlog N)。（不表示所有操作均为O(log N)，实际上是amortized time为O(logN)）\nAVL树属于Splay树。因为AVL对于所有操作的时间复杂度均为O(log N)。\namortized time：摊还时间\n核心思想 最坏情况为O(N)，但总时间保持不变。为避免连续多次最坏情况，出现过一次最坏情况的点，下次访问时一定需要到达最好情况。\nSplay树定义了这种移动方法：每次访问一个节点后，将其使用AVL树的规则翻转至根节点。\n不考虑平衡情况。\n查找方法 使用single-rotation 存在的问题：其他节点被换到更低的位置\n最坏情况：依次插入1……N，最终的树形式仍然非常不平衡。循环查找1……N，时间复杂度会非常坏。\n使用double-rotation 不仅考虑父子节点（X、P），同时加上祖父节点（G）。\n三种情况：\nP是根节点：X和P进行single-rotation\nP不是根节点：\nzig-zag：\nzig-zig：\n使用double-rotation的方式可以大致将最底层的深度减半，是更好的选择。\n删除方法 四个步骤：\n首先查找X：此时X为根。\n删除X：得到左右两个子树。\n找到左子树中的最大值：这个最大值成为左子树的根，且没有右子树。\n将原右子树连接到左子树上。\nSplay树 \u0026amp; AVL树 Splay树实现更简单（不需要时刻考虑BF）\n","pubDate":"2023-05-19","title":"ADS_Splay树"},{"link":"https://arcticpiratel.github.io/posts/ads_%E7%BB%AA%E8%AE%BA/","plain":"ADS绪论 高级数据结构与算法分析主要包括三块问题：\n动态查找问题 **总体目的：**查找树且完全二叉树（降低高度）。\n难度过大，因此数据结构核心目标：有一定自由度。因此需要考虑如何进行树的平衡。\n高级堆（优先队列问题） **总体目的：**插入任意\u0026amp;删除最小/最大。\n**结构特性：**完全二叉树（structure property）\n**排序特性：**结点上满足堆的条件（所在子树最大/最小）（order property）。\n**新问题：**云计算，每个云端服务器管理一个堆，本质上为资源整合。（弹性计算）\n​ 云计算的调度问题，把正在计算的任务迁移到其他机器，使其最高效运转，即两个优先队列的合并问题。\n算法思想 包括分治算法、动态规划、贪婪算法、NPC问题……\n大致归为两类：\n经典算法：如贪婪算法、分治算法…… 非经典算法：寻找次优解，如加速、并行…… ","pubDate":"2023-05-19","title":"ADS_绪论"},{"link":"https://arcticpiratel.github.io/posts/%E6%B5%8B%E8%AF%95%E6%A0%B7%E4%BE%8B/","plain":"明月几时有 把酒问青天 不知天上宫阙 今夕是何年。\n","pubDate":"2023-05-19","title":"测试样例"}];
     var search_theEnd = "到底了";
