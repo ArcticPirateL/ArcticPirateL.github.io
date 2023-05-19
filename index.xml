@@ -6,7 +6,16 @@
     <description>Recent content on ArcticHome</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 19 May 2023 19:27:26 +0800</lastBuildDate><atom:link href="https://arcticpiratel.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 19 May 2023 20:46:26 +0800</lastBuildDate><atom:link href="https://arcticpiratel.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ADS_B&#43;树</title>
+      <link>https://arcticpiratel.github.io/posts/ads_b&#43;%E6%A0%91/</link>
+      <pubDate>Fri, 19 May 2023 20:46:26 +0800</pubDate>
+      
+      <guid>https://arcticpiratel.github.io/posts/ads_b&#43;%E6%A0%91/</guid>
+      <description>B+树 概述 常用于数据库、文件系统。大量数据通常存储在磁盘中而非主存，然而磁盘中查找文件速度较慢，为提</description>
+    </item>
+    
     <item>
       <title>ADS_Splay树</title>
       <link>https://arcticpiratel.github.io/posts/ads_splay%E6%A0%91/</link>

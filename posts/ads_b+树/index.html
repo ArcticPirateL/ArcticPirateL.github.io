@@ -3,18 +3,20 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>ArcticHome | 树</title>
-    <meta name="description" content=" ">
-    <link rel="canonical" href="https://arcticpiratel.github.io/tags/%E6%A0%91/" />
+    <title>ArcticHome | ADS_B&#43;树</title>
+    <meta name="description" content="B&#43;树 概述 常用于数据库、文件系统。大量数据通常存储在磁盘中而非主存，然而磁盘中查找文件速度较慢，为提 ">
+    <link rel="canonical" href="https://arcticpiratel.github.io/posts/ads_b&#43;%E6%A0%91/" />
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-    <meta property="og:title" content="树" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://arcticpiratel.github.io/tags/%E6%A0%91/" />
+    <meta property="og:title" content="ADS_B&#43;树" />
+<meta property="og:description" content="B&#43;树 概述 常用于数据库、文件系统。大量数据通常存储在磁盘中而非主存，然而磁盘中查找文件速度较慢，为提" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://arcticpiratel.github.io/posts/ads_b&#43;%E6%A0%91/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-05-19T20:46:26+08:00" />
+<meta property="article:modified_time" content="2023-05-19T20:46:26+08:00" />
 
     <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="树"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:title" content="ADS_B&#43;树"/>
+<meta name="twitter:description" content="B&#43;树 概述 常用于数据库、文件系统。大量数据通常存储在磁盘中而非主存，然而磁盘中查找文件速度较慢，为提"/>
 
     
         
@@ -160,29 +162,41 @@
 
 
         <div id="content">
-    
 
 
 
 
-
-
-    
-        
-    
 
 
 
 
     <div class="hero">
         
-            
-                <div class="hero-img">
-                    <img class="lazyload" src="/images/thumbnail.gif" data-src="/images/default.jpg" alt="">
-                </div>
-            
+            <div class="hero-img">
+                <img class="lazyload" src="/images/thumbnail.gif" data-src="/images/default.jpg" alt="">
+            </div>
+        
         <div class="hero-content">
-            <h1 class="hero-title">标签: 树</h1>
+            <div class="hero-title">ADS_B&#43;树</div>
+            <div class="hero-subtitle"></div>
+            <div class="hero-date">
+                    <span class="no-wrap"><i class="fa fa-calendar"></i> 发布于: 2023-5-19 &nbsp;</span>
+                    <span class="no-wrap"><i class="fa fa-calendar-check-o"></i> 更新于: 2023-5-19 &nbsp;</span>
+                    <span class="no-wrap"><i class="fa fa-folder"></i>
+                        收录于:
+                        
+                            <a href='
+                                /categories/ads
+                            '>
+                                ADS
+                            </a>
+                    </span>    
+            </div>
+            <div class="timelong">
+                <span class="no-wrap"><i class="fa fa-pencil"></i> 文章字数: 515 &nbsp;</span>
+                <span class="no-wrap"><i class="fa fa-clock-o"></i> 阅读时间: 2 分钟 &nbsp;</span>
+                <span class="no-wrap"><i class="fa fa-eye"></i> 阅读量: <span id="busuanzi_value_page_pv"></span></span>
+            </div>
         </div>
     </div>
 
@@ -201,7 +215,7 @@
     
 
 
-<div class="terms-body">
+<div class="content-root">
     <div class="long">
         <button class="tosides-1 text-wbd">
             <i class="fa fa-arrow-right"></i>
@@ -214,189 +228,120 @@
         </button>
     </div>
     
-        <div class="terms-row">
+        <div class="content">
+            <div class="content-self">
+                <h1 id="b树">B+树</h1>
+<h2 id="概述">概述</h2>
+<p>常用于数据库、文件系统。大量数据通常存储在磁盘中而非主存，然而磁盘中查找文件速度较慢，为提升速度需要将存储空间划分为很多个block。</p>
+<p>B树是搜索树的一种，与二叉搜索树不同。B树包括原始B树、B+树、B-树等。</p>
+<h2 id="定义">定义</h2>
+<p>order为M的树。结构特性如下：</p>
+<ul>
+<li>根节点是叶子节点或有<strong>2到M个</strong>孩子。</li>
+<li>除根节点外所有的非叶子节点有**[M/2, M]**个孩子。</li>
+<li>所有叶子节点深度相同。</li>
+</ul>
+<blockquote>
+<p>从底层向上层构建，平衡性非常好。</p>
+</blockquote>
+<p><img src="https://arcticpiratel.github.io/posts/image-20230424213008361.png" alt="image-20230424213008361"></p>
+<p>所有真实数据<strong>都存放在叶子节点</strong>中。</p>
+<p>每个中间节点包括M个儿子指针和M-1个key，key存放除第一个子节点外的每个子节点中最小的元素值。</p>
+<p>所有叶子节点为从小到大的顺序。</p>
+<h2 id="查找操作">查找操作</h2>
+<p>与二叉搜索树类似，从根节点开始，比较节点的key值和要查找的值。</p>
+<h2 id="插入操作">插入操作</h2>
+<ul>
+<li>
+<p>首先查找到将要插入的叶子节点位置。</p>
+</li>
+<li>
+<p>若满足B+树的节点数要求，直接插入即可。</p>
+</li>
+<li>
+<p>若不满足，则分裂成两个叶子节点，并更新父节点的key值。</p>
+</li>
+<li>
+<p>若导致父节点也不满足节点数要求，则继续向上分裂。</p>
+</li>
+</ul>
+<p><strong>存在问题</strong>：不断低效插入导致高度增加较快。此时可以优先考虑未满的叶子节点进行插入，使尽可能多的叶子节点达到full状态。</p>
+<h2 id="代码实现">代码实现</h2>
+<p><img src="https://arcitcpiratel.github.io/posts/image-20230424214712051.png" alt="image-20230424214712051"></p>
+<p>$$T(M,N)=O((\frac{M}{logM})logN)$$</p>
+<p>$$T_{Find}(M,N)=O(logN)$$</p>
+<p>$$Depth(M,N)=O(log_\frac{M}{2}N)$$</p>
+<p>根据时间复杂度公式，并不是M越大越高效。实际结果表明，M=3或4时表现最佳。</p>
+
+            </div>
             
-            <div class="terms-root">
-                
-                
-
-
-<div class="card-large">
-    <div class="card-large-img">
-
-        
-                <img class="lazyload" src="/images/thumbnail.gif" data-src="/images/default.jpg" alt='图片加载失败'>
-        
-    </div>
-    <div class="card-large-content">
-        <div class="up-title"><a href="https://arcticpiratel.github.io/posts/ads_b&#43;%E6%A0%91/">ADS_B&#43;树</a></div>
-        <div class="up-date">
-            <span class="no-wrap"><i class="fa fa-calendar"></i> 发布于: 2023-5-19 &nbsp;</span>
-            <span class="no-wrap"><i class="fa fa-calendar-check-o"></i> 更新于: 2023-5-19 &nbsp;</span>
-            <span class="no-wrap"><i class="fa fa-folder"></i>
-                
-                    收录于:
+                <div class="tags">
                     
-                        <a href='
-                                        /categories/ads
+                    <span class="down-type-item">
+                        <div class="type-text">
+                            <a href='
+                                        /tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84
                                     '>
-                                ADS
+                                <i class="fa fa-tag"></i> 数据结构
                             </a>
-                
-            </span>
-        </div>
-        <div class="down-summary">B+树 概述 常用于数据库、文件系统。大量数据通常存储在磁盘中而非主存，然而磁盘中查找文件速度较慢，为提</div>
-    </div>
-    <div class="card-readmore">
-        <a href="https://arcticpiratel.github.io/posts/ads_b&#43;%E6%A0%91/">
-            <span><i class="fa fa-arrow-right"></i></span>
-        </a>
-    </div>
-</div>
-
-
-
-    
-
-
-    <div class="down-type">
-        
-        <span class="down-type-item">
-            <div class="shuxian-root">
-                <div class="shuxian"></div>
-            </div>
-            <div class="type-text">
-                <a href='
-                            /tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84
-                        '>
-                    <i class="fa fa-tag"></i> 数据结构
-                </a>
-            </div>
-        </span>
-        
-        <span class="down-type-item">
-            <div class="shuxian-root">
-                <div class="shuxian"></div>
-            </div>
-            <div class="type-text">
-                <a href='
-                            /tags/%E7%AE%97%E6%B3%95
-                        '>
-                    <i class="fa fa-tag"></i> 算法
-                </a>
-            </div>
-        </span>
-        
-        <span class="down-type-item">
-            <div class="shuxian-root">
-                <div class="shuxian"></div>
-            </div>
-            <div class="type-text">
-                <a href='
-                            /tags/%E6%A0%91
-                        '>
-                    <i class="fa fa-tag"></i> 树
-                </a>
-            </div>
-        </span>
-        
-    </div>
-
-<div class="dang"></div>
-            </div>
-            
-            <div class="terms-root">
-                
-                
-
-
-<div class="card-large">
-    <div class="card-large-img">
-
-        
-                <img class="lazyload" src="/images/thumbnail.gif" data-src="/images/default.jpg" alt='图片加载失败'>
-        
-    </div>
-    <div class="card-large-content">
-        <div class="up-title"><a href="https://arcticpiratel.github.io/posts/ads_splay%E6%A0%91/">ADS_Splay树</a></div>
-        <div class="up-date">
-            <span class="no-wrap"><i class="fa fa-calendar"></i> 发布于: 2023-5-19 &nbsp;</span>
-            <span class="no-wrap"><i class="fa fa-calendar-check-o"></i> 更新于: 2023-5-19 &nbsp;</span>
-            <span class="no-wrap"><i class="fa fa-folder"></i>
-                
-                    收录于:
+                        </div>
+                    </span>
                     
-                        <a href='
-                                        /categories/ads
+                    <span class="down-type-item">
+                        <div class="type-text">
+                            <a href='
+                                        /tags/%E7%AE%97%E6%B3%95
                                     '>
-                                ADS
+                                <i class="fa fa-tag"></i> 算法
                             </a>
-                
-            </span>
+                        </div>
+                    </span>
+                    
+                    <span class="down-type-item">
+                        <div class="type-text">
+                            <a href='
+                                        /tags/%E6%A0%91
+                                    '>
+                                <i class="fa fa-tag"></i> 树
+                            </a>
+                        </div>
+                    </span>
+                    
+                </div>
+            
         </div>
-        <div class="down-summary">Splay Tree 目标 从空树开始的任何M个连续操作的最大时间开销为O(Mlog N)。（不表示所有操作均为O(log</div>
-    </div>
-    <div class="card-readmore">
-        <a href="https://arcticpiratel.github.io/posts/ads_splay%E6%A0%91/">
-            <span><i class="fa fa-arrow-right"></i></span>
+        
+            
+                <div class="pre-next">
+                    
+    
+        
+        <a href="https://arcticpiratel.github.io/posts/ads_splay%E6%A0%91/" class="pre pre-last" style="text-align: center;">
+            <span class="pre-icon"><i class="fa fa-hand-o-left"></i></span>
+            <div class="pre-title-root">
+                <span>ADS_Splay树</span>
+            </div>
         </a>
-    </div>
-</div>
-
-
-
+        
+    
     
 
+                </div>
+            
+        
+    
+</div>
 
-    <div class="down-type">
-        
-        <span class="down-type-item">
-            <div class="shuxian-root">
-                <div class="shuxian"></div>
-            </div>
-            <div class="type-text">
-                <a href='
-                            /tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84
-                        '>
-                    <i class="fa fa-tag"></i> 数据结构
-                </a>
-            </div>
-        </span>
-        
-        <span class="down-type-item">
-            <div class="shuxian-root">
-                <div class="shuxian"></div>
-            </div>
-            <div class="type-text">
-                <a href='
-                            /tags/%E7%AE%97%E6%B3%95
-                        '>
-                    <i class="fa fa-tag"></i> 算法
-                </a>
-            </div>
-        </span>
-        
-        <span class="down-type-item">
-            <div class="shuxian-root">
-                <div class="shuxian"></div>
-            </div>
-            <div class="type-text">
-                <a href='
-                            /tags/%E6%A0%91
-                        '>
-                    <i class="fa fa-tag"></i> 树
-                </a>
-            </div>
-        </span>
-        
-    </div>
-
-<div class="dang"></div>
-            </div>
+    
+        <div class="content-last">
+            
+                <button class="aixin content-last-item efct-button">
+                    <i class="fa fa-heart"></i>
+                </button>
+            
             
         </div>
     
-</div>
 
 
             </div>
@@ -473,33 +418,16 @@
 
 
 
+    
+    
+
 
 <div class="other">
     <div class="other-up">
-        <div class="other-qita text-wbd">最新文章</div>
+        <div class="other-qita text-wbd">相关文章</div>
         <div class="xian"></div>
     </div>
     <div class="list">
-        
-            <a href="https://arcticpiratel.github.io/posts/ads_b&#43;%E6%A0%91/">
-                
-<a href="https://arcticpiratel.github.io/posts/ads_b&#43;%E6%A0%91/">
-    <div class="list-item">
-        <div class="icon-other-root">
-            
-                <div class="icon-other" style="background-image: url( /images/default.jpg );"></div>
-            
-        </div>
-        <div class="list-right">
-            <div class="other-title">
-                ADS_B&#43;树
-            </div>
-            <div class="other-summary">B+树 概述 常用于数据库、文件系统。大量数据通常存储在磁盘中而非主存，然而磁盘中查找文件速度较慢，为提</div>
-            <div class="other-date">2023-5-19</div>
-        </div>
-    </div>
-</a>
-            </a>
         
             <a href="https://arcticpiratel.github.io/posts/ads_splay%E6%A0%91/">
                 
@@ -572,6 +500,46 @@
 
             </div>
         </div>
+    </div>
+</div>
+
+    
+
+<div class="sponsor">
+    <div class="sponsor-self">
+        <div class="sponsor-title">赞赏</div>
+        <div class="sponsor-btn">
+            
+                
+                    
+                        <div class="sponsor-btn-1 border-r">Wechat</div>
+                    
+                
+                
+            
+                
+                    
+                        <div class="sponsor-btn-2 border-l">Alipay</div>
+                    
+                
+                
+            
+        </div>
+        
+        <div class="sponsor-img">
+            
+                
+                    <img class="sponsor-img-1" src="/images/sponsor/wechat.jpeg" alt="">
+                
+                
+            
+                
+                    <img class="sponsor-img-2" src="/images/sponsor/alipay.jpeg" alt="" style="display: none;">
+                
+                
+            
+        </div>
+        <div class="cancel efct-button">取消</div>
     </div>
 </div>
 
