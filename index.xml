@@ -6,7 +6,16 @@
     <description>Recent content on ArcticHome</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 20 May 2023 01:51:47 +0800</lastBuildDate><atom:link href="https://arcticpiratel.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 26 May 2023 01:54:43 +0800</lastBuildDate><atom:link href="https://arcticpiratel.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ADS_近似算法</title>
+      <link>https://arcticpiratel.github.io/posts/ads_%E8%BF%91%E4%BC%BC%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Fri, 26 May 2023 01:54:43 +0800</pubDate>
+      
+      <guid>https://arcticpiratel.github.io/posts/ads_%E8%BF%91%E4%BC%BC%E7%AE%97%E6%B3%95/</guid>
+      <description>近似算法（Approximation） 概述 用于解决困难问题，如NPC问题。 对于NPC问题的处理方法：</description>
+    </item>
+    
     <item>
       <title>ADS_NP问题</title>
       <link>https://arcticpiratel.github.io/posts/ads_np%E9%97%AE%E9%A2%98/</link>
