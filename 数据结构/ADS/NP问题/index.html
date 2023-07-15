@@ -3,30 +3,30 @@
 <head>
   <meta property="og:title" content="" />
 <meta property="og:description" content="NP问题#回顾#FDS中提到的问题：
-欧拉回路：不重复地遍历所有边。使用DFS算法，简单。 **哈密顿回路：**不重复地遍历所有点。困难。 **单源无权重最短路径问题：**使用BFS算法，简单。 **单源无权重最长路径问题：**困难。 “困难”表示尚未得知能保证在多项式时间内解决的算法。
+欧拉回路：不重复地遍历所有边。使用DFS算法，简单。 哈密顿回路：不重复地遍历所有点。困难。 单源无权重最短路径问题：使用BFS算法，简单。 单源无权重最长路径问题：困难。 “困难”表示尚未得知能保证在多项式时间内解决的算法。
 问题的难易程度#最简单：$O(N)$线性时间
 最困难：不能解决问题。（undecidable problems）
 Decidability：可判定性。
 Kurt Godel证明当前的系统不完备，即存在无法用现有定理解释的问题。一种可选方法是每遇到一个此类问题，都将其定义为true或false，但同样可以证明这种操作是无限的。
 举例：
 图灵停机问题（halting problem）：是否能使C编译器检查出所有无限循环？
-**答案：**不能。
-**注意：**停机问题是不可解问题，不是NPC或NP问题。
-**证明：**实质上是无法证明Loop(Loop)的结果是循环还是不循环。
+答案：不能。
+注意：停机问题是不可解问题，不是NPC或NP问题。
+证明：实质上是无法证明Loop(Loop)的结果是循环还是不循环。
 时间复杂度#时间复杂度分为两种级别，其中后者的复杂度无论如何都远远大于前者：
 一种是$O(n)$，$O(logn)$，$O(n^a)$等，称为多项式级的复杂度，因为它的规模n出现在底数的位置；
 另一种是$O(a^n)$和$O(n!)$型复杂度，属于非多项式级，其复杂度计算机往往不能承受。
-概念引入#**确定性图灵机（Deterministic Turing Machine）：**根据当前的指令和状态选择唯一的下一条要执行的指令。 **非确定性图灵机（Nondeterministic Turing Machine）：**可以在一定集合中任意选择下一步，如果存在一种选择能最终导向结果，图灵机会做出正确的选择。（即非常聪明的图灵机） 定义#P问题是可以通过确定性图灵机，在多项式时间内得出结果的问题。
+概念引入#确定性图灵机（Deterministic Turing Machine）：根据当前的指令和状态选择唯一的下一条要执行的指令。 非确定性图灵机（Nondeterministic Turing Machine）：可以在一定集合中任意选择下一步，如果存在一种选择能最终导向结果，图灵机会做出正确的选择。（即非常聪明的图灵机） 定义#P问题是可以通过确定性图灵机，在多项式时间内得出结果的问题。
 NP问题是可以通过非确定性图灵机，在多项式时间内得出结果的问题。
 即如果能够在多项式时间内证明一个解是正确的，那么非确定性图灵机一定能选择出正确结果。（easy to check）
 举例#哈密顿通路问题，可以在$O(N)$时间内验证一个回路是否不重复地遍历了所有结点，因此是一个NP问题。 但不是所有可选择的问题（decidable problems）都是NP问题。例如，判断一个图是否存在哈密顿通路不属于NP问题。
-分类#**P类问题：**存在多项式时间算法的问题。 (Polynominal，多项式)
-**NP问题：**能在多项式时间内验证得出一个正确解的问题。 (Nondeterministic Polynominal，非确定性多项式)
+分类#P类问题：存在多项式时间算法的问题。 (Polynominal，多项式)
+NP问题：能在多项式时间内验证得出一个正确解的问题。 (Nondeterministic Polynominal，非确定性多项式)
 ==P类问题是NP问题的子集，因为存在多项式时间解法的问题，总能在多项式时间内验证他。==
 通俗来讲，不知道这个问题是不是存在多项式时间内的算法，所以叫non-deterministic非确定性，但是我们可以在多项式时间内验证并得出这个问题的一个正确解。（注意是不知道而不是不存在）
 约化（Reducibility）：具有传递性，如A约化到B，B约化到C，A就可以约化到C，同时不断约化下去，可知一定会存在一个最大的问题，只需要解决了这个问题，那其下的所有问题也就解决啦。如一元一次方程可以约化成一元二次方程。
 引到NP问题里就是，对于同一类的所有的NP类问题，若他们都可以在多项式时间内约化成最难的一个NP类问题，（我们直观的认为，被约化成的问题应具有比前一个问题更复杂的时间复杂度）当我们针对这个时间复杂度最高的超级NP问题要是能找到他的多项式时间算法的话，那就等于变向的证明了其下的所有问题都是存在多项式算法的，即NP=P。
-**NPC问题：**存在这样一个NP问题，所有的NP问题都可以约化成它。 （Nondeterminism Polynomial Complete，完全NP问题）
+NPC问题：存在这样一个NP问题，所有的NP问题都可以约化成它。 （Nondeterminism Polynomial Complete，完全NP问题）
 格式化定义：
 对于一个最优问题，存在两种模式，normal version需要回答出最优解，而decision version仅仅判断是或否。
 ==需要满足两个条件：①是一个NP问题 ②所有NP问题可以在多项式时间内约化成它。==" />
@@ -52,30 +52,30 @@ https://github.com/alex-shpak/hugo-book
 <meta
   name="description"
   content="NP问题#回顾#FDS中提到的问题：
-欧拉回路：不重复地遍历所有边。使用DFS算法，简单。 **哈密顿回路：**不重复地遍历所有点。困难。 **单源无权重最短路径问题：**使用BFS算法，简单。 **单源无权重最长路径问题：**困难。 “困难”表示尚未得知能保证在多项式时间内解决的算法。
+欧拉回路：不重复地遍历所有边。使用DFS算法，简单。 哈密顿回路：不重复地遍历所有点。困难。 单源无权重最短路径问题：使用BFS算法，简单。 单源无权重最长路径问题：困难。 “困难”表示尚未得知能保证在多项式时间内解决的算法。
 问题的难易程度#最简单：$O(N)$线性时间
 最困难：不能解决问题。（undecidable problems）
 Decidability：可判定性。
 Kurt Godel证明当前的系统不完备，即存在无法用现有定理解释的问题。一种可选方法是每遇到一个此类问题，都将其定义为true或false，但同样可以证明这种操作是无限的。
 举例：
 图灵停机问题（halting problem）：是否能使C编译器检查出所有无限循环？
-**答案：**不能。
-**注意：**停机问题是不可解问题，不是NPC或NP问题。
-**证明：**实质上是无法证明Loop(Loop)的结果是循环还是不循环。
+答案：不能。
+注意：停机问题是不可解问题，不是NPC或NP问题。
+证明：实质上是无法证明Loop(Loop)的结果是循环还是不循环。
 时间复杂度#时间复杂度分为两种级别，其中后者的复杂度无论如何都远远大于前者：
 一种是$O(n)$，$O(logn)$，$O(n^a)$等，称为多项式级的复杂度，因为它的规模n出现在底数的位置；
 另一种是$O(a^n)$和$O(n!)$型复杂度，属于非多项式级，其复杂度计算机往往不能承受。
-概念引入#**确定性图灵机（Deterministic Turing Machine）：**根据当前的指令和状态选择唯一的下一条要执行的指令。 **非确定性图灵机（Nondeterministic Turing Machine）：**可以在一定集合中任意选择下一步，如果存在一种选择能最终导向结果，图灵机会做出正确的选择。（即非常聪明的图灵机） 定义#P问题是可以通过确定性图灵机，在多项式时间内得出结果的问题。
+概念引入#确定性图灵机（Deterministic Turing Machine）：根据当前的指令和状态选择唯一的下一条要执行的指令。 非确定性图灵机（Nondeterministic Turing Machine）：可以在一定集合中任意选择下一步，如果存在一种选择能最终导向结果，图灵机会做出正确的选择。（即非常聪明的图灵机） 定义#P问题是可以通过确定性图灵机，在多项式时间内得出结果的问题。
 NP问题是可以通过非确定性图灵机，在多项式时间内得出结果的问题。
 即如果能够在多项式时间内证明一个解是正确的，那么非确定性图灵机一定能选择出正确结果。（easy to check）
 举例#哈密顿通路问题，可以在$O(N)$时间内验证一个回路是否不重复地遍历了所有结点，因此是一个NP问题。 但不是所有可选择的问题（decidable problems）都是NP问题。例如，判断一个图是否存在哈密顿通路不属于NP问题。
-分类#**P类问题：**存在多项式时间算法的问题。 (Polynominal，多项式)
-**NP问题：**能在多项式时间内验证得出一个正确解的问题。 (Nondeterministic Polynominal，非确定性多项式)
+分类#P类问题：存在多项式时间算法的问题。 (Polynominal，多项式)
+NP问题：能在多项式时间内验证得出一个正确解的问题。 (Nondeterministic Polynominal，非确定性多项式)
 ==P类问题是NP问题的子集，因为存在多项式时间解法的问题，总能在多项式时间内验证他。==
 通俗来讲，不知道这个问题是不是存在多项式时间内的算法，所以叫non-deterministic非确定性，但是我们可以在多项式时间内验证并得出这个问题的一个正确解。（注意是不知道而不是不存在）
 约化（Reducibility）：具有传递性，如A约化到B，B约化到C，A就可以约化到C，同时不断约化下去，可知一定会存在一个最大的问题，只需要解决了这个问题，那其下的所有问题也就解决啦。如一元一次方程可以约化成一元二次方程。
 引到NP问题里就是，对于同一类的所有的NP类问题，若他们都可以在多项式时间内约化成最难的一个NP类问题，（我们直观的认为，被约化成的问题应具有比前一个问题更复杂的时间复杂度）当我们针对这个时间复杂度最高的超级NP问题要是能找到他的多项式时间算法的话，那就等于变向的证明了其下的所有问题都是存在多项式算法的，即NP=P。
-**NPC问题：**存在这样一个NP问题，所有的NP问题都可以约化成它。 （Nondeterminism Polynomial Complete，完全NP问题）
+NPC问题：存在这样一个NP问题，所有的NP问题都可以约化成它。 （Nondeterminism Polynomial Complete，完全NP问题）
 格式化定义：
 对于一个最优问题，存在两种模式，normal version需要回答出最优解，而decision version仅仅判断是或否。
 ==需要满足两个条件：①是一个NP问题 ②所有NP问题可以在多项式时间内约化成它。=="
@@ -653,7 +653,7 @@ NP问题是可以通过非确定性图灵机，在多项式时间内得出结果
 <ul>
   
   <li>
-    <a href="https://github.com/64bitpandas/amethyst"  target="_blank" rel="noopener">
+    <a href="https://github.com/ArcticPirateL"  target="_blank" rel="noopener">
         Github
       </a>
   </li>
@@ -689,6 +689,15 @@ NP问题是可以通过非确定性图灵机，在多项式时间内得出结果
 
 
 
+
+  
+  
+
+  
+  
+
+  
+  
 
   
   
@@ -1096,9 +1105,9 @@ NP问题是可以通过非确定性图灵机，在多项式时间内得出结果
 <p>FDS中提到的问题：</p>
 <ul>
 <li><strong>欧拉回路</strong>：不重复地遍历所有边。使用DFS算法，简单。</li>
-<li>**哈密顿回路：**不重复地遍历所有点。困难。</li>
-<li>**单源无权重最短路径问题：**使用BFS算法，简单。</li>
-<li>**单源无权重最长路径问题：**困难。</li>
+<li><strong>哈密顿回路</strong>：不重复地遍历所有点。困难。</li>
+<li><strong>单源无权重最短路径问题</strong>：使用BFS算法，简单。</li>
+<li><strong>单源无权重最长路径问题</strong>：困难。</li>
 </ul>
 <p>“困难”表示尚未得知能保证在多项式时间内解决的算法。</p>
 <h2 id="问题的难易程度">
@@ -1114,11 +1123,11 @@ NP问题是可以通过非确定性图灵机，在多项式时间内得出结果
 <li>
 <p>图灵停机问题（halting problem）：是否能使C编译器检查出所有无限循环？</p>
 <blockquote>
-<p>**答案：**不能。</p>
+<p><strong>答案</strong>：不能。</p>
 <blockquote>
-<p>**注意：**停机问题是不可解问题，不是NPC或NP问题。</p>
+<p><strong>注意</strong>：停机问题是不可解问题，不是NPC或NP问题。</p>
 </blockquote>
-<p>**证明：**实质上是无法证明Loop(Loop)的结果是循环还是不循环。</p>
+<p><strong>证明</strong>：实质上是无法证明Loop(Loop)的结果是循环还是不循环。</p>
 <p>
 
 
@@ -1138,8 +1147,8 @@ NP问题是可以通过非确定性图灵机，在多项式时间内得出结果
   <a class="anchor" href="#%e6%a6%82%e5%bf%b5%e5%bc%95%e5%85%a5">#</a>
 </h2>
 <ul>
-<li>**确定性图灵机（Deterministic Turing Machine）：**根据当前的指令和状态选择唯一的下一条要执行的指令。</li>
-<li>**非确定性图灵机（Nondeterministic Turing Machine）：**可以在一定集合中任意选择下一步，如果存在一种选择能最终导向结果，图灵机会做出正确的选择。（即非常聪明的图灵机）</li>
+<li><strong>确定性图灵机（Deterministic Turing Machine）</strong>：根据当前的指令和状态选择唯一的下一条要执行的指令。</li>
+<li><strong>非确定性图灵机（Nondeterministic Turing Machine）</strong>：可以在一定集合中任意选择下一步，如果存在一种选择能最终导向结果，图灵机会做出正确的选择。（即非常聪明的图灵机）</li>
 </ul>
 <h3 id="定义">
   定义
@@ -1168,10 +1177,10 @@ NP问题是可以通过非确定性图灵机，在多项式时间内得出结果
 <img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230511205340070.png" width="auto" alt="image-20230511205340070"  /></p>
 <ul>
 <li>
-<p>**P类问题：**存在多项式时间算法的问题。                                                     (Polynominal，多项式)</p>
+<p><strong>P类问题</strong>：存在多项式时间算法的问题。                                                     (Polynominal，多项式)</p>
 </li>
 <li>
-<p>**NP问题：**能在多项式时间内验证得出一个正确解的问题。                       (Nondeterministic Polynominal，非确定性多项式)</p>
+<p><strong>NP问题</strong>：能在多项式时间内验证得出一个正确解的问题。                       (Nondeterministic Polynominal，非确定性多项式)</p>
 <blockquote>
 <p><mark>P类问题是NP问题的子集，因为存在多项式时间解法的问题，总能在多项式时间内验证他。</mark></p>
 <p>通俗来讲，不知道这个问题是不是存在多项式时间内的算法，所以叫non-deterministic非确定性，但是我们可以在多项式时间内验证并得出这个问题的一个正确解。（<strong>注意是不知道而不是不存在</strong>）</p>
@@ -1182,7 +1191,7 @@ NP问题是可以通过非确定性图灵机，在多项式时间内得出结果
 </blockquote>
 </li>
 <li>
-<p>**NPC问题：**存在这样一个NP问题，所有的NP问题都可以约化成它。     （Nondeterminism Polynomial Complete，完全NP问题）</p>
+<p><strong>NPC问题</strong>：存在这样一个NP问题，所有的NP问题都可以约化成它。     （Nondeterminism Polynomial Complete，完全NP问题）</p>
 <blockquote>
 <p><strong>格式化定义：</strong></p>
 <p>
@@ -1192,11 +1201,11 @@ NP问题是可以通过非确定性图灵机，在多项式时间内得出结果
 <p>对于一个最优问题，存在两种模式，normal version需要回答出最优解，而decision version仅仅判断是或否。</p>
 <p><mark>需要满足两个条件：①是一个NP问题   ②所有NP问题可以在多项式时间内约化成它。</mark></p>
 <p>NPC问题是NP问题中最难的一个。</p>
-<p>**证明NPC问题：**先证明它至少是一个NP问题，再证明其中一个已知的NPC问题能约化到它。</p>
+<p><strong>证明NPC问题</strong>：先证明它至少是一个NP问题，再证明其中一个已知的NPC问题能约化到它。</p>
 </blockquote>
 </li>
 <li>
-<p>**NPH问题：**所有的NP问题都能约化到它，但是它不一定是一个NP问题。（Nondeterminism Polynomial Hard，NP难问题）</p>
+<p><strong>NPH问题</strong>：所有的NP问题都能约化到它，但是它不一定是一个NP问题。（Nondeterminism Polynomial Hard，NP难问题）</p>
 <blockquote>
 <p>NP-Hard问题同样难以找到多项式的算法，但它不列入我们的研究范围，因为它不一定是NP问题。即使NPC问题发现了多项式级的算法，NP-Hard问题有可能仍然无法得到多项式级的算法。事实上，由于NP-Hard放宽了限定条件，它将有可能比所有的NPC问题的时间复杂度更高从而更难以解决。</p>
 </blockquote>
@@ -1206,7 +1215,7 @@ NP问题是可以通过非确定性图灵机，在多项式时间内得出结果
   证明NPC问题 1：HCP to TSP
   <a class="anchor" href="#%e8%af%81%e6%98%8enpc%e9%97%ae%e9%a2%98-1hcp-to-tsp">#</a>
 </h2>
-<p>若已知**哈密顿回路问题（HCP）<strong>是NPC问题，求证</strong>旅行家问题（TSP）**也是NPC问题。</p>
+<p>若已知<strong>哈密顿回路问题（HCP）</strong> 是NPC问题，求证<strong>旅行家问题（TSP）</strong> 也是NPC问题。</p>
 <ul>
 <li>哈密顿回路问题：是否存在回路，能不重复遍历所有点。</li>
 <li>旅行家问题：有权重完全图中，给定整数K，是否存在不重复遍历所有点的回路，使得总开销小于等于K。</li>
@@ -1244,10 +1253,10 @@ NP问题是可以通过非确定性图灵机，在多项式时间内得出结果
 </h3>
 <ul>
 <li>
-<p>**抽象问题（Abstract problem）：**抽象问题$Q$为问题实例集$I$和问题解集$S$上的二元关系。</p>
+<p><strong>抽象问题（Abstract problem）：</strong> 抽象问题$Q$为问题实例集$I$和问题解集$S$上的二元关系。</p>
 </li>
 <li>
-<p>**具体问题（Concrete problem）：**将问题实例集$I$编码为包含${0,1}$的字符串，即能够被计算机理解的问题。</p>
+<p><strong>具体问题（Concrete problem）：</strong> 将问题实例集$I$编码为包含${0,1}$的字符串，即能够被计算机理解的问题。</p>
 <blockquote>
 <p>通过编码（encodings）将抽象问题转化为具体问题，前后两者结果相同。</p>
 </blockquote>
@@ -1325,14 +1334,14 @@ NP问题是可以通过非确定性图灵机，在多项式时间内得出结果
 <p>​                 $L={x\in {0,1}*:there\\ exists\\ a\\ certificate\\ y\\ with\\ |y|=O(|x|^c)such\\ that\\ A(x,y)=1}$。</p>
 </li>
 <li>
-<p>**co-NP问题：**若$\overline{L}\in NP$，则称$L$为co-NP问题。</p>
+<p><strong>co-NP问题：</strong> 若$\overline{L}\in NP$，则称$L$为co-NP问题。</p>
 </li>
 <li>
-<p>**约化：**已知$L_1$和$L_2$，若存在一个多项式时间函数$f:{0,1}<em>\rightarrow {0,1}</em>$使得对于所有的$x\in {0,1}$，$x\in L_1$当且仅当$f(x)\in L_2$，</p>
+<p><strong>约化：</strong> 已知$L_1$和$L_2$，若存在一个多项式时间函数$f:{0,1}<em>\rightarrow {0,1}</em>$使得对于所有的$x\in {0,1}$，$x\in L_1$当且仅当$f(x)\in L_2$，</p>
 <p>​            则称$L_1$可以<strong>约化</strong>为$L_2$，表示为$L_1\le_p L_2$（no harder than）。称$f$为<strong>约化函数</strong>，计算$f$的算法$F$称为<strong>约化算法</strong>。</p>
 </li>
 <li>
-<p>**NPC问题：**定义$L$为NPC问题，条件为：①$L\in NP$     ②$L&rsquo;\le_p L\\ for \\ every\\ L&rsquo;\in NP$。</p>
+<p><strong>NPC问题</strong>： 定义$L$为NPC问题，条件为：①$L\in NP$     ②$L&rsquo;\le_p L$ $for $$  every$ $L&rsquo;\in NP$。</p>
 </li>
 </ul>
 <p>对于P、NP、co-NP问题的关系，有<strong>四种可能</strong>：</p>
@@ -1344,7 +1353,7 @@ NP问题是可以通过非确定性图灵机，在多项式时间内得出结果
   证明NPC问题 2：CP to VCP
   <a class="anchor" href="#%e8%af%81%e6%98%8enpc%e9%97%ae%e9%a2%98-2cp-to-vcp">#</a>
 </h2>
-<p>若已知**clique问题（CP）<strong>是NPC问题，求证</strong>vertex cover问题（VCP）**也是NPC问题。</p>
+<p>若已知<strong>clique问题（CP）</strong> 是NPC问题，求证<strong>vertex cover问题（VCP）</strong> 也是NPC问题。</p>
 <ul>
 <li>
 <p>clique问题：给定无向图和K，求是否存在大小（至少）为K的完全子图。</p>
@@ -1440,7 +1449,7 @@ NP问题是可以通过非确定性图灵机，在多项式时间内得出结果
     <footer>
         
         
-        <p>Made with <a href="https://github.com/64bitpandas/amethyst">Amethyst</a>, © 2023 Ben Cuan</p>
+        <p>Made with <a href="https://github.com/64bitpandas/amethyst">Amethyst</a>, © 2023 Arctic</p>
         <ul>
             
             <li><a href="https://ArcticPirateL.github.io">Home</a></li>

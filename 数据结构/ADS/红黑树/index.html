@@ -13,11 +13,11 @@ internal_nodes：除NIL节点外的结点。
 external_nodes：NIL节点。
 定理#拥有N个internal_nodes的红黑树，其高度最大为2ln(N&#43;1)。
 即使没有AVL更为严格的平衡定义，红黑树也将其高度限制在了O(lgN)的水平。
-对于任何节点x，以x为根的所有子树的internal_nodes个数大于等于2^bh(x)^-1。通过数学归纳法证明。
-将x替换为root，则sizeof(x) = N，得到N&gt;=2^bh^-1。
+对于任何节点x，以x为根的所有子树的internal_nodes个数大于等于$2^{bh(x)}-1$。通过数学归纳法证明。
+将x替换为root，则sizeof(x) = N，得到$N&gt;=2^{bh}-1$。
 bh(Tree) &gt;= h(Tree)/2。
 证明：每条路径上，除根节点外，至少有一半的节点时黑色。
-N &gt;= 2^bh^-1 &gt;= 2^h/2^-1，证明结束。
+$N &gt;= 2^{bh}-1 &gt;= 2^{h/2}-1$，证明结束。
 插入操作#需要尽可能避免改变红黑树的bh，避免重新平衡。因此新插入的节点颜色应为红色。但再次插入红节点时需要重新平衡，引出三种情况：
 Case 1#新节点为红色，父节点为红色，父节点的兄弟节点也为红色。
 解决方式：父代所有节点和祖父节点红黑颜色调换。
@@ -58,11 +58,11 @@ internal_nodes：除NIL节点外的结点。
 external_nodes：NIL节点。
 定理#拥有N个internal_nodes的红黑树，其高度最大为2ln(N&#43;1)。
 即使没有AVL更为严格的平衡定义，红黑树也将其高度限制在了O(lgN)的水平。
-对于任何节点x，以x为根的所有子树的internal_nodes个数大于等于2^bh(x)^-1。通过数学归纳法证明。
-将x替换为root，则sizeof(x) = N，得到N&gt;=2^bh^-1。
+对于任何节点x，以x为根的所有子树的internal_nodes个数大于等于$2^{bh(x)}-1$。通过数学归纳法证明。
+将x替换为root，则sizeof(x) = N，得到$N&gt;=2^{bh}-1$。
 bh(Tree) &gt;= h(Tree)/2。
 证明：每条路径上，除根节点外，至少有一半的节点时黑色。
-N &gt;= 2^bh^-1 &gt;= 2^h/2^-1，证明结束。
+$N &gt;= 2^{bh}-1 &gt;= 2^{h/2}-1$，证明结束。
 插入操作#需要尽可能避免改变红黑树的bh，避免重新平衡。因此新插入的节点颜色应为红色。但再次插入红节点时需要重新平衡，引出三种情况：
 Case 1#新节点为红色，父节点为红色，父节点的兄弟节点也为红色。
 解决方式：父代所有节点和祖父节点红黑颜色调换。
@@ -645,7 +645,7 @@ AVL树 &amp; 红黑树#step 1：向二叉搜索树中插入节点。 step 2：
 <ul>
   
   <li>
-    <a href="https://github.com/64bitpandas/amethyst"  target="_blank" rel="noopener">
+    <a href="https://github.com/ArcticPirateL"  target="_blank" rel="noopener">
         Github
       </a>
   </li>
@@ -681,6 +681,15 @@ AVL树 &amp; 红黑树#step 1：向二叉搜索树中插入节点。 step 2：
 
 
 
+
+  
+  
+
+  
+  
+
+  
+  
 
   
   
@@ -837,19 +846,19 @@ AVL树 &amp; 红黑树#step 1：向二叉搜索树中插入节点。 step 2：
 </blockquote>
 <ul>
 <li>
-<p>对于任何节点x，以x为根的所有子树的internal_nodes个数<strong>大于等于</strong>2^bh(x)^-1。通过数学归纳法证明。</p>
+<p>对于任何节点x，以x为根的所有子树的internal_nodes个数<strong>大于等于</strong>$2^{bh(x)}-1$。通过数学归纳法证明。</p>
 <p>
 
 
 <img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424192753971.png" width="auto" alt="image-20230424192753971"  /></p>
-<p>将x替换为root，则sizeof(x) = N，得到N&gt;=2^bh^-1。</p>
+<p>将x替换为root，则sizeof(x) = N，得到$N&gt;=2^{bh}-1$。</p>
 </li>
 <li>
 <p>bh(Tree) &gt;= h(Tree)/2。</p>
 <blockquote>
 <p>证明：每条路径上，除根节点外，至少有一半的节点时黑色。</p>
 </blockquote>
-<p>N &gt;= 2^bh^-1 &gt;= 2^h/2^-1，证明结束。</p>
+<p>$N &gt;= 2^{bh}-1 &gt;= 2^{h/2}-1$，证明结束。</p>
 </li>
 </ul>
 <h2 id="插入操作">
@@ -967,7 +976,7 @@ $$</p>
 <p>①如果父节点为红色，将父节点变为黑色。</p>
 <p>②如果父节点为黑色，更新x指向父节点，继续向x所在路径添加黑节点。这是最坏的情况，需要向上继续执行操作直到遇到case3或case4的情况或x最终为根节点，但不需要旋转，只进行了改变颜色的操作。</p>
 </blockquote>
-<p>**Case 3：**兄弟节点的左儿子为红色，右儿子为黑色。</p>
+<p><strong>Case 3：</strong> 兄弟节点的左儿子为红色，右儿子为黑色。</p>
 <p>
 
 
@@ -975,7 +984,7 @@ $$</p>
 <blockquote>
 <p>解决方法：首先调换兄弟节点及其左儿子的颜色，再进行一次旋转。更新w指向旋转后的兄弟节点，可跳转到case4。</p>
 </blockquote>
-<p>**Case 4：**兄弟节点的右儿子是红色，左儿子任意。</p>
+<p><strong>Case 4：</strong> 兄弟节点的右儿子是红色，左儿子任意。</p>
 <p>
 
 
@@ -1076,7 +1085,7 @@ $$</p>
     <footer>
         
         
-        <p>Made with <a href="https://github.com/64bitpandas/amethyst">Amethyst</a>, © 2023 Ben Cuan</p>
+        <p>Made with <a href="https://github.com/64bitpandas/amethyst">Amethyst</a>, © 2023 Arctic</p>
         <ul>
             
             <li><a href="https://ArcticPirateL.github.io">Home</a></li>

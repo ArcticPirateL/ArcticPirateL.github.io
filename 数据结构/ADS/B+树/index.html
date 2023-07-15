@@ -5,7 +5,7 @@
 <meta property="og:description" content="B&#43;树#概述#常用于数据库、文件系统。大量数据通常存储在磁盘中而非主存，然而磁盘中查找文件速度较慢，为提升速度需要将存储空间划分为很多个block。
 B树是搜索树的一种，与二叉搜索树不同。B树包括原始B树、B&#43;树、B-树等。
 定义#order为M的树。结构特性如下：
-根节点是叶子节点或有2到M个孩子。 除根节点外所有的非叶子节点有**[M/2, M]**个孩子。 所有叶子节点深度相同。 从底层向上层构建，平衡性非常好。
+根节点是叶子节点或有2到M个孩子。 除根节点外所有的非叶子节点有==[M/2, M]==个孩子。 所有叶子节点深度相同。 从底层向上层构建，平衡性非常好。
 所有真实数据都存放在叶子节点中。
 每个中间节点包括M个儿子指针和M-1个key，key存放除第一个子节点外的每个子节点中最小的元素值。
 所有叶子节点为从小到大的顺序。
@@ -43,7 +43,7 @@ https://github.com/alex-shpak/hugo-book
   content="B&#43;树#概述#常用于数据库、文件系统。大量数据通常存储在磁盘中而非主存，然而磁盘中查找文件速度较慢，为提升速度需要将存储空间划分为很多个block。
 B树是搜索树的一种，与二叉搜索树不同。B树包括原始B树、B&#43;树、B-树等。
 定义#order为M的树。结构特性如下：
-根节点是叶子节点或有2到M个孩子。 除根节点外所有的非叶子节点有**[M/2, M]**个孩子。 所有叶子节点深度相同。 从底层向上层构建，平衡性非常好。
+根节点是叶子节点或有2到M个孩子。 除根节点外所有的非叶子节点有==[M/2, M]==个孩子。 所有叶子节点深度相同。 从底层向上层构建，平衡性非常好。
 所有真实数据都存放在叶子节点中。
 每个中间节点包括M个儿子指针和M-1个key，key存放除第一个子节点外的每个子节点中最小的元素值。
 所有叶子节点为从小到大的顺序。
@@ -631,7 +631,7 @@ $$Depth(M,N)=O(log_\frac{M}{2}N)$$
 <ul>
   
   <li>
-    <a href="https://github.com/64bitpandas/amethyst"  target="_blank" rel="noopener">
+    <a href="https://github.com/ArcticPirateL"  target="_blank" rel="noopener">
         Github
       </a>
   </li>
@@ -713,6 +713,9 @@ $$Depth(M,N)=O(log_\frac{M}{2}N)$$
 
 
 
+  
+  
+
 
 <h1 id="b树">
   B+树
@@ -731,7 +734,7 @@ $$Depth(M,N)=O(log_\frac{M}{2}N)$$
 <p>order为M的树。结构特性如下：</p>
 <ul>
 <li>根节点是叶子节点或有<strong>2到M个</strong>孩子。</li>
-<li>除根节点外所有的非叶子节点有**[M/2, M]**个孩子。</li>
+<li>除根节点外所有的非叶子节点有<mark>[M/2, M]</mark>个孩子。</li>
 <li>所有叶子节点深度相同。</li>
 </ul>
 <blockquote>
@@ -837,7 +840,7 @@ $$Depth(M,N)=O(log_\frac{M}{2}N)$$
     <footer>
         
         
-        <p>Made with <a href="https://github.com/64bitpandas/amethyst">Amethyst</a>, © 2023 Ben Cuan</p>
+        <p>Made with <a href="https://github.com/64bitpandas/amethyst">Amethyst</a>, © 2023 Arctic</p>
         <ul>
             
             <li><a href="https://ArcticPirateL.github.io">Home</a></li>

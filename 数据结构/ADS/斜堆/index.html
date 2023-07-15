@@ -3,19 +3,19 @@
 <head>
   <meta property="og:title" content="" />
 <meta property="og:description" content="斜堆#概述#左式堆和斜堆的关系类似于AVL树和Splay树的关系。斜堆是左式堆的简化版，不需要考虑Npl。
-目标#连续M个操作总时间复杂度为$$O(MlogN)$$。
+目标#连续M个操作总时间复杂度为$O(MlogN)$。
 合并操作#总是交换左右子堆，不考虑Npl。
 选择根节点较小的堆不变，将其左子堆换到右子堆的位置，再将原来的右子堆与另一个堆合并后attach到新堆的左子堆上。
 当最后一步与空堆合并时，无需交换左右子堆。
 注意最终得到的堆不一定是左式堆。
 递归求解#迭代求解#分析#斜堆的优势#可以节省存放Npl所需的额外空间，且交换左右子堆时无需比较Npl大小。
 准确的右路径长度仍然未知。
-摊还分析#插入和删除操作均属于合并操作。只要证明合并的均摊时间复杂度为$$O(logN)$$即可。
+摊还分析#插入和删除操作均属于合并操作。只要证明合并的均摊时间复杂度为$O(logN)$即可。
 势能函数定义：
 右子堆节点个数？No，由于最初为空堆，势能为0，后面任何操作势能都会大于0，缺少势能减少的方向（bad luck）的情况。 正确答案：heavy nodes的个数。 heavy nodes定义
 对于一个节点，若其右侧的节点总数不小于总节点数的一半（即大于左侧节点总数），则称这个节点为heavy node，代表bad luck的情况；若反之，左侧节点总数大于右侧，则称为light node，代表good luck的情况。
 注意：这里的总节点数包括了根节点本身，因此左右子堆节点数相同的点不属于heavy node或light node。
-**规律：**heavy或light性质前后发生改变的节点一定在最初的右路径上。
+规律： heavy或light性质前后发生改变的节点一定在最初的右路径上。
 ​ 且在右路径上原heavy的节点经过merge后一定会变成light节点。
 ​ 且在右路径上原light的节点经过merge后不一定会变成heavy节点。" />
 <meta property="og:type" content="article" />
@@ -40,19 +40,19 @@ https://github.com/alex-shpak/hugo-book
 <meta
   name="description"
   content="斜堆#概述#左式堆和斜堆的关系类似于AVL树和Splay树的关系。斜堆是左式堆的简化版，不需要考虑Npl。
-目标#连续M个操作总时间复杂度为$$O(MlogN)$$。
+目标#连续M个操作总时间复杂度为$O(MlogN)$。
 合并操作#总是交换左右子堆，不考虑Npl。
 选择根节点较小的堆不变，将其左子堆换到右子堆的位置，再将原来的右子堆与另一个堆合并后attach到新堆的左子堆上。
 当最后一步与空堆合并时，无需交换左右子堆。
 注意最终得到的堆不一定是左式堆。
 递归求解#迭代求解#分析#斜堆的优势#可以节省存放Npl所需的额外空间，且交换左右子堆时无需比较Npl大小。
 准确的右路径长度仍然未知。
-摊还分析#插入和删除操作均属于合并操作。只要证明合并的均摊时间复杂度为$$O(logN)$$即可。
+摊还分析#插入和删除操作均属于合并操作。只要证明合并的均摊时间复杂度为$O(logN)$即可。
 势能函数定义：
 右子堆节点个数？No，由于最初为空堆，势能为0，后面任何操作势能都会大于0，缺少势能减少的方向（bad luck）的情况。 正确答案：heavy nodes的个数。 heavy nodes定义
 对于一个节点，若其右侧的节点总数不小于总节点数的一半（即大于左侧节点总数），则称这个节点为heavy node，代表bad luck的情况；若反之，左侧节点总数大于右侧，则称为light node，代表good luck的情况。
 注意：这里的总节点数包括了根节点本身，因此左右子堆节点数相同的点不属于heavy node或light node。
-**规律：**heavy或light性质前后发生改变的节点一定在最初的右路径上。
+规律： heavy或light性质前后发生改变的节点一定在最初的右路径上。
 ​ 且在右路径上原heavy的节点经过merge后一定会变成light节点。
 ​ 且在右路径上原light的节点经过merge后不一定会变成heavy节点。"
 />
@@ -629,7 +629,7 @@ https://github.com/alex-shpak/hugo-book
 <ul>
   
   <li>
-    <a href="https://github.com/64bitpandas/amethyst"  target="_blank" rel="noopener">
+    <a href="https://github.com/ArcticPirateL"  target="_blank" rel="noopener">
         Github
       </a>
   </li>
@@ -729,7 +729,7 @@ https://github.com/alex-shpak/hugo-book
   目标
   <a class="anchor" href="#%e7%9b%ae%e6%a0%87">#</a>
 </h2>
-<p>连续M个操作总时间复杂度为$$O(MlogN)$$。</p>
+<p>连续M个操作总时间复杂度为$O(MlogN)$。</p>
 <h2 id="合并操作">
   合并操作
   <a class="anchor" href="#%e5%90%88%e5%b9%b6%e6%93%8d%e4%bd%9c">#</a>
@@ -770,7 +770,7 @@ https://github.com/alex-shpak/hugo-book
   摊还分析
   <a class="anchor" href="#%e6%91%8a%e8%bf%98%e5%88%86%e6%9e%90">#</a>
 </h3>
-<p>插入和删除操作均属于合并操作。只要证明合并的均摊时间复杂度为$$O(logN)$$即可。</p>
+<p>插入和删除操作均属于合并操作。只要证明合并的均摊时间复杂度为$O(logN)$即可。</p>
 <p><strong>势能函数定义：</strong></p>
 <ul>
 <li>右子堆节点个数？No，由于最初为空堆，势能为0，后面任何操作势能都会大于0，缺少势能减少的方向（bad luck）的情况。</li>
@@ -785,7 +785,7 @@ https://github.com/alex-shpak/hugo-book
 
 
 <img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424232802573.png" width="auto" alt="image-20230424232802573"  /></p>
-<p>**规律：**heavy或light性质前后发生改变的节点一定在最初的右路径上。</p>
+<p><strong>规律：</strong> heavy或light性质前后发生改变的节点一定在最初的右路径上。</p>
 <p>​           且在右路径上原heavy的节点经过merge后一定会变成light节点。</p>
 <p>​           且在右路径上原light的节点经过merge后不一定会变成heavy节点。</p>
 <p>
@@ -849,7 +849,7 @@ https://github.com/alex-shpak/hugo-book
     <footer>
         
         
-        <p>Made with <a href="https://github.com/64bitpandas/amethyst">Amethyst</a>, © 2023 Ben Cuan</p>
+        <p>Made with <a href="https://github.com/64bitpandas/amethyst">Amethyst</a>, © 2023 Arctic</p>
         <ul>
             
             <li><a href="https://ArcticPirateL.github.io">Home</a></li>

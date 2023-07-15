@@ -3,10 +3,10 @@
 <head>
   <meta property="og:title" content="" />
 <meta property="og:description" content="随机化算法（Randomized Alogorithms）#随机化的定义#the world behaves randomly：随机生成乱序的输入并使用传统算法解决 $\Rightarrow$ 平均情况分析（Average-case Analysis）。 the algorithm behaves randomly：当输入情况最坏时算法采用随机决策的方式求解。 两种随机化目标：
-**efficient algorithm：**yield the correct answer with ==high probability==.注重效率高。 **deterministic algorithm：**always correct and run efficiently ==in expectation==.注重正确性。 概率前置知识#$Pr[A]$：事件$A$发生的概率。
+efficient algorithm： yield the correct answer with ==high probability==.注重效率高。 deterministic algorithm： always correct and run efficiently ==in expectation==.注重正确性。 概率前置知识#$Pr[A]$：事件$A$发生的概率。
 $\overline A$：事件$A$的补集，即不发生。
-$E $：随机变量$X$的期望（平均值）。
-$E[X]=\Sigma_{j=0}^{\infin}\ j\cdot Pr[X=j]$。
+$E[X]$：随机变量$X$的期望（平均值）。
+$E[X]=\Sigma_{j=0}^{\infin}j\cdot Pr[X=j]$。
 实例1：Hiring问题#雇佣一个助手，共$N$天，每天面试一个人。
 面试开销：$C_i &laquo; $雇佣开销：$C_h$。
 分析开销，假设$N$天面试雇佣了$M$个应聘者，则总开销为：$O(NC_i&#43;MC_h)$。目标为使总开销最小化。
@@ -15,7 +15,7 @@ $E[X]=\Sigma_{j=0}^{\infin}\ j\cdot Pr[X=j]$。
 最好情况：候选人的质量按降序排列。
 改进方向：
 提高解决最坏情况的效率。 尝试避免出现最坏情况。 若候选人随机顺序出现。设$X$为雇佣次数，找到$X$的期望。核心问题是如何知道$Pr[X=j]$。
-定义$X_i=\begin{cases} 1 &amp; if \ candidate\ i\ is\ hired \0 &amp; if\ candidate\ i\ is\ NOT\ hired \end{cases} \Rightarrow X=\Sigma_{i=1}^NX_i$ 得到：" />
+定义$X_i=\begin{cases} 1 &amp; ifcandidateiishired\ 0 &amp; ifcandidateiisNOThired \end{cases} \Rightarrow X=\Sigma_{i=1}^NX_i$ 得到：" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E9%9A%8F%E6%9C%BA%E5%8C%96%E7%AE%97%E6%B3%95/" /><meta property="article:section" content="数据结构" />
 
@@ -38,10 +38,10 @@ https://github.com/alex-shpak/hugo-book
 <meta
   name="description"
   content="随机化算法（Randomized Alogorithms）#随机化的定义#the world behaves randomly：随机生成乱序的输入并使用传统算法解决 $\Rightarrow$ 平均情况分析（Average-case Analysis）。 the algorithm behaves randomly：当输入情况最坏时算法采用随机决策的方式求解。 两种随机化目标：
-**efficient algorithm：**yield the correct answer with ==high probability==.注重效率高。 **deterministic algorithm：**always correct and run efficiently ==in expectation==.注重正确性。 概率前置知识#$Pr[A]$：事件$A$发生的概率。
+efficient algorithm： yield the correct answer with ==high probability==.注重效率高。 deterministic algorithm： always correct and run efficiently ==in expectation==.注重正确性。 概率前置知识#$Pr[A]$：事件$A$发生的概率。
 $\overline A$：事件$A$的补集，即不发生。
-$E $：随机变量$X$的期望（平均值）。
-$E[X]=\Sigma_{j=0}^{\infin}\ j\cdot Pr[X=j]$。
+$E[X]$：随机变量$X$的期望（平均值）。
+$E[X]=\Sigma_{j=0}^{\infin}j\cdot Pr[X=j]$。
 实例1：Hiring问题#雇佣一个助手，共$N$天，每天面试一个人。
 面试开销：$C_i &laquo; $雇佣开销：$C_h$。
 分析开销，假设$N$天面试雇佣了$M$个应聘者，则总开销为：$O(NC_i&#43;MC_h)$。目标为使总开销最小化。
@@ -50,7 +50,7 @@ $E[X]=\Sigma_{j=0}^{\infin}\ j\cdot Pr[X=j]$。
 最好情况：候选人的质量按降序排列。
 改进方向：
 提高解决最坏情况的效率。 尝试避免出现最坏情况。 若候选人随机顺序出现。设$X$为雇佣次数，找到$X$的期望。核心问题是如何知道$Pr[X=j]$。
-定义$X_i=\begin{cases} 1 &amp; if \ candidate\ i\ is\ hired \0 &amp; if\ candidate\ i\ is\ NOT\ hired \end{cases} \Rightarrow X=\Sigma_{i=1}^NX_i$ 得到："
+定义$X_i=\begin{cases} 1 &amp; ifcandidateiishired\ 0 &amp; ifcandidateiisNOThired \end{cases} \Rightarrow X=\Sigma_{i=1}^NX_i$ 得到："
 />
 <title>
   📓 Arctic的笔记本
@@ -625,7 +625,7 @@ $E[X]=\Sigma_{j=0}^{\infin}\ j\cdot Pr[X=j]$。
 <ul>
   
   <li>
-    <a href="https://github.com/64bitpandas/amethyst"  target="_blank" rel="noopener">
+    <a href="https://github.com/ArcticPirateL"  target="_blank" rel="noopener">
         Github
       </a>
   </li>
@@ -869,8 +869,8 @@ $E[X]=\Sigma_{j=0}^{\infin}\ j\cdot Pr[X=j]$。
 </ul>
 <p><strong>两种随机化目标：</strong></p>
 <ul>
-<li>**efficient algorithm：**yield the correct answer with <mark>high probability</mark>.注重效率高。</li>
-<li>**deterministic algorithm：**always correct and run efficiently <mark>in expectation</mark>.注重正确性。</li>
+<li><strong>efficient algorithm：</strong> yield the correct answer with <mark>high probability</mark>.注重效率高。</li>
+<li><strong>deterministic algorithm：</strong> always correct and run efficiently <mark>in expectation</mark>.注重正确性。</li>
 </ul>
 <h2 id="概率前置知识">
   概率前置知识
@@ -884,9 +884,9 @@ $E[X]=\Sigma_{j=0}^{\infin}\ j\cdot Pr[X=j]$。
 <p>$\overline A$：事件$A$的补集，即不发生。</p>
 </li>
 <li>
-<p>$E<input checked="" disabled="" type="checkbox"> $：随机变量$X$的期望（平均值）。</p>
+<p>$E[X]$：随机变量$X$的期望（平均值）。</p>
 <blockquote>
-<p>$E[X]=\Sigma_{j=0}^{\infin}\\ j\cdot Pr[X=j]$。</p>
+<p>$E[X]=\Sigma_{j=0}^{\infin}j\cdot Pr[X=j]$。</p>
 </blockquote>
 </li>
 </ul>
@@ -922,7 +922,7 @@ $E[X]=\Sigma_{j=0}^{\infin}\ j\cdot Pr[X=j]$。
 <li>尝试避免出现最坏情况。</li>
 </ul>
 <p>若候选人随机顺序出现。设$X$为雇佣次数，找到$X$的期望。核心问题是如何知道$Pr[X=j]$。</p>
-<p>定义$X_i=\begin{cases} 1 &amp; if \\ candidate\\ i\\ is\\ hired \0 &amp; if\\ candidate\\ i\\ is\\ NOT\\ hired  \end{cases} \Rightarrow X=\Sigma_{i=1}^NX_i$  得到：</p>
+<p>定义$X_i=\begin{cases} 1 &amp; ifcandidateiishired\\ 0 &amp; ifcandidateiisNOThired  \end{cases} \Rightarrow X=\Sigma_{i=1}^NX_i$  得到：</p>
 <p>
 
 
@@ -932,7 +932,7 @@ $E[X]=\Sigma_{j=0}^{\infin}\ j\cdot Pr[X=j]$。
 
 
 <img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230630190743319.png" width="auto" alt="image-20230630190743319"  /></p>
-<p>**结论：**若候选人随机出现，则开销为$O(C_hlnN+NC_i)$，明显小于最坏情况。因此需要随机化算法。</p>
+<p><strong>结论：</strong> 若候选人随机出现，则开销为$O(C_hlnN+NC_i)$，明显小于最坏情况。因此需要随机化算法。</p>
 <h3 id="随机化算法">
   随机化算法
   <a class="anchor" href="#%e9%9a%8f%e6%9c%ba%e5%8c%96%e7%ae%97%e6%b3%95">#</a>
@@ -943,13 +943,13 @@ $E[X]=\Sigma_{j=0}^{\infin}\ j\cdot Pr[X=j]$。
 <img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230630190959945.png" width="auto" alt="image-20230630190959945"  /></p>
 <p>无论候选人以什么顺序出现，都进行一次随机化。避免了最坏情况，但增大了开销。</p>
 <p><em><strong>Randomized Permutation Algorithm</strong></em>的核心难题是如何实现<em>equally likely</em>。</p>
-<p>目标：重新排列给定的数组$A[\\ ]$。</p>
+<p>目标：重新排列给定的数组$A[]$。</p>
 <p>方法：为每个$A[i]$分配一个<mark>随机的优先级</mark>$P[i]$，并按优先级排序。</p>
 <p>
 
 
 <img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230630191417117.png" width="auto" alt="image-20230630191417117"  /></p>
-<p><strong>断言：</strong><code>PermuteBySorting</code>能够生成一个<em>uniform</em>的随机排列，若所有优先级互不相同。</p>
+<p><strong>断言</strong>：<code>PermuteBySorting</code>能够生成一个<em>uniform</em>的随机排列，若所有优先级互不相同。</p>
 <blockquote>
 <p><em>uniform</em>的含义为所有$N!$中随机排列的情况出现的可能性相等。</p>
 </blockquote>
@@ -1078,7 +1078,7 @@ $E[X]=\Sigma_{j=0}^{\infin}\ j\cdot Pr[X=j]$。
     <footer>
         
         
-        <p>Made with <a href="https://github.com/64bitpandas/amethyst">Amethyst</a>, © 2023 Ben Cuan</p>
+        <p>Made with <a href="https://github.com/64bitpandas/amethyst">Amethyst</a>, © 2023 Arctic</p>
         <ul>
             
             <li><a href="https://ArcticPirateL.github.io">Home</a></li>

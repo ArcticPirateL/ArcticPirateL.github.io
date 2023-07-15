@@ -7,19 +7,18 @@
 其他堆存在的问题：若用数组存储，时间复杂度为θ(N)，不是上界；若用指针存储，找到下一条指针的过程所有操作时间都将增加。
 概述#order property：与二叉堆相同，最小值在上。
 structure property：不平衡二叉树。
-定义#null path length：#Npl(X)，表示任何节点X到没有两个儿子的节点的最短路径长度。定义Npl(NULL)=-1。（叶子节点的Npl为0）
-Npl计算：从底层向顶层扩展。公式如下：
-==Npl(X) = min { Npl(C) &#43; 1 for all C as children of X }==
+定义#null path length：#Npl(X)，表示任何节点X到没有两个儿子的节点的最短路径长度。定义$Npl(NULL)=-1$。（叶子节点的Npl为0）
+Npl计算：从底层向顶层扩展。公式如下：Npl(X) = min { Npl(C) &#43; 1 for all C as children of X }
 structure property#对于每个节点X，其左儿子的Npl大于等于右儿子的Npl。更倾向于向左延伸。
-定理#若右路径包含r个节点，则左式堆至少包含$$2^r$$个节点。
-若左式堆包含N个节点，则右路径最多包含$$log(N&#43;1)$$个节点。
+定理#若右路径包含r个节点，则左式堆至少包含$2^r$个节点。
+若左式堆包含N个节点，则右路径最多包含$log(N&#43;1)$个节点。
 因此，若能够实现所有操作均在右路径上进行，则可以限制操作的时间复杂度。
 困难情况：插入和合并。又因为插入属于合并的特殊情况，因此只需解决合并问题即可。
 实现原理#节点数据结构#element、left pointer、right pointer、Npl
 实例（递归求解）#首先比较根节点大小，较小的一方不变。即将H2与H1的右子堆合并。Merge(H1-&gt;right, H2)
 将得到的新堆赋值给原H1的右子堆。Attach(H2, H1-&gt;right)
 如果不符合左式堆条件，交换左右子堆。Swap(H1-&gt;left, H1-&gt;right)
-代码实现#时间复杂度：$$T_p=O(logN)$$
+代码实现#时间复杂度：$T_p=O(logN)$
 实例（迭代求解）#选择根节点较小的堆，左子堆不变。 两个堆的右路径按大小排序，依次插入到上一步选择出的堆的右子堆上。（每个节点与其左子堆绑定）（此时并不符合左式堆） 对于右路径，从底层到顶层，检查Npl，如果不符合左式堆则调换左右子堆。 对于递归和迭代，所有操作时间复杂度均为log N。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%B7%A6%E5%BC%8F%E5%A0%86/" /><meta property="article:section" content="数据结构" />
@@ -47,19 +46,18 @@ https://github.com/alex-shpak/hugo-book
 其他堆存在的问题：若用数组存储，时间复杂度为θ(N)，不是上界；若用指针存储，找到下一条指针的过程所有操作时间都将增加。
 概述#order property：与二叉堆相同，最小值在上。
 structure property：不平衡二叉树。
-定义#null path length：#Npl(X)，表示任何节点X到没有两个儿子的节点的最短路径长度。定义Npl(NULL)=-1。（叶子节点的Npl为0）
-Npl计算：从底层向顶层扩展。公式如下：
-==Npl(X) = min { Npl(C) &#43; 1 for all C as children of X }==
+定义#null path length：#Npl(X)，表示任何节点X到没有两个儿子的节点的最短路径长度。定义$Npl(NULL)=-1$。（叶子节点的Npl为0）
+Npl计算：从底层向顶层扩展。公式如下：Npl(X) = min { Npl(C) &#43; 1 for all C as children of X }
 structure property#对于每个节点X，其左儿子的Npl大于等于右儿子的Npl。更倾向于向左延伸。
-定理#若右路径包含r个节点，则左式堆至少包含$$2^r$$个节点。
-若左式堆包含N个节点，则右路径最多包含$$log(N&#43;1)$$个节点。
+定理#若右路径包含r个节点，则左式堆至少包含$2^r$个节点。
+若左式堆包含N个节点，则右路径最多包含$log(N&#43;1)$个节点。
 因此，若能够实现所有操作均在右路径上进行，则可以限制操作的时间复杂度。
 困难情况：插入和合并。又因为插入属于合并的特殊情况，因此只需解决合并问题即可。
 实现原理#节点数据结构#element、left pointer、right pointer、Npl
 实例（递归求解）#首先比较根节点大小，较小的一方不变。即将H2与H1的右子堆合并。Merge(H1-&gt;right, H2)
 将得到的新堆赋值给原H1的右子堆。Attach(H2, H1-&gt;right)
 如果不符合左式堆条件，交换左右子堆。Swap(H1-&gt;left, H1-&gt;right)
-代码实现#时间复杂度：$$T_p=O(logN)$$
+代码实现#时间复杂度：$T_p=O(logN)$
 实例（迭代求解）#选择根节点较小的堆，左子堆不变。 两个堆的右路径按大小排序，依次插入到上一步选择出的堆的右子堆上。（每个节点与其左子堆绑定）（此时并不符合左式堆） 对于右路径，从底层到顶层，检查Npl，如果不符合左式堆则调换左右子堆。 对于递归和迭代，所有操作时间复杂度均为log N。"
 />
 <title>
@@ -635,7 +633,7 @@ structure property#对于每个节点X，其左儿子的Npl大于等于右儿�
 <ul>
   
   <li>
-    <a href="https://github.com/64bitpandas/amethyst"  target="_blank" rel="noopener">
+    <a href="https://github.com/ArcticPirateL"  target="_blank" rel="noopener">
         Github
       </a>
   </li>
@@ -671,6 +669,9 @@ structure property#对于每个节点X，其左儿子的Npl大于等于右儿�
 
 
 
+
+  
+  
 
   
   
@@ -746,9 +747,8 @@ structure property#对于每个节点X，其左儿子的Npl大于等于右儿�
   null path length：
   <a class="anchor" href="#null-path-length">#</a>
 </h3>
-<p>Npl(X)，表示任何节点X到没有两个儿子的节点的最短路径长度。定义Npl(NULL)=-1。（叶子节点的Npl为0）</p>
-<p>Npl计算：从底层向顶层扩展。公式如下：</p>
-<p>==Npl(X) = min { Npl(C) + 1 for all C as children of X }==</p>
+<p>Npl(X)，表示任何节点X到没有两个儿子的节点的最短路径长度。定义$Npl(NULL)=-1$。（叶子节点的Npl为0）</p>
+<p>Npl计算：从底层向顶层扩展。公式如下：Npl(X) = min { Npl(C) + 1 for all C as children of X }</p>
 <h3 id="structure-property">
   structure property
   <a class="anchor" href="#structure-property">#</a>
@@ -758,8 +758,8 @@ structure property#对于每个节点X，其左儿子的Npl大于等于右儿�
   定理
   <a class="anchor" href="#%e5%ae%9a%e7%90%86">#</a>
 </h2>
-<p>若右路径包含r个节点，则左式堆至少包含$$2^r$$个节点。</p>
-<p>若左式堆包含N个节点，则右路径最多包含$$log(N+1)$$个节点。</p>
+<p>若右路径包含r个节点，则左式堆至少包含$2^r$个节点。</p>
+<p>若左式堆包含N个节点，则右路径最多包含$log(N+1)$个节点。</p>
 <blockquote>
 <p>因此，若能够实现所有操作均在右路径上进行，则可以限制操作的时间复杂度。</p>
 <p>困难情况：插入和合并。又因为插入属于合并的特殊情况，因此只需解决合并问题即可。</p>
@@ -808,7 +808,7 @@ structure property#对于每个节点X，其左儿子的Npl大于等于右儿�
 
 
 <img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424224520960.png" width="auto" alt="image-20230424224520960"  /></p>
-<p>时间复杂度：$$T_p=O(logN)$$</p>
+<p>时间复杂度：$T_p=O(logN)$</p>
 <h3 id="实例迭代求解">
   实例（迭代求解）
   <a class="anchor" href="#%e5%ae%9e%e4%be%8b%e8%bf%ad%e4%bb%a3%e6%b1%82%e8%a7%a3">#</a>
@@ -835,7 +835,7 @@ structure property#对于每个节点X，其左儿子的Npl大于等于右儿�
 <li>删除根节点</li>
 <li>合并左右子堆</li>
 </ul>
-<p>时间复杂度为$$T=O(logN)$$</p>
+<p>时间复杂度为$T=O(logN)$</p>
 
 
     
@@ -893,7 +893,7 @@ structure property#对于每个节点X，其左儿子的Npl大于等于右儿�
     <footer>
         
         
-        <p>Made with <a href="https://github.com/64bitpandas/amethyst">Amethyst</a>, © 2023 Ben Cuan</p>
+        <p>Made with <a href="https://github.com/64bitpandas/amethyst">Amethyst</a>, © 2023 Arctic</p>
         <ul>
             
             <li><a href="https://ArcticPirateL.github.io">Home</a></li>

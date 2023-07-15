@@ -7,8 +7,8 @@
 最优函数值最大的可行方案称为最优方案。
 核心思想#每个步骤都选择最优解，上一步选择的结果在后续步骤中不会改变，即不能撤销前面步骤，同时每个选择都应确保方案可行。
 注意：
-贪婪算法只在当前最优解即为总体最优解时能正确解出最优解，即local optimum = global optimum的gool luck情况。 贪婪算法不能保证结果一定为最优，但它给出的结果一定与最优结果取值相近，即启发式算法（heuristics）。因此当寻找实际的最优解需要耗费大量时间时，直觉上可以采用贪婪算法。good enough。 活动选择问题#给出需要共用同一资源的一系列时间，记为$$S={a_1,a_2,……,a_n}$$。每个事件$$a_i$$发生的时间间隔为$$[s_i,f_i)$$。
-对于事件$$a_i$$和$$a_j$$，若有$$s_i\ge f_j$$或$s_j\ge f_j$，则称为两个事件兼容，即两个事件的时间不重合。
+贪婪算法只在当前最优解即为总体最优解时能正确解出最优解，即local optimum = global optimum的gool luck情况。 贪婪算法不能保证结果一定为最优，但它给出的结果一定与最优结果取值相近，即启发式算法（heuristics）。因此当寻找实际的最优解需要耗费大量时间时，直觉上可以采用贪婪算法。good enough。 活动选择问题#给出需要共用同一资源的一系列时间，记为$S={a_1,a_2,……,a_n}$。每个事件$a_i$发生的时间间隔为$[s_i,f_i)$。
+对于事件$a_i$和$a_j$，若有$s_i\ge f_j$或$s_j\ge f_j$，则称为两个事件兼容，即两个事件的时间不重合。
 假设：$f_1\le f_2\le……\le f_{n-1}\le f_n$。
 目标是选择能够兼容发生的事件的最大子集。
 例：
@@ -65,8 +65,8 @@ https://github.com/alex-shpak/hugo-book
 最优函数值最大的可行方案称为最优方案。
 核心思想#每个步骤都选择最优解，上一步选择的结果在后续步骤中不会改变，即不能撤销前面步骤，同时每个选择都应确保方案可行。
 注意：
-贪婪算法只在当前最优解即为总体最优解时能正确解出最优解，即local optimum = global optimum的gool luck情况。 贪婪算法不能保证结果一定为最优，但它给出的结果一定与最优结果取值相近，即启发式算法（heuristics）。因此当寻找实际的最优解需要耗费大量时间时，直觉上可以采用贪婪算法。good enough。 活动选择问题#给出需要共用同一资源的一系列时间，记为$$S={a_1,a_2,……,a_n}$$。每个事件$$a_i$$发生的时间间隔为$$[s_i,f_i)$$。
-对于事件$$a_i$$和$$a_j$$，若有$$s_i\ge f_j$$或$s_j\ge f_j$，则称为两个事件兼容，即两个事件的时间不重合。
+贪婪算法只在当前最优解即为总体最优解时能正确解出最优解，即local optimum = global optimum的gool luck情况。 贪婪算法不能保证结果一定为最优，但它给出的结果一定与最优结果取值相近，即启发式算法（heuristics）。因此当寻找实际的最优解需要耗费大量时间时，直觉上可以采用贪婪算法。good enough。 活动选择问题#给出需要共用同一资源的一系列时间，记为$S={a_1,a_2,……,a_n}$。每个事件$a_i$发生的时间间隔为$[s_i,f_i)$。
+对于事件$a_i$和$a_j$，若有$s_i\ge f_j$或$s_j\ge f_j$，则称为两个事件兼容，即两个事件的时间不重合。
 假设：$f_1\le f_2\le……\le f_{n-1}\le f_n$。
 目标是选择能够兼容发生的事件的最大子集。
 例：
@@ -671,7 +671,7 @@ $c_{1,j-1}$表示不选取$a_j$时的最优解，$c_{1,k(j)}$表示在$a_j$之�
 <ul>
   
   <li>
-    <a href="https://github.com/64bitpandas/amethyst"  target="_blank" rel="noopener">
+    <a href="https://github.com/ArcticPirateL"  target="_blank" rel="noopener">
         Github
       </a>
   </li>
@@ -1076,8 +1076,8 @@ $c_{1,j-1}$表示不选取$a_j$时的最优解，$c_{1,k(j)}$表示在$a_j$之�
   活动选择问题
   <a class="anchor" href="#%e6%b4%bb%e5%8a%a8%e9%80%89%e6%8b%a9%e9%97%ae%e9%a2%98">#</a>
 </h2>
-<p>给出需要共用同一资源的一系列时间，记为$$S={a_1,a_2,……,a_n}$$。每个事件$$a_i$$发生的时间间隔为$$[s_i,f_i)$$。</p>
-<p>对于事件$$a_i$$和$$a_j$$，若有$$s_i\ge f_j$$或$s_j\ge f_j$，则称为两个事件<strong>兼容</strong>，即两个事件的时间不重合。</p>
+<p>给出需要共用同一资源的一系列时间，记为$S={a_1,a_2,……,a_n}$。每个事件$a_i$发生的时间间隔为$[s_i,f_i)$。</p>
+<p>对于事件$a_i$和$a_j$，若有$s_i\ge f_j$或$s_j\ge f_j$，则称为两个事件<strong>兼容</strong>，即两个事件的时间不重合。</p>
 <p>假设：$f_1\le f_2\le……\le f_{n-1}\le f_n$。</p>
 <p>目标是选择能够兼容发生的事件的最大子集。</p>
 <p><strong>例</strong>：</p>
@@ -1479,7 +1479,7 @@ $c_{1,j-1}$表示不选取$a_j$时的最优解，$c_{1,k(j)}$表示在$a_j$之�
     <footer>
         
         
-        <p>Made with <a href="https://github.com/64bitpandas/amethyst">Amethyst</a>, © 2023 Ben Cuan</p>
+        <p>Made with <a href="https://github.com/64bitpandas/amethyst">Amethyst</a>, © 2023 Arctic</p>
         <ul>
             
             <li><a href="https://ArcticPirateL.github.io">Home</a></li>

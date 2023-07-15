@@ -6,7 +6,7 @@
 定义processor i为$c=a&#43;b$。如下代码表示并行计算$A(i)=B(i)$。其中==pardo==为并行运算的关键字。
 for Pi, 1 &lt;= i &lt;= n pardo A(i) := B(i) 存在问题：多个进程同时写同一个内存块。
 解决访问冲突
-Exclusive-Read Exclusive-Write（EREW）：同时只允许一个进程读或写。 Concurrently-Read Exclusive-Write（CREW）：可以同时读，禁止同时写。 Concurrently-Read Concurrently-Write（CRCW）：可以同时读或写。 Arbitrary rule：随机选择一个进程执行。 *Priority rule（P with the smallest number）：*按优先级选择进程执行。 Common rule：当所有进程写的是同一个值的时候允许。 实例1：加和计算
+Exclusive-Read Exclusive-Write（EREW）：同时只允许一个进程读或写。 Concurrently-Read Exclusive-Write（CREW）：可以同时读，禁止同时写。 Concurrently-Read Concurrently-Write（CRCW）：可以同时读或写。 Arbitrary rule：随机选择一个进程执行。 Priority rule（P with the smallest number）： 按优先级选择进程执行。 Common rule：当所有进程写的是同一个值的时候允许。 实例1：加和计算
 输入$A(1),A(2),\ldots,A(n)$，输出$A(1)&#43;A(2)&#43;\ldots&#43;A(n)$。
 从底层到顶层计算，形成完全二叉树，规律如下：
 代码表示：共执行了$log n&#43;2$次操作，每次操作为常数时间。
@@ -15,7 +15,7 @@ Exclusive-Read Exclusive-Write（EREW）：同时只允许一个进程读或写�
 ==实际上的：==只有部分处理器在工作。
 因此标准PRAM存在一些弱点：
 没有揭示算法将如何运行在不同数量的处理器上。即加上或减去一些处理器会对算法有怎样的影响。 完全指定处理器的指令分配需要一定程度的细节。 WD模型#每个处理器执行不同条数的指令。
-衡量并行算法的性能#***work load：***总操作数$W(n)$。 最坏情况运行时间：$T(n)$。 实例1：Prefix-Sums#输入$A(0),A(1),\ldots,A(n)$，输出$\Sigma_{i=1}^{1}A(i),\Sigma_{i=1}^{2}A(i),\ldots,\Sigma_{i=1}^{n}A(i)$。" />
+衡量并行算法的性能#work load： 总操作数$W(n)$。 最坏情况运行时间：$T(n)$。 实例1：Prefix-Sums#输入$A(0),A(1),\ldots,A(n)$，输出$\Sigma_{i=1}^{1}A(i),\Sigma_{i=1}^{2}A(i),\ldots,\Sigma_{i=1}^{n}A(i)$。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%B9%B6%E8%A1%8C%E7%AE%97%E6%B3%95/" /><meta property="article:section" content="数据结构" />
 
@@ -41,7 +41,7 @@ https://github.com/alex-shpak/hugo-book
 定义processor i为$c=a&#43;b$。如下代码表示并行计算$A(i)=B(i)$。其中==pardo==为并行运算的关键字。
 for Pi, 1 &lt;= i &lt;= n pardo A(i) := B(i) 存在问题：多个进程同时写同一个内存块。
 解决访问冲突
-Exclusive-Read Exclusive-Write（EREW）：同时只允许一个进程读或写。 Concurrently-Read Exclusive-Write（CREW）：可以同时读，禁止同时写。 Concurrently-Read Concurrently-Write（CRCW）：可以同时读或写。 Arbitrary rule：随机选择一个进程执行。 *Priority rule（P with the smallest number）：*按优先级选择进程执行。 Common rule：当所有进程写的是同一个值的时候允许。 实例1：加和计算
+Exclusive-Read Exclusive-Write（EREW）：同时只允许一个进程读或写。 Concurrently-Read Exclusive-Write（CREW）：可以同时读，禁止同时写。 Concurrently-Read Concurrently-Write（CRCW）：可以同时读或写。 Arbitrary rule：随机选择一个进程执行。 Priority rule（P with the smallest number）： 按优先级选择进程执行。 Common rule：当所有进程写的是同一个值的时候允许。 实例1：加和计算
 输入$A(1),A(2),\ldots,A(n)$，输出$A(1)&#43;A(2)&#43;\ldots&#43;A(n)$。
 从底层到顶层计算，形成完全二叉树，规律如下：
 代码表示：共执行了$log n&#43;2$次操作，每次操作为常数时间。
@@ -50,7 +50,7 @@ Exclusive-Read Exclusive-Write（EREW）：同时只允许一个进程读或写�
 ==实际上的：==只有部分处理器在工作。
 因此标准PRAM存在一些弱点：
 没有揭示算法将如何运行在不同数量的处理器上。即加上或减去一些处理器会对算法有怎样的影响。 完全指定处理器的指令分配需要一定程度的细节。 WD模型#每个处理器执行不同条数的指令。
-衡量并行算法的性能#***work load：***总操作数$W(n)$。 最坏情况运行时间：$T(n)$。 实例1：Prefix-Sums#输入$A(0),A(1),\ldots,A(n)$，输出$\Sigma_{i=1}^{1}A(i),\Sigma_{i=1}^{2}A(i),\ldots,\Sigma_{i=1}^{n}A(i)$。"
+衡量并行算法的性能#work load： 总操作数$W(n)$。 最坏情况运行时间：$T(n)$。 实例1：Prefix-Sums#输入$A(0),A(1),\ldots,A(n)$，输出$\Sigma_{i=1}^{1}A(i),\Sigma_{i=1}^{2}A(i),\ldots,\Sigma_{i=1}^{n}A(i)$。"
 />
 <title>
   📓 Arctic的笔记本
@@ -625,7 +625,7 @@ Exclusive-Read Exclusive-Write（EREW）：同时只允许一个进程读或写�
 <ul>
   
   <li>
-    <a href="https://github.com/64bitpandas/amethyst"  target="_blank" rel="noopener">
+    <a href="https://github.com/ArcticPirateL"  target="_blank" rel="noopener">
         Github
       </a>
   </li>
@@ -781,7 +781,7 @@ Exclusive-Read Exclusive-Write（EREW）：同时只允许一个进程读或写�
 <li><em><strong>Concurrently-Read Concurrently-Write</strong></em>（CRCW）：可以同时读或写。
 <ul>
 <li><em>Arbitrary rule</em>：随机选择一个进程执行。</li>
-<li>*Priority rule（P with the smallest number）：*按优先级选择进程执行。</li>
+<li><em>Priority rule（P with the smallest number）：</em> 按优先级选择进程执行。</li>
 <li><em>Common rule</em>：当所有进程写的是同一个值的时候允许。</li>
 </ul>
 </li>
@@ -836,7 +836,7 @@ Exclusive-Read Exclusive-Write（EREW）：同时只允许一个进程读或写�
   <a class="anchor" href="#%e8%a1%a1%e9%87%8f%e5%b9%b6%e8%a1%8c%e7%ae%97%e6%b3%95%e7%9a%84%e6%80%a7%e8%83%bd">#</a>
 </h3>
 <ul>
-<li>***work load：***总操作数$W(n)$。</li>
+<li><em><strong>work load：</strong></em> 总操作数$W(n)$。</li>
 <li>最坏情况运行时间：$T(n)$。</li>
 </ul>
 <p>
@@ -940,7 +940,7 @@ Exclusive-Read Exclusive-Write（EREW）：同时只允许一个进程读或写�
     <footer>
         
         
-        <p>Made with <a href="https://github.com/64bitpandas/amethyst">Amethyst</a>, © 2023 Ben Cuan</p>
+        <p>Made with <a href="https://github.com/64bitpandas/amethyst">Amethyst</a>, © 2023 Arctic</p>
         <ul>
             
             <li><a href="https://ArcticPirateL.github.io">Home</a></li>
