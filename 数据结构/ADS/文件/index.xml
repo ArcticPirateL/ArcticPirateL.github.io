@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title></title>
+    <link>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%96%87%E4%BB%B6/</link>
+    <description>Recent content on </description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%96%87%E4%BB%B6/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%96%87%E4%BB%B6/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%96%87%E4%BB%B6/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/</guid>
+      <description>倒排索引#概述#AVL树、Splay树、红黑树、B+树等数据结构的核心目标是在数据量很大时提高搜索查找的速度。
+倒排索引用于理解和评价比较搜索引擎。
+构建搜索引擎#Term-Document关联矩阵#行为词，列为文件，表示某个词是否出现在某个文件中。
+合并两个词查找对两行按位取与即可。
+存在的问题： 矩阵大小会很大且包含很多0。
+解决：使用索引（inverted file index）。
+倒排索引#索引定义#类似指针，用于在文档中存储某个给定单词的地址的方法。
+倒排文件#包括一系列指针，指向某个单词出现过的所有文件。
+括号中表示这一单词在第几个文件中的第几个单词的位置。
+问题：为什么posting list中要存储单词出现的次数（times）？
+计算机在搜索时，从出现频率最小的单词开始，以节省查找时间。
+索引生成#在爬虫爬取所有网页（理解为文件）后，遍历所有文件，生成索引。
+较难解决的问题：
+read阶段：如何判断一个词是一个词。 解决：停止词 find阶段：如何快速查找一个词。 解决：搜索树或哈希 insert阶段：如何快速查找一个词的位置并插入。解决：搜索树或哈希 write阶段：如何存储索引。 解决：存储到磁盘上 read阶段#word stemming
+将一个单词转换为它的词干或词根。
+stop word
+经常出现的词，几乎所有文件都会包含，如the、a、it等等。无效索引，称为停止词，需要从原始文件中剔除。
+find和insert阶段#搜索树
+B+树、B-树等。
+哈希
+设计哈希函数。
+哈希和搜索树相比的优缺点
+在搜索单个单词时，哈希要更快；按一定顺序搜索哈希不能实现（如系列词搜索）。
+存储阶段#若存储空间不够时：
+在遍历时判断是否内存超限，若是，将当前块写回，并释放内存开启新的块。
+遍历结束后按块将block index与总的倒排索引合并，为提高效率，块之间通常保持一定顺序。
+分布式索引#distributed index，用于网页级别的索引，数据量很大。
+由多个节点组成，每个节点保存一个子集的索引集合。
+关键在于如何定义“子集”。
+关键词分区索引（term-partitioned index）</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%96%87%E4%BB%B6/%E5%A4%96%E9%83%A8%E6%8E%92%E5%BA%8F/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%96%87%E4%BB%B6/%E5%A4%96%E9%83%A8%E6%8E%92%E5%BA%8F/</guid>
+      <description>外部排序（external sorting）#排序大数，当无法完全加载到内存中时，数据存储在一个或多个磁盘中。
+无法简单使用快速排序，解决办法是将数据按顺序存储，使用指针同方向遍历。
+使用归并排序，需要三个头指针，每次每个指针移动一次。</description>
+    </item>
+    
+  </channel>
+</rss>

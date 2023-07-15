@@ -2,22 +2,27 @@
 <html lang="en" dir="ltr">
 <head>
   <meta property="og:title" content="" />
-<meta property="og:description" content="ADS绪论#高级数据结构与算法分析主要包括三块问题：
-动态查找问题#总体目的：查找树且完全二叉树（降低高度）。
-难度过大，因此数据结构核心目标：有一定自由度。因此需要考虑如何进行树的平衡。
-高级堆（优先队列问题）#总体目的：插入任意&amp;删除最小/最大。
-结构特性：完全二叉树（structure property）
-排序特性：结点上满足堆的条件（所在子树最大/最小）（order property）。
-新问题：云计算，每个云端服务器管理一个堆，本质上为资源整合。（弹性计算）
-​ 云计算的调度问题，把正在计算的任务迁移到其他机器，使其最高效运转，即两个优先队列的合并问题。
-算法思想#包括分治算法、动态规划、贪婪算法、NPC问题……
-大致归为两类：
-经典算法：如贪婪算法、分治算法…… 非经典算法：寻找次优解，如加速、并行…… " />
+<meta property="og:description" content="斜堆#概述#左式堆和斜堆的关系类似于AVL树和Splay树的关系。斜堆是左式堆的简化版，不需要考虑Npl。
+目标#连续M个操作总时间复杂度为$O(MlogN)$。
+合并操作#总是交换左右子堆，不考虑Npl。
+选择根节点较小的堆不变，将其左子堆换到右子堆的位置，再将原来的右子堆与另一个堆合并后attach到新堆的左子堆上。
+当最后一步与空堆合并时，无需交换左右子堆。
+注意最终得到的堆不一定是左式堆。
+递归求解#迭代求解#分析#斜堆的优势#可以节省存放Npl所需的额外空间，且交换左右子堆时无需比较Npl大小。
+准确的右路径长度仍然未知。
+摊还分析#插入和删除操作均属于合并操作。只要证明合并的均摊时间复杂度为$O(logN)$即可。
+势能函数定义：
+右子堆节点个数？No，由于最初为空堆，势能为0，后面任何操作势能都会大于0，缺少势能减少的方向（bad luck）的情况。 正确答案：heavy nodes的个数。 heavy nodes定义
+对于一个节点，若其右侧的节点总数不小于总节点数的一半（即大于左侧节点总数），则称这个节点为heavy node，代表bad luck的情况；若反之，左侧节点总数大于右侧，则称为light node，代表good luck的情况。
+注意：这里的总节点数包括了根节点本身，因此左右子堆节点数相同的点不属于heavy node或light node。
+规律： heavy或light性质前后发生改变的节点一定在最初的右路径上。
+​ 且在右路径上原heavy的节点经过merge后一定会变成light节点。
+​ 且在右路径上原light的节点经过merge后不一定会变成heavy节点。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/ADS%E7%BB%AA%E8%AE%BA/" /><meta property="article:section" content="数据结构" />
+<meta property="og:url" content="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E6%96%9C%E5%A0%86/" /><meta property="article:section" content="数据结构" />
 
 <meta property="og:site_name" content="📓 Arctic的笔记本" />
-<title>Ads绪论 | 📓 Arctic的笔记本</title>
+<title>斜堆 | 📓 Arctic的笔记本</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.45ec1f6261e17c6488824ac77b6b8a0c11eef38eaed587cfecad4b284f57ee79.css" integrity="sha256-RewfYmHhfGSIgkrHe2uKDBHu846u1YfP7K1LKE9X7nk=" crossorigin="anonymous">
@@ -34,17 +39,22 @@ https://github.com/alex-shpak/hugo-book
 <meta charset="UTF-8" />
 <meta
   name="description"
-  content="ADS绪论#高级数据结构与算法分析主要包括三块问题：
-动态查找问题#总体目的：查找树且完全二叉树（降低高度）。
-难度过大，因此数据结构核心目标：有一定自由度。因此需要考虑如何进行树的平衡。
-高级堆（优先队列问题）#总体目的：插入任意&amp;删除最小/最大。
-结构特性：完全二叉树（structure property）
-排序特性：结点上满足堆的条件（所在子树最大/最小）（order property）。
-新问题：云计算，每个云端服务器管理一个堆，本质上为资源整合。（弹性计算）
-​ 云计算的调度问题，把正在计算的任务迁移到其他机器，使其最高效运转，即两个优先队列的合并问题。
-算法思想#包括分治算法、动态规划、贪婪算法、NPC问题……
-大致归为两类：
-经典算法：如贪婪算法、分治算法…… 非经典算法：寻找次优解，如加速、并行…… "
+  content="斜堆#概述#左式堆和斜堆的关系类似于AVL树和Splay树的关系。斜堆是左式堆的简化版，不需要考虑Npl。
+目标#连续M个操作总时间复杂度为$O(MlogN)$。
+合并操作#总是交换左右子堆，不考虑Npl。
+选择根节点较小的堆不变，将其左子堆换到右子堆的位置，再将原来的右子堆与另一个堆合并后attach到新堆的左子堆上。
+当最后一步与空堆合并时，无需交换左右子堆。
+注意最终得到的堆不一定是左式堆。
+递归求解#迭代求解#分析#斜堆的优势#可以节省存放Npl所需的额外空间，且交换左右子堆时无需比较Npl大小。
+准确的右路径长度仍然未知。
+摊还分析#插入和删除操作均属于合并操作。只要证明合并的均摊时间复杂度为$O(logN)$即可。
+势能函数定义：
+右子堆节点个数？No，由于最初为空堆，势能为0，后面任何操作势能都会大于0，缺少势能减少的方向（bad luck）的情况。 正确答案：heavy nodes的个数。 heavy nodes定义
+对于一个节点，若其右侧的节点总数不小于总节点数的一半（即大于左侧节点总数），则称这个节点为heavy node，代表bad luck的情况；若反之，左侧节点总数大于右侧，则称为light node，代表good luck的情况。
+注意：这里的总节点数包括了根节点本身，因此左右子堆节点数相同的点不属于heavy node或light node。
+规律： heavy或light性质前后发生改变的节点一定在最初的右路径上。
+​ 且在右路径上原heavy的节点经过merge后一定会变成light节点。
+​ 且在右路径上原light的节点经过merge后不一定会变成heavy节点。"
 />
 <title>
   📓 Arctic的笔记本
@@ -379,7 +389,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/ADS%E7%BB%AA%E8%AE%BA/" class="active">Ads绪论</a>
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/ADS%E7%BB%AA%E8%AE%BA/" class="">Ads绪论</a>
   
 
         </li>
@@ -392,7 +402,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-90596e9847a82884c56cd4b76f9de37a" class="toggle"  />
+    <input type="checkbox" id="section-90596e9847a82884c56cd4b76f9de37a" class="toggle" checked />
     <label for="section-90596e9847a82884c56cd4b76f9de37a" class="flex justify-between">
       <a role="button" class="book-collapse-toggle ">堆</a>
     </label>
@@ -434,7 +444,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E6%96%9C%E5%A0%86/" class="">斜堆</a>
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E6%96%9C%E5%A0%86/" class="active">斜堆</a>
   
 
         </li>
@@ -732,7 +742,7 @@ https://github.com/alex-shpak/hugo-book
       
       
   <article class="markdown">
-    <h1 class="title">Ads绪论</h1>
+    <h1 class="title">斜堆</h1>
     
 
 
@@ -740,6 +750,12 @@ https://github.com/alex-shpak/hugo-book
 
 
 
+  
+  
+
+  
+  
+
 
 
 
@@ -762,44 +778,104 @@ https://github.com/alex-shpak/hugo-book
   
   
   
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
   
   
+  
 
 
 
 
 
 
-<h1 id="ads绪论">
-  ADS绪论
-  <a class="anchor" href="#ads%e7%bb%aa%e8%ae%ba">#</a>
+<h1 id="斜堆">
+  斜堆
+  <a class="anchor" href="#%e6%96%9c%e5%a0%86">#</a>
 </h1>
-<p>高级数据结构与算法分析主要包括三块问题：</p>
-<h2 id="动态查找问题">
-  动态查找问题
-  <a class="anchor" href="#%e5%8a%a8%e6%80%81%e6%9f%a5%e6%89%be%e9%97%ae%e9%a2%98">#</a>
+<h2 id="概述">
+  概述
+  <a class="anchor" href="#%e6%a6%82%e8%bf%b0">#</a>
 </h2>
-<p><strong>总体目的</strong>：查找树且完全二叉树（降低高度）。</p>
-<p>难度过大，因此数据结构核心目标：有一定自由度。因此需要考虑如何进行树的平衡。</p>
-<h2 id="高级堆优先队列问题">
-  高级堆（优先队列问题）
-  <a class="anchor" href="#%e9%ab%98%e7%ba%a7%e5%a0%86%e4%bc%98%e5%85%88%e9%98%9f%e5%88%97%e9%97%ae%e9%a2%98">#</a>
+<p>左式堆和斜堆的关系类似于AVL树和Splay树的关系。斜堆是左式堆的简化版，不需要考虑Npl。</p>
+<h2 id="目标">
+  目标
+  <a class="anchor" href="#%e7%9b%ae%e6%a0%87">#</a>
 </h2>
-<p><strong>总体目的</strong>：插入任意&amp;删除最小/最大。</p>
-<p><strong>结构特性</strong>：完全二叉树（structure property）</p>
-<p><strong>排序特性</strong>：结点上满足堆的条件（所在子树最大/最小）（order property）。</p>
-<p><strong>新问题</strong>：云计算，每个云端服务器管理一个堆，本质上为资源整合。（弹性计算）</p>
-<p>​               云计算的调度问题，把正在计算的任务迁移到其他机器，使其最高效运转，即<strong>两个优先队列的合并</strong>问题。</p>
-<h2 id="算法思想">
-  算法思想
-  <a class="anchor" href="#%e7%ae%97%e6%b3%95%e6%80%9d%e6%83%b3">#</a>
+<p>连续M个操作总时间复杂度为$O(MlogN)$。</p>
+<h2 id="合并操作">
+  合并操作
+  <a class="anchor" href="#%e5%90%88%e5%b9%b6%e6%93%8d%e4%bd%9c">#</a>
 </h2>
-<p>包括分治算法、动态规划、贪婪算法、NPC问题……</p>
-<p>大致归为两类：</p>
+<p><strong>总是交换</strong>左右子堆，不考虑Npl。</p>
+<p>选择根节点较小的堆不变，将其左子堆换到右子堆的位置，再将原来的右子堆与另一个堆合并后attach到新堆的左子堆上。</p>
+<blockquote>
+<p>当最后一步与空堆合并时，无需交换左右子堆。</p>
+<p>注意最终得到的堆不一定是左式堆。</p>
+</blockquote>
+<h3 id="递归求解">
+  递归求解
+  <a class="anchor" href="#%e9%80%92%e5%bd%92%e6%b1%82%e8%a7%a3">#</a>
+</h3>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E5%A0%86%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424230833310.png" width="auto" alt="image-20230424230833310"  /></p>
+<h3 id="迭代求解">
+  迭代求解
+  <a class="anchor" href="#%e8%bf%ad%e4%bb%a3%e6%b1%82%e8%a7%a3">#</a>
+</h3>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E5%A0%86%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424231104930.png" width="auto" alt="image-20230424231104930"  /></p>
+<h2 id="分析">
+  分析
+  <a class="anchor" href="#%e5%88%86%e6%9e%90">#</a>
+</h2>
+<h3 id="斜堆的优势">
+  斜堆的优势
+  <a class="anchor" href="#%e6%96%9c%e5%a0%86%e7%9a%84%e4%bc%98%e5%8a%bf">#</a>
+</h3>
+<p>可以节省存放Npl所需的额外空间，且交换左右子堆时无需比较Npl大小。</p>
+<p>准确的右路径长度仍然未知。</p>
+<h3 id="摊还分析">
+  摊还分析
+  <a class="anchor" href="#%e6%91%8a%e8%bf%98%e5%88%86%e6%9e%90">#</a>
+</h3>
+<p>插入和删除操作均属于合并操作。只要证明合并的均摊时间复杂度为$O(logN)$即可。</p>
+<p><strong>势能函数定义：</strong></p>
 <ul>
-<li>经典算法：如贪婪算法、分治算法……</li>
-<li>非经典算法：寻找次优解，如加速、并行……</li>
+<li>右子堆节点个数？No，由于最初为空堆，势能为0，后面任何操作势能都会大于0，缺少势能减少的方向（bad luck）的情况。</li>
+<li>正确答案：<strong>heavy nodes</strong>的个数。</li>
 </ul>
+<p><strong>heavy nodes定义</strong></p>
+<p>对于一个节点，若其右侧的节点总数不小于总节点数的一半（即大于左侧节点总数），则称这个节点为heavy node，代表bad luck的情况；若反之，左侧节点总数大于右侧，则称为light node，代表good luck的情况。</p>
+<blockquote>
+<p>注意：这里的总节点数包括了根节点本身，因此左右子堆节点数相同的点不属于heavy node或light node。</p>
+</blockquote>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E5%A0%86%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424232802573.png" width="auto" alt="image-20230424232802573"  /></p>
+<p><strong>规律：</strong> heavy或light性质前后发生改变的节点一定在最初的右路径上。</p>
+<p>​           且在右路径上原heavy的节点经过merge后一定会变成light节点。</p>
+<p>​           且在右路径上原light的节点经过merge后不一定会变成heavy节点。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E5%A0%86%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424233051427.png" width="auto" alt="image-20230424233051427"  /></p>
 
 
     
@@ -890,11 +966,22 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#ads绪论">ADS绪论</a>
+    <li><a href="#斜堆">斜堆</a>
       <ul>
-        <li><a href="#动态查找问题">动态查找问题</a></li>
-        <li><a href="#高级堆优先队列问题">高级堆（优先队列问题）</a></li>
-        <li><a href="#算法思想">算法思想</a></li>
+        <li><a href="#概述">概述</a></li>
+        <li><a href="#目标">目标</a></li>
+        <li><a href="#合并操作">合并操作</a>
+          <ul>
+            <li><a href="#递归求解">递归求解</a></li>
+            <li><a href="#迭代求解">迭代求解</a></li>
+          </ul>
+        </li>
+        <li><a href="#分析">分析</a>
+          <ul>
+            <li><a href="#斜堆的优势">斜堆的优势</a></li>
+            <li><a href="#摊还分析">摊还分析</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>

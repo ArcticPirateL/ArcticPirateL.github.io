@@ -1,238 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>💜 欢迎光临我的海域~ on </title>
-    <link>https://ArcticPirateL.github.io/</link>
-    <description>Recent content in 💜 欢迎光临我的海域~ on </description>
-    <generator>Hugo -- gohugo.io</generator><atom:link href="https://ArcticPirateL.github.io/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title></title>
-      <link>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/ADS%E7%BB%AA%E8%AE%BA/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/ADS%E7%BB%AA%E8%AE%BA/</guid>
-      <description>ADS绪论#高级数据结构与算法分析主要包括三块问题：
-动态查找问题#总体目的：查找树且完全二叉树（降低高度）。
-难度过大，因此数据结构核心目标：有一定自由度。因此需要考虑如何进行树的平衡。
-高级堆（优先队列问题）#总体目的：插入任意&amp;amp;删除最小/最大。
-结构特性：完全二叉树（structure property）
-排序特性：结点上满足堆的条件（所在子树最大/最小）（order property）。
-新问题：云计算，每个云端服务器管理一个堆，本质上为资源整合。（弹性计算）
-​ 云计算的调度问题，把正在计算的任务迁移到其他机器，使其最高效运转，即两个优先队列的合并问题。
-算法思想#包括分治算法、动态规划、贪婪算法、NPC问题……
-大致归为两类：
-经典算法：如贪婪算法、分治算法…… 非经典算法：寻找次优解，如加速、并行…… </description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E4%BA%8C%E9%A1%B9%E9%98%9F%E5%88%97/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E4%BA%8C%E9%A1%B9%E9%98%9F%E5%88%97/</guid>
-      <description>二项队列#定义#不是单个的堆结构的树，而是堆结构树的集合，成为森林。其中的每棵堆结构树都是一个二项树。
-height为0的二项树只有一个节点。
-height为k的二项树成为$B_k$，由一个$B_{k-1}$树连接到另一个$B_{k-1}$树的根节点上得到。
-规律：$B_k$树有k个儿子，包含$2^k$个节点，深度为d处的节点数为$C^k_d$。
-结论：任意大小的优先队列都能用唯一的二项树集合表示。
-操作#FindMin#找到最小值，遍历查找所有根中的最小值即可，最多共有$logN$个根节点，时间复杂度为$O(logN)$。
-可以选择记录最小值所在的根，若更改则更新，此时时间复杂度为$O(1)$。
-然而若常见操作为delete min而不是find min，将会频繁的更新，用途不显著。
-Merge#类似于二进制加法。合并时可能由多种选择，不同选择结果不同，无硬性规定。
-合并时需确保新的根节点为较小的根。
-时间复杂度取决于树的数量，为$O(logN)$。
-必须将合并后的树进行按高度排序，而非按key值排序。
-Insertion#插入属于特殊的合并操作，时间复杂度同样为$O(logN)$。
-若最小的不存在的树是$B_i$，则时间复杂度为$T_p=Const*(i+1)$。
-向初始为空的二项队列中插入N次，会发生最坏情况为$O(N)$，因此平均时间为常数时间。
-DeleteMin#FindMin in $B_k$。$O(logN)$ 在二项队列中移除$B_k$。$O(1)$ 移除$B_k$的根节点。$O(logN)$ 合并两个二项队列。$O(logN)$ 因此，总时间复杂度为$O(logN)$。</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E5%B7%A6%E5%BC%8F%E5%A0%86/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E5%B7%A6%E5%BC%8F%E5%A0%86/</guid>
-      <description>左式堆#目标：#减少合并堆的时间复杂度到O(N)。
-堆：结构特性（完全二叉树）+排列特性（最小堆）
-其他堆存在的问题：若用数组存储，时间复杂度为θ(N)，不是上界；若用指针存储，找到下一条指针的过程所有操作时间都将增加。
-概述#order property：与二叉堆相同，最小值在上。
-structure property：不平衡二叉树。
-定义#null path length：#Npl(X)，表示任何节点X到没有两个儿子的节点的最短路径长度。定义$Npl(NULL)=-1$。（叶子节点的Npl为0）
-Npl计算：从底层向顶层扩展。公式如下：Npl(X) = min { Npl(C) + 1 for all C as children of X }
-structure property#对于每个节点X，其左儿子的Npl大于等于右儿子的Npl。更倾向于向左延伸。
-定理#若右路径包含r个节点，则左式堆至少包含$2^r$个节点。
-若左式堆包含N个节点，则右路径最多包含$log(N+1)$个节点。
-因此，若能够实现所有操作均在右路径上进行，则可以限制操作的时间复杂度。
-困难情况：插入和合并。又因为插入属于合并的特殊情况，因此只需解决合并问题即可。
-实现原理#节点数据结构#element、left pointer、right pointer、Npl
-实例（递归求解）#首先比较根节点大小，较小的一方不变。即将H2与H1的右子堆合并。Merge(H1-&amp;gt;right, H2)
-将得到的新堆赋值给原H1的右子堆。Attach(H2, H1-&amp;gt;right)
-如果不符合左式堆条件，交换左右子堆。Swap(H1-&amp;gt;left, H1-&amp;gt;right)
-代码实现#时间复杂度：$T_p=O(logN)$
-实例（迭代求解）#选择根节点较小的堆，左子堆不变。 两个堆的右路径按大小排序，依次插入到上一步选择出的堆的右子堆上。（每个节点与其左子堆绑定）（此时并不符合左式堆） 对于右路径，从底层到顶层，检查Npl，如果不符合左式堆则调换左右子堆。 对于递归和迭代，所有操作时间复杂度均为log N。</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E6%96%9C%E5%A0%86/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E6%96%9C%E5%A0%86/</guid>
-      <description>斜堆#概述#左式堆和斜堆的关系类似于AVL树和Splay树的关系。斜堆是左式堆的简化版，不需要考虑Npl。
-目标#连续M个操作总时间复杂度为$O(MlogN)$。
-合并操作#总是交换左右子堆，不考虑Npl。
-选择根节点较小的堆不变，将其左子堆换到右子堆的位置，再将原来的右子堆与另一个堆合并后attach到新堆的左子堆上。
-当最后一步与空堆合并时，无需交换左右子堆。
-注意最终得到的堆不一定是左式堆。
-递归求解#迭代求解#分析#斜堆的优势#可以节省存放Npl所需的额外空间，且交换左右子堆时无需比较Npl大小。
-准确的右路径长度仍然未知。
-摊还分析#插入和删除操作均属于合并操作。只要证明合并的均摊时间复杂度为$O(logN)$即可。
-势能函数定义：
-右子堆节点个数？No，由于最初为空堆，势能为0，后面任何操作势能都会大于0，缺少势能减少的方向（bad luck）的情况。 正确答案：heavy nodes的个数。 heavy nodes定义
-对于一个节点，若其右侧的节点总数不小于总节点数的一半（即大于左侧节点总数），则称这个节点为heavy node，代表bad luck的情况；若反之，左侧节点总数大于右侧，则称为light node，代表good luck的情况。
-注意：这里的总节点数包括了根节点本身，因此左右子堆节点数相同的点不属于heavy node或light node。
-规律： heavy或light性质前后发生改变的节点一定在最初的右路径上。
-​ 且在右路径上原heavy的节点经过merge后一定会变成light节点。
-​ 且在右路径上原light的节点经过merge后不一定会变成heavy节点。</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%96%87%E4%BB%B6/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%96%87%E4%BB%B6/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/</guid>
-      <description>倒排索引#概述#AVL树、Splay树、红黑树、B+树等数据结构的核心目标是在数据量很大时提高搜索查找的速度。
-倒排索引用于理解和评价比较搜索引擎。
-构建搜索引擎#Term-Document关联矩阵#行为词，列为文件，表示某个词是否出现在某个文件中。
-合并两个词查找对两行按位取与即可。
-存在的问题： 矩阵大小会很大且包含很多0。
-解决：使用索引（inverted file index）。
-倒排索引#索引定义#类似指针，用于在文档中存储某个给定单词的地址的方法。
-倒排文件#包括一系列指针，指向某个单词出现过的所有文件。
-括号中表示这一单词在第几个文件中的第几个单词的位置。
-问题：为什么posting list中要存储单词出现的次数（times）？
-计算机在搜索时，从出现频率最小的单词开始，以节省查找时间。
-索引生成#在爬虫爬取所有网页（理解为文件）后，遍历所有文件，生成索引。
-较难解决的问题：
-read阶段：如何判断一个词是一个词。 解决：停止词 find阶段：如何快速查找一个词。 解决：搜索树或哈希 insert阶段：如何快速查找一个词的位置并插入。解决：搜索树或哈希 write阶段：如何存储索引。 解决：存储到磁盘上 read阶段#word stemming
-将一个单词转换为它的词干或词根。
-stop word
-经常出现的词，几乎所有文件都会包含，如the、a、it等等。无效索引，称为停止词，需要从原始文件中剔除。
-find和insert阶段#搜索树
-B+树、B-树等。
-哈希
-设计哈希函数。
-哈希和搜索树相比的优缺点
-在搜索单个单词时，哈希要更快；按一定顺序搜索哈希不能实现（如系列词搜索）。
-存储阶段#若存储空间不够时：
-在遍历时判断是否内存超限，若是，将当前块写回，并释放内存开启新的块。
-遍历结束后按块将block index与总的倒排索引合并，为提高效率，块之间通常保持一定顺序。
-分布式索引#distributed index，用于网页级别的索引，数据量很大。
-由多个节点组成，每个节点保存一个子集的索引集合。
-关键在于如何定义“子集”。
-关键词分区索引（term-partitioned index）</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%96%87%E4%BB%B6/%E5%A4%96%E9%83%A8%E6%8E%92%E5%BA%8F/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%96%87%E4%BB%B6/%E5%A4%96%E9%83%A8%E6%8E%92%E5%BA%8F/</guid>
-      <description>外部排序（external sorting）#排序大数，当无法完全加载到内存中时，数据存储在一个或多个磁盘中。
-无法简单使用快速排序，解决办法是将数据按顺序存储，使用指针同方向遍历。
-使用归并排序，需要三个头指针，每次每个指针移动一次。</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/B&#43;%E6%A0%91/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/B&#43;%E6%A0%91/</guid>
-      <description>B+树#概述#常用于数据库、文件系统。大量数据通常存储在磁盘中而非主存，然而磁盘中查找文件速度较慢，为提升速度需要将存储空间划分为很多个block。
-B树是搜索树的一种，与二叉搜索树不同。B树包括原始B树、B+树、B-树等。
-定义#order为M的树。结构特性如下：
-根节点是叶子节点或有2到M个孩子。 除根节点外所有的非叶子节点有==[M/2, M]==个孩子。 所有叶子节点深度相同。 从底层向上层构建，平衡性非常好。
-所有真实数据都存放在叶子节点中。
-每个中间节点包括M个儿子指针和M-1个key，key存放除第一个子节点外的每个子节点中最小的元素值。
-所有叶子节点为从小到大的顺序。
-查找操作#与二叉搜索树类似，从根节点开始，比较节点的key值和要查找的值。
-插入操作#首先查找到将要插入的叶子节点位置。
-若满足B+树的节点数要求，直接插入即可。
-若不满足，则分裂成两个叶子节点，并更新父节点的key值。
-若导致父节点也不满足节点数要求，则继续向上分裂。
-存在问题：不断低效插入导致高度增加较快。此时可以优先考虑未满的叶子节点进行插入，使尽可能多的叶子节点达到full状态。
-代码实现#$$T(M,N)=O((\frac{M}{logM})logN)$$
-$$T_{Find}(M,N)=O(logN)$$
-$$Depth(M,N)=O(log_\frac{M}{2}N)$$
-根据时间复杂度公式，并不是M越大越高效。实际结果表明，M=3或4时表现最佳。</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/Splay%E6%A0%91/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/Splay%E6%A0%91/</guid>
-      <description>Splay Tree#目标#从空树开始的任何M个连续操作的最大时间开销为O(Mlog N)。（不表示所有操作均为O(log N)，实际上是amortized time为O(logN)）
-AVL树属于Splay树。因为AVL对于所有操作的时间复杂度均为O(log N)。
-amortized time：摊还时间
-核心思想#最坏情况为O(N)，但总时间保持不变。为避免连续多次最坏情况，出现过一次最坏情况的点，下次访问时一定需要到达最好情况。
-Splay树定义了这种移动方法：每次访问一个节点后，将其使用AVL树的规则翻转至根节点。
-不考虑平衡情况。
-查找方法#使用single-rotation#存在的问题：其他节点被换到更低的位置
-最坏情况：依次插入1……N，最终的树形式仍然非常不平衡。循环查找1……N，时间复杂度会非常坏。
-使用double-rotation#不仅考虑父子节点（X、P），同时加上祖父节点（G）。
-三种情况：
-P是根节点：X和P进行single-rotation
-P不是根节点：
-zig-zag：
-zig-zig：
-使用double-rotation的方式可以大致将最底层的深度减半，是更好的选择。
-删除方法#四个步骤：
-首先查找X：此时X为根。
-删除X：得到左右两个子树。
-找到左子树中的最大值：这个最大值成为左子树的根，且没有右子树。
-将原右子树连接到左子树上。
-Splay树 &amp;amp; AVL树#Splay树实现更简单（不需要时刻考虑BF）</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/%E7%BA%A2%E9%BB%91%E6%A0%91/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/%E7%BA%A2%E9%BB%91%E6%A0%91/</guid>
-      <description>红黑树#概述#AVL树是首个自平衡树，定义了“平衡”的衡量标准（BF）。
-Splay树是AVL树的简化版，无需考虑平衡，表现与AVL树相同。
-现实应用中存在其他定义“平衡”的方法：如红黑树、B+树，红黑树应用于C++STL中的map等类型。
-目标#平衡二叉搜索树。
-节点结构如下：
-NULL节点也称为NIL。
-定义#五个特性#每个节点是红色或黑色中的一个。 根节点为黑色。 每个NULL叶子节点为黑色。 红色节点的两个儿子一定为黑色。 对于每个节点，其到叶子节点的所有简单路径上黑色节点的个数相同。 black_height：从x到叶子节点的黑色节点的个数，不包括root包括NULL。bh(Tree) = bh(root)
-internal_nodes：除NIL节点外的结点。
-external_nodes：NIL节点。
-定理#拥有N个internal_nodes的红黑树，其高度最大为2ln(N+1)。
-即使没有AVL更为严格的平衡定义，红黑树也将其高度限制在了O(lgN)的水平。
-对于任何节点x，以x为根的所有子树的internal_nodes个数大于等于$2^{bh(x)}-1$。通过数学归纳法证明。
-将x替换为root，则sizeof(x) = N，得到$N&amp;gt;=2^{bh}-1$。
-bh(Tree) &amp;gt;= h(Tree)/2。
-证明：每条路径上，除根节点外，至少有一半的节点时黑色。
-$N &amp;gt;= 2^{bh}-1 &amp;gt;= 2^{h/2}-1$，证明结束。
-插入操作#需要尽可能避免改变红黑树的bh，避免重新平衡。因此新插入的节点颜色应为红色。但再次插入红节点时需要重新平衡，引出三种情况：
-Case 1#新节点为红色，父节点为红色，父节点的兄弟节点也为红色。
-解决方式：父代所有节点和祖父节点红黑颜色调换。
-Case 2#新节点为红色且是父节点的右儿子，父节点为红色，父节点的兄弟节点为黑色。
-解决方式：将新节点和其父节点进行一次旋转。
-Case 3#新节点为红色且是父亲的左儿子，父节点为红色，父节点的兄弟节点为黑色。
-解决方式：首先将父节点和祖父节点互换颜色，再将父节点作为新的根节点进行旋转。
-AVL树 &amp;amp; 红黑树#step 1：向二叉搜索树中插入节点。 step 2：从底层到顶层，检查BF/颜色是否符合规定。 最坏情况相同，都需要进行两次rotation。</description>
-    </item>
-    
+    <title></title>
+    <link>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/</link>
+    <description>Recent content on </description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title></title>
       <link>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/NP%E9%97%AE%E9%A2%98/</link>

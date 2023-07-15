@@ -2,22 +2,14 @@
 <html lang="en" dir="ltr">
 <head>
   <meta property="og:title" content="" />
-<meta property="og:description" content="ADS绪论#高级数据结构与算法分析主要包括三块问题：
-动态查找问题#总体目的：查找树且完全二叉树（降低高度）。
-难度过大，因此数据结构核心目标：有一定自由度。因此需要考虑如何进行树的平衡。
-高级堆（优先队列问题）#总体目的：插入任意&amp;删除最小/最大。
-结构特性：完全二叉树（structure property）
-排序特性：结点上满足堆的条件（所在子树最大/最小）（order property）。
-新问题：云计算，每个云端服务器管理一个堆，本质上为资源整合。（弹性计算）
-​ 云计算的调度问题，把正在计算的任务迁移到其他机器，使其最高效运转，即两个优先队列的合并问题。
-算法思想#包括分治算法、动态规划、贪婪算法、NPC问题……
-大致归为两类：
-经典算法：如贪婪算法、分治算法…… 非经典算法：寻找次优解，如加速、并行…… " />
+<meta property="og:description" content="外部排序（external sorting）#排序大数，当无法完全加载到内存中时，数据存储在一个或多个磁盘中。
+无法简单使用快速排序，解决办法是将数据按顺序存储，使用指针同方向遍历。
+使用归并排序，需要三个头指针，每次每个指针移动一次。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/ADS%E7%BB%AA%E8%AE%BA/" /><meta property="article:section" content="数据结构" />
+<meta property="og:url" content="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%96%87%E4%BB%B6/%E5%A4%96%E9%83%A8%E6%8E%92%E5%BA%8F/" /><meta property="article:section" content="数据结构" />
 
 <meta property="og:site_name" content="📓 Arctic的笔记本" />
-<title>Ads绪论 | 📓 Arctic的笔记本</title>
+<title>外部排序 | 📓 Arctic的笔记本</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.45ec1f6261e17c6488824ac77b6b8a0c11eef38eaed587cfecad4b284f57ee79.css" integrity="sha256-RewfYmHhfGSIgkrHe2uKDBHu846u1YfP7K1LKE9X7nk=" crossorigin="anonymous">
@@ -34,17 +26,9 @@ https://github.com/alex-shpak/hugo-book
 <meta charset="UTF-8" />
 <meta
   name="description"
-  content="ADS绪论#高级数据结构与算法分析主要包括三块问题：
-动态查找问题#总体目的：查找树且完全二叉树（降低高度）。
-难度过大，因此数据结构核心目标：有一定自由度。因此需要考虑如何进行树的平衡。
-高级堆（优先队列问题）#总体目的：插入任意&amp;删除最小/最大。
-结构特性：完全二叉树（structure property）
-排序特性：结点上满足堆的条件（所在子树最大/最小）（order property）。
-新问题：云计算，每个云端服务器管理一个堆，本质上为资源整合。（弹性计算）
-​ 云计算的调度问题，把正在计算的任务迁移到其他机器，使其最高效运转，即两个优先队列的合并问题。
-算法思想#包括分治算法、动态规划、贪婪算法、NPC问题……
-大致归为两类：
-经典算法：如贪婪算法、分治算法…… 非经典算法：寻找次优解，如加速、并行…… "
+  content="外部排序（external sorting）#排序大数，当无法完全加载到内存中时，数据存储在一个或多个磁盘中。
+无法简单使用快速排序，解决办法是将数据按顺序存储，使用指针同方向遍历。
+使用归并排序，需要三个头指针，每次每个指针移动一次。"
 />
 <title>
   📓 Arctic的笔记本
@@ -379,7 +363,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/ADS%E7%BB%AA%E8%AE%BA/" class="active">Ads绪论</a>
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/ADS%E7%BB%AA%E8%AE%BA/" class="">Ads绪论</a>
   
 
         </li>
@@ -452,7 +436,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-f1974ad0347428db0e7ae62c9bb2760d" class="toggle"  />
+    <input type="checkbox" id="section-f1974ad0347428db0e7ae62c9bb2760d" class="toggle" checked />
     <label for="section-f1974ad0347428db0e7ae62c9bb2760d" class="flex justify-between">
       <a role="button" class="book-collapse-toggle ">文件</a>
     </label>
@@ -481,7 +465,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%96%87%E4%BB%B6/%E5%A4%96%E9%83%A8%E6%8E%92%E5%BA%8F/" class="">外部排序</a>
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%96%87%E4%BB%B6/%E5%A4%96%E9%83%A8%E6%8E%92%E5%BA%8F/" class="active">外部排序</a>
   
 
         </li>
@@ -732,7 +716,7 @@ https://github.com/alex-shpak/hugo-book
       
       
   <article class="markdown">
-    <h1 class="title">Ads绪论</h1>
+    <h1 class="title">外部排序</h1>
     
 
 
@@ -770,36 +754,13 @@ https://github.com/alex-shpak/hugo-book
 
 
 
-<h1 id="ads绪论">
-  ADS绪论
-  <a class="anchor" href="#ads%e7%bb%aa%e8%ae%ba">#</a>
+<h1 id="外部排序external-sorting">
+  外部排序（external sorting）
+  <a class="anchor" href="#%e5%a4%96%e9%83%a8%e6%8e%92%e5%ba%8fexternal-sorting">#</a>
 </h1>
-<p>高级数据结构与算法分析主要包括三块问题：</p>
-<h2 id="动态查找问题">
-  动态查找问题
-  <a class="anchor" href="#%e5%8a%a8%e6%80%81%e6%9f%a5%e6%89%be%e9%97%ae%e9%a2%98">#</a>
-</h2>
-<p><strong>总体目的</strong>：查找树且完全二叉树（降低高度）。</p>
-<p>难度过大，因此数据结构核心目标：有一定自由度。因此需要考虑如何进行树的平衡。</p>
-<h2 id="高级堆优先队列问题">
-  高级堆（优先队列问题）
-  <a class="anchor" href="#%e9%ab%98%e7%ba%a7%e5%a0%86%e4%bc%98%e5%85%88%e9%98%9f%e5%88%97%e9%97%ae%e9%a2%98">#</a>
-</h2>
-<p><strong>总体目的</strong>：插入任意&amp;删除最小/最大。</p>
-<p><strong>结构特性</strong>：完全二叉树（structure property）</p>
-<p><strong>排序特性</strong>：结点上满足堆的条件（所在子树最大/最小）（order property）。</p>
-<p><strong>新问题</strong>：云计算，每个云端服务器管理一个堆，本质上为资源整合。（弹性计算）</p>
-<p>​               云计算的调度问题，把正在计算的任务迁移到其他机器，使其最高效运转，即<strong>两个优先队列的合并</strong>问题。</p>
-<h2 id="算法思想">
-  算法思想
-  <a class="anchor" href="#%e7%ae%97%e6%b3%95%e6%80%9d%e6%83%b3">#</a>
-</h2>
-<p>包括分治算法、动态规划、贪婪算法、NPC问题……</p>
-<p>大致归为两类：</p>
-<ul>
-<li>经典算法：如贪婪算法、分治算法……</li>
-<li>非经典算法：寻找次优解，如加速、并行……</li>
-</ul>
+<p>排序大数，当无法完全加载到内存中时，数据存储在一个或多个磁盘中。</p>
+<p>无法简单使用快速排序，解决办法是将数据按顺序存储，使用指针同方向遍历。</p>
+<p>使用归并排序，需要三个头指针，每次每个指针移动一次。</p>
 
 
     
@@ -890,13 +851,7 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#ads绪论">ADS绪论</a>
-      <ul>
-        <li><a href="#动态查找问题">动态查找问题</a></li>
-        <li><a href="#高级堆优先队列问题">高级堆（优先队列问题）</a></li>
-        <li><a href="#算法思想">算法思想</a></li>
-      </ul>
-    </li>
+    <li><a href="#外部排序external-sorting">外部排序（external sorting）</a></li>
   </ul>
 </nav>
 

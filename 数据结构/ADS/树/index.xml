@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title></title>
+    <link>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/</link>
+    <description>Recent content on </description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/B&#43;%E6%A0%91/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/B&#43;%E6%A0%91/</guid>
+      <description>B+树#概述#常用于数据库、文件系统。大量数据通常存储在磁盘中而非主存，然而磁盘中查找文件速度较慢，为提升速度需要将存储空间划分为很多个block。
+B树是搜索树的一种，与二叉搜索树不同。B树包括原始B树、B+树、B-树等。
+定义#order为M的树。结构特性如下：
+根节点是叶子节点或有2到M个孩子。 除根节点外所有的非叶子节点有==[M/2, M]==个孩子。 所有叶子节点深度相同。 从底层向上层构建，平衡性非常好。
+所有真实数据都存放在叶子节点中。
+每个中间节点包括M个儿子指针和M-1个key，key存放除第一个子节点外的每个子节点中最小的元素值。
+所有叶子节点为从小到大的顺序。
+查找操作#与二叉搜索树类似，从根节点开始，比较节点的key值和要查找的值。
+插入操作#首先查找到将要插入的叶子节点位置。
+若满足B+树的节点数要求，直接插入即可。
+若不满足，则分裂成两个叶子节点，并更新父节点的key值。
+若导致父节点也不满足节点数要求，则继续向上分裂。
+存在问题：不断低效插入导致高度增加较快。此时可以优先考虑未满的叶子节点进行插入，使尽可能多的叶子节点达到full状态。
+代码实现#$$T(M,N)=O((\frac{M}{logM})logN)$$
+$$T_{Find}(M,N)=O(logN)$$
+$$Depth(M,N)=O(log_\frac{M}{2}N)$$
+根据时间复杂度公式，并不是M越大越高效。实际结果表明，M=3或4时表现最佳。</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/Splay%E6%A0%91/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/Splay%E6%A0%91/</guid>
+      <description>Splay Tree#目标#从空树开始的任何M个连续操作的最大时间开销为O(Mlog N)。（不表示所有操作均为O(log N)，实际上是amortized time为O(logN)）
+AVL树属于Splay树。因为AVL对于所有操作的时间复杂度均为O(log N)。
+amortized time：摊还时间
+核心思想#最坏情况为O(N)，但总时间保持不变。为避免连续多次最坏情况，出现过一次最坏情况的点，下次访问时一定需要到达最好情况。
+Splay树定义了这种移动方法：每次访问一个节点后，将其使用AVL树的规则翻转至根节点。
+不考虑平衡情况。
+查找方法#使用single-rotation#存在的问题：其他节点被换到更低的位置
+最坏情况：依次插入1……N，最终的树形式仍然非常不平衡。循环查找1……N，时间复杂度会非常坏。
+使用double-rotation#不仅考虑父子节点（X、P），同时加上祖父节点（G）。
+三种情况：
+P是根节点：X和P进行single-rotation
+P不是根节点：
+zig-zag：
+zig-zig：
+使用double-rotation的方式可以大致将最底层的深度减半，是更好的选择。
+删除方法#四个步骤：
+首先查找X：此时X为根。
+删除X：得到左右两个子树。
+找到左子树中的最大值：这个最大值成为左子树的根，且没有右子树。
+将原右子树连接到左子树上。
+Splay树 &amp;amp; AVL树#Splay树实现更简单（不需要时刻考虑BF）</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/%E7%BA%A2%E9%BB%91%E6%A0%91/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/%E7%BA%A2%E9%BB%91%E6%A0%91/</guid>
+      <description>红黑树#概述#AVL树是首个自平衡树，定义了“平衡”的衡量标准（BF）。
+Splay树是AVL树的简化版，无需考虑平衡，表现与AVL树相同。
+现实应用中存在其他定义“平衡”的方法：如红黑树、B+树，红黑树应用于C++STL中的map等类型。
+目标#平衡二叉搜索树。
+节点结构如下：
+NULL节点也称为NIL。
+定义#五个特性#每个节点是红色或黑色中的一个。 根节点为黑色。 每个NULL叶子节点为黑色。 红色节点的两个儿子一定为黑色。 对于每个节点，其到叶子节点的所有简单路径上黑色节点的个数相同。 black_height：从x到叶子节点的黑色节点的个数，不包括root包括NULL。bh(Tree) = bh(root)
+internal_nodes：除NIL节点外的结点。
+external_nodes：NIL节点。
+定理#拥有N个internal_nodes的红黑树，其高度最大为2ln(N+1)。
+即使没有AVL更为严格的平衡定义，红黑树也将其高度限制在了O(lgN)的水平。
+对于任何节点x，以x为根的所有子树的internal_nodes个数大于等于$2^{bh(x)}-1$。通过数学归纳法证明。
+将x替换为root，则sizeof(x) = N，得到$N&amp;gt;=2^{bh}-1$。
+bh(Tree) &amp;gt;= h(Tree)/2。
+证明：每条路径上，除根节点外，至少有一半的节点时黑色。
+$N &amp;gt;= 2^{bh}-1 &amp;gt;= 2^{h/2}-1$，证明结束。
+插入操作#需要尽可能避免改变红黑树的bh，避免重新平衡。因此新插入的节点颜色应为红色。但再次插入红节点时需要重新平衡，引出三种情况：
+Case 1#新节点为红色，父节点为红色，父节点的兄弟节点也为红色。
+解决方式：父代所有节点和祖父节点红黑颜色调换。
+Case 2#新节点为红色且是父节点的右儿子，父节点为红色，父节点的兄弟节点为黑色。
+解决方式：将新节点和其父节点进行一次旋转。
+Case 3#新节点为红色且是父亲的左儿子，父节点为红色，父节点的兄弟节点为黑色。
+解决方式：首先将父节点和祖父节点互换颜色，再将父节点作为新的根节点进行旋转。
+AVL树 &amp;amp; 红黑树#step 1：向二叉搜索树中插入节点。 step 2：从底层到顶层，检查BF/颜色是否符合规定。 最坏情况相同，都需要进行两次rotation。</description>
+    </item>
+    
+  </channel>
+</rss>

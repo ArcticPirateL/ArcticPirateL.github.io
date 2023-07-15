@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta property="og:title" content="" />
+<meta property="og:description" content="局部搜索（Local Search）#同样是使用近似方法解决问题。特点是关注局部最优解。
+初始猜测 → 搜索局部最优解 → 用局部最优解替换上一步猜测 → 循环。
+需要考虑的要素：①初始点的选择 ②步长的选择
+是否能在有限步数内终止程序？
+概念#Local#定义neighborhoods为当前点周围一个可以达到的集合。 局部最优解为neighborhoods集合中的最优选择。 Search#从一个可行解开始，找到其neighborhoods中的最优解。 若没有更优则停止程序。 邻域关系#$S\sim S&rsquo;$：$S&rsquo;$是$S$的邻域内的解（neighboring solution）。即$S$可以通过小范围修改得到$S&rsquo;$。
+$N(S)$表示$S$的邻域，即集合${S&rsquo;:S\sim S&rsquo;}$。
+Gradient descent：梯度下降法。
+实例1：Vertex Cover问题#Decision Version：
+给出无向图$G=(V,E)$和整数$K$，是否存在节点集合$V&rsquo;\subseteq V$使得$|V&rsquo;|$最大为$K$，且$G$中的每条边至少有至少有一个节点属于$V&rsquo;$？
+Optimazition Version：
+给出无向图$G=(V,E)$，找到一个最小集合$S\subseteq V$使得$G$中的每条边至少有至少有一个节点属于$S$？
+要素：
+可行解集合$FS$：所有满足vertex covers的解集合。显然$V\in FS$。
+开销：$cost(S)=|S|$。
+局部：$S&rsquo;$可以由$S$加或减一个节点得到。由于要使开销最小，因此选择“减”一个节点。
+每个$S$最多有$|V|$个邻域（删除每个节点）。
+搜索：从$S=V$开始，删除一个节点，并判断$S&rsquo;$是否是开销更小的vertex cover。
+Case 0：只有节点没有边#只有一个全局最优解。此时S为空集。
+Case 1：中心节点cover所有边#显然全局最优解为只有中心节点的集合。但若从所有节点开始，第一次就删除了中心节点，则无法删除剩余任何一个节点。
+Case 2：节点直线排列没有支路#显然中间三个节点为开销最少的vertex cover。但若第一步删除了这三个节点之一，无法删除其他两个节点。
+**存在的问题：**无法撤回上一步操作，很容易陷入局部最优后终止程序。
+改进：Metropolis算法。
+Metropolis算法#将“删除一个节点”修改为随机选择邻域内所有解，即可以增加节点。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/%E5%B1%80%E9%83%A8%E6%90%9C%E7%B4%A2/" /><meta property="article:section" content="数据结构" />
+
+<meta property="og:site_name" content="📓 Arctic的笔记本" />
+<title>局部搜索 | 📓 Arctic的笔记本</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.45ec1f6261e17c6488824ac77b6b8a0c11eef38eaed587cfecad4b284f57ee79.css" integrity="sha256-RewfYmHhfGSIgkrHe2uKDBHu846u1YfP7K1LKE9X7nk=" crossorigin="anonymous">
+
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+  
+
+
+
+<meta charset="UTF-8" />
+<meta
+  name="description"
+  content="局部搜索（Local Search）#同样是使用近似方法解决问题。特点是关注局部最优解。
+初始猜测 → 搜索局部最优解 → 用局部最优解替换上一步猜测 → 循环。
+需要考虑的要素：①初始点的选择 ②步长的选择
+是否能在有限步数内终止程序？
+概念#Local#定义neighborhoods为当前点周围一个可以达到的集合。 局部最优解为neighborhoods集合中的最优选择。 Search#从一个可行解开始，找到其neighborhoods中的最优解。 若没有更优则停止程序。 邻域关系#$S\sim S&rsquo;$：$S&rsquo;$是$S$的邻域内的解（neighboring solution）。即$S$可以通过小范围修改得到$S&rsquo;$。
+$N(S)$表示$S$的邻域，即集合${S&rsquo;:S\sim S&rsquo;}$。
+Gradient descent：梯度下降法。
+实例1：Vertex Cover问题#Decision Version：
+给出无向图$G=(V,E)$和整数$K$，是否存在节点集合$V&rsquo;\subseteq V$使得$|V&rsquo;|$最大为$K$，且$G$中的每条边至少有至少有一个节点属于$V&rsquo;$？
+Optimazition Version：
+给出无向图$G=(V,E)$，找到一个最小集合$S\subseteq V$使得$G$中的每条边至少有至少有一个节点属于$S$？
+要素：
+可行解集合$FS$：所有满足vertex covers的解集合。显然$V\in FS$。
+开销：$cost(S)=|S|$。
+局部：$S&rsquo;$可以由$S$加或减一个节点得到。由于要使开销最小，因此选择“减”一个节点。
+每个$S$最多有$|V|$个邻域（删除每个节点）。
+搜索：从$S=V$开始，删除一个节点，并判断$S&rsquo;$是否是开销更小的vertex cover。
+Case 0：只有节点没有边#只有一个全局最优解。此时S为空集。
+Case 1：中心节点cover所有边#显然全局最优解为只有中心节点的集合。但若从所有节点开始，第一次就删除了中心节点，则无法删除剩余任何一个节点。
+Case 2：节点直线排列没有支路#显然中间三个节点为开销最少的vertex cover。但若第一步删除了这三个节点之一，无法删除其他两个节点。
+**存在的问题：**无法撤回上一步操作，很容易陷入局部最优后终止程序。
+改进：Metropolis算法。
+Metropolis算法#将“删除一个节点”修改为随机选择邻域内所有解，即可以增加节点。"
+/>
+<title>
+  📓 Arctic的笔记本
+</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+
+
+
+<link rel="shortcut icon" type="image/png"  href="https://ArcticPirateL.github.io/favicon.png" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+<link href="https://ArcticPirateL.github.io/styles.e08ceb33360cec132feb69cfb982e2a4.min.css" rel="stylesheet" />
+
+
+<link href="https://ArcticPirateL.github.io/quartz/styles/_light_syntax.86a48a52faebeaaf42158b72922b1c90.min.css" rel="stylesheet" id="theme-link">
+
+  
+
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+      integrity="sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"
+        integrity="sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx"
+        crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR"
+        crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/contrib/copy-tex.min.js"
+        integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A"
+        crossorigin="anonymous"></script>
+
+  
+
+
+
+
+
+
+<script src="https://ArcticPirateL.github.io/quartz/js/darkmode.8f8af77a3b900357313e7e044e85a9ad.min.js"></script>
+
+
+
+<script src="https://ArcticPirateL.github.io/quartz/js/util.e6844bcc6148c92f3b102d867c918e7c.min.js"></script>
+
+
+
+<script async src="https://unpkg.com/@floating-ui/core@0.7.3"></script>
+<script async src="https://unpkg.com/@floating-ui/dom@0.5.4"></script>
+
+<script src="https://ArcticPirateL.github.io/quartz/js/popover.d15bbb66588317f9fbee1a95e4750bea.min.js"></script>
+
+
+
+
+<script defer src="https://ArcticPirateL.github.io/quartz/js/code-title.d6525fa48597ed29631fab15192407e2.min.js"></script>
+
+
+
+
+<script defer src="https://ArcticPirateL.github.io/quartz/js/clipboard.3ce3710d38377077f1cee5228144b8a8.min.js"></script>
+
+
+
+
+<script defer src="https://ArcticPirateL.github.io/quartz/js/callouts.e83135249ba7df7bb9912c90a91a55c6.min.js"></script>
+
+
+
+ 
+<script>
+  const SEARCH_ENABLED =  false 
+  const LATEX_ENABLED =  true 
+  const PRODUCTION =  true 
+  const BASE_URL = "https://ArcticPirateL.github.io"
+  const fetchData = Promise.all([
+        fetch("https:\/\/ArcticPirateL.github.io\/indices\/linkIndex.8f82182ab1f0691ed61ef55d039d916d.min.json")
+          .then(data => data.json())
+          .then(data => ({
+            index: data.index,
+            links: data.links,
+          })),
+        fetch("https:\/\/ArcticPirateL.github.io\/indices\/contentIndex.8263e16ff65aa55ee0ce2c719e87df13.min.json")
+          .then(data => data.json()),
+      ])
+      .then(([{index, links}, content]) => ({
+        index,
+        links,
+        content,
+      }))
+
+    const render = () => {
+    
+    const siteBaseURL = new URL(BASE_URL);
+    const pathBase = siteBaseURL.pathname;
+    const pathWindow = window.location.pathname;
+    const isHome = pathBase == pathWindow;
+
+    addCopyButtons();
+    
+
+    
+
+    addCollapsibleCallouts();
+    
+
+    
+    initPopover(
+      "https://ArcticPirateL.github.io",
+       true 
+    )
+    
+
+    
+    const footer = document.getElementById("footer")
+    if (footer) {
+      const container = document.getElementById("graph-container")
+      
+      if (!container) return requestAnimationFrame(render)
+      
+      container.textContent = ""
+
+      const drawGlobal = isHome &&  true ;
+      drawGraph(
+          "https://ArcticPirateL.github.io",
+          drawGlobal,
+          [{"/moc":"#4388cc"}],
+          drawGlobal ? {"centerForce":1,"depth":-1,"enableDrag":true,"enableLegend":false,"enableZoom":true,"fontSize":0.5,"linkDistance":1,"opacityScale":3,"repelForce":1,"scale":1.4} : {"centerForce":1,"depth":1,"enableDrag":true,"enableLegend":false,"enableZoom":true,"fontSize":0.6,"linkDistance":1,"opacityScale":3,"repelForce":2,"scale":1.2}
+        );
+
+      }
+    
+
+    
+      var els = document.getElementsByClassName("mermaid");
+      if (els.length > 0) {
+        import('https://unpkg.com/mermaid@9/dist/mermaid.esm.min.mjs').then(
+          (obj) => {
+            
+            
+            obj.default.init();
+          }
+        )
+      }
+    
+  }
+
+  const init = (doc = document) => {
+    
+    addCopyButtons();
+    
+
+    addTitleToCodeBlocks();
+    renderMathInElement(doc.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+      ],
+      macros: {
+        '’': "'"
+      },
+      throwOnError : false
+    });
+    
+  };
+</script>
+
+<script>
+  window.Million = {
+    navigate: (url) => (window.location.href = url),
+    prefetch: () => {},
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    init()
+    render()
+  })
+</script>
+
+
+</head>
+<div id="search-container">
+  <div id="search-space">
+    <input autocomplete="off" id="search-bar" name="search" type="text" aria-label="Search"
+      placeholder="Search for something..." dir="">
+    <div id="results-container">
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/flexsearch@0.7.21/dist/flexsearch.bundle.js"
+  integrity="sha256-i3A0NZGkhsKjVMzFxv3ksk0DZh3aXqu0l49Bbh0MdjE=" crossorigin="anonymous" defer></script>
+
+<script defer src="https://ArcticPirateL.github.io/quartz/js/full-text-search.cc0284dc74ffd43585e5227c0138681e.min.js"></script>
+
+
+
+<header class="book-header">
+    
+    <label for="menu-control">
+      <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+    </label>
+    <h1 id="page-title"><a href="https://ArcticPirateL.github.io">📓 Arctic的笔记本</a></h1>
+    <div class="spacer"></div>
+    <div id="search-icon" class="quartz-search">
+      <p>Search</p>
+      <svg tabindex="0" aria-labelledby="title desc" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title id="title">Search Icon</title><desc id="desc">Icon to open search</desc><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg>
+    </div>
+    <div class='darkmode'>
+    <input class='toggle' id='darkmode-toggle' type='checkbox' tabindex="-1">
+    <label id="toggle-label-light" for='darkmode-toggle' tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35;" xml:space="preserve">
+            <title>Light Mode</title>
+            <path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z" />
+        </svg>
+    </label>
+    <label id="toggle-label-dark" for='darkmode-toggle' tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background='new 0 0 100 100'" xml:space="preserve">
+            <title>Dark Mode</title>
+            <path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z" />
+        </svg>
+    </label>
+</div>
+</header>
+
+
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <main class="flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<div class="menu-search">
+  <div id="search-icon" class="quartz-search">
+    <p>Search</p>
+    <svg tabindex="0" aria-labelledby="title desc" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7">
+      <title id="title">Search Icon</title>
+      <desc id="desc">Icon to open search</desc>
+      <g class="search-path" fill="none">
+        <path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4" />
+        <circle cx="8" cy="8" r="7" />
+      </g>
+    </svg>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-faa006b4e8c111649edfcae5fe6b24ff" class="toggle" checked />
+    <label for="section-faa006b4e8c111649edfcae5fe6b24ff" class="flex justify-between">
+      <a role="button" class="book-collapse-toggle ">数据结构</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0d302acb88494e149011feeb192d6398" class="toggle" checked />
+    <label for="section-0d302acb88494e149011feeb192d6398" class="flex justify-between">
+      <a role="button" class="book-collapse-toggle ">Ads</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/ADS%E7%BB%AA%E8%AE%BA/" class="">Ads绪论</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-90596e9847a82884c56cd4b76f9de37a" class="toggle"  />
+    <label for="section-90596e9847a82884c56cd4b76f9de37a" class="flex justify-between">
+      <a role="button" class="book-collapse-toggle ">堆</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E4%BA%8C%E9%A1%B9%E9%98%9F%E5%88%97/" class="">二项队列</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E5%B7%A6%E5%BC%8F%E5%A0%86/" class="">左式堆</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E6%96%9C%E5%A0%86/" class="">斜堆</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-f1974ad0347428db0e7ae62c9bb2760d" class="toggle"  />
+    <label for="section-f1974ad0347428db0e7ae62c9bb2760d" class="flex justify-between">
+      <a role="button" class="book-collapse-toggle ">文件</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%96%87%E4%BB%B6/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/" class="">倒排索引</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%96%87%E4%BB%B6/%E5%A4%96%E9%83%A8%E6%8E%92%E5%BA%8F/" class="">外部排序</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-dc1d97ba8e317a05384d3a997a5261b7" class="toggle"  />
+    <label for="section-dc1d97ba8e317a05384d3a997a5261b7" class="flex justify-between">
+      <a role="button" class="book-collapse-toggle ">树</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/B&#43;%E6%A0%91/" class="">B 树</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/Splay%E6%A0%91/" class="">Splay树</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/%E7%BA%A2%E9%BB%91%E6%A0%91/" class="">红黑树</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-3baa8f110f9b5b7e3633bb10105b9cbe" class="toggle" checked />
+    <label for="section-3baa8f110f9b5b7e3633bb10105b9cbe" class="flex justify-between">
+      <a role="button" class="book-collapse-toggle ">算法</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/NP%E9%97%AE%E9%A2%98/" class="">Np问题</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/%E5%88%86%E6%B2%BB%E7%AE%97%E6%B3%95/" class="">分治算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="">动态规划</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/%E5%B1%80%E9%83%A8%E6%90%9C%E7%B4%A2/" class="active">局部搜索</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/%E5%B9%B6%E8%A1%8C%E7%AE%97%E6%B3%95/" class="">并行算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/%E8%B4%AA%E5%A9%AA%E7%AE%97%E6%B3%95/" class="">贪婪算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/%E8%BF%91%E4%BC%BC%E7%AE%97%E6%B3%95/" class="">近似算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/%E9%9A%8F%E6%9C%BA%E5%8C%96%E7%AE%97%E6%B3%95/" class="">随机化算法</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/ArcticPirateL"  target="_blank" rel="noopener">
+        Github
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+    <div class="book-page container">
+      
+
+      
+      
+  <article class="markdown">
+    <h1 class="title">局部搜索</h1>
+    
+
+
+
+
+
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+  
+  
+
+
+
+
+
+  
+  
+
+  
+  
+
+
+<h1 id="局部搜索local-search">
+  局部搜索（Local Search）
+  <a class="anchor" href="#%e5%b1%80%e9%83%a8%e6%90%9c%e7%b4%a2local-search">#</a>
+</h1>
+<p>同样是使用近似方法解决问题。特点是关注局部最优解。</p>
+<blockquote>
+<p>初始猜测 → 搜索局部最优解 → 用局部最优解替换上一步猜测 → 循环。</p>
+</blockquote>
+<p><strong>需要考虑的要素</strong>：①初始点的选择 ②步长的选择</p>
+<p>是否能在有限步数内终止程序？</p>
+<h2 id="概念">
+  概念
+  <a class="anchor" href="#%e6%a6%82%e5%bf%b5">#</a>
+</h2>
+<h3 id="local">
+  Local
+  <a class="anchor" href="#local">#</a>
+</h3>
+<ul>
+<li>定义<em>neighborhoods</em>为当前点周围一个可以达到的集合。</li>
+<li>局部最优解为<em>neighborhoods</em>集合中的最优选择。</li>
+</ul>
+<h3 id="search">
+  Search
+  <a class="anchor" href="#search">#</a>
+</h3>
+<ul>
+<li>从一个可行解开始，找到其<em>neighborhoods</em>中的最优解。</li>
+<li>若没有更优则停止程序。</li>
+</ul>
+<h3 id="邻域关系">
+  邻域关系
+  <a class="anchor" href="#%e9%82%bb%e5%9f%9f%e5%85%b3%e7%b3%bb">#</a>
+</h3>
+<ul>
+<li>
+<p>$S\sim S&rsquo;$：$S&rsquo;$是$S$的邻域内的解（<em>neighboring solution</em>）。即$S$可以通过小范围修改得到$S&rsquo;$。</p>
+</li>
+<li>
+<p>$N(S)$表示$S$的邻域，即集合${S&rsquo;:S\sim S&rsquo;}$。</p>
+</li>
+</ul>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230530105840580.png" width="auto" alt="image-20230530105840580"  /></p>
+<blockquote>
+<p>Gradient descent：梯度下降法。</p>
+</blockquote>
+<h2 id="实例1vertex-cover问题">
+  实例1：Vertex Cover问题
+  <a class="anchor" href="#%e5%ae%9e%e4%be%8b1vertex-cover%e9%97%ae%e9%a2%98">#</a>
+</h2>
+<p><strong>Decision Version</strong>：</p>
+<p>给出无向图$G=(V,E)$和整数$K$，是否存在节点集合$V&rsquo;\subseteq V$使得$|V&rsquo;|$最大为$K$，且$G$中的每条边至少有至少有一个节点属于$V&rsquo;$？</p>
+<p><strong>Optimazition Version</strong>：</p>
+<p>给出无向图$G=(V,E)$，找到一个最小集合$S\subseteq V$使得$G$中的每条边至少有至少有一个节点属于$S$？</p>
+<p><strong>要素</strong>：</p>
+<ul>
+<li>
+<p>可行解集合$FS$：所有满足vertex covers的解集合。显然$V\in FS$。</p>
+</li>
+<li>
+<p>开销：$cost(S)=|S|$。</p>
+</li>
+<li>
+<p>局部：$S&rsquo;$可以由$S$加或减一个节点得到。由于要使开销最小，因此选择“减”一个节点。</p>
+<blockquote>
+<p>每个$S$最多有$|V|$个邻域（删除每个节点）。</p>
+</blockquote>
+</li>
+<li>
+<p>搜索：从$S=V$开始，删除一个节点，并判断$S&rsquo;$是否是开销更小的vertex cover。</p>
+</li>
+</ul>
+<h3 id="case-0只有节点没有边">
+  Case 0：只有节点没有边
+  <a class="anchor" href="#case-0%e5%8f%aa%e6%9c%89%e8%8a%82%e7%82%b9%e6%b2%a1%e6%9c%89%e8%be%b9">#</a>
+</h3>
+<p>只有一个全局最优解。此时S为空集。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230530112115825.png" width="auto" alt="image-20230530112115825"  /></p>
+<h3 id="case-1中心节点cover所有边">
+  Case 1：中心节点cover所有边
+  <a class="anchor" href="#case-1%e4%b8%ad%e5%bf%83%e8%8a%82%e7%82%b9cover%e6%89%80%e6%9c%89%e8%be%b9">#</a>
+</h3>
+<p>显然全局最优解为只有中心节点的集合。但若从所有节点开始，第一次就删除了中心节点，则无法删除剩余任何一个节点。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230530112502908.png" width="auto" alt="image-20230530112502908"  /></p>
+<h3 id="case-2节点直线排列没有支路">
+  Case 2：节点直线排列没有支路
+  <a class="anchor" href="#case-2%e8%8a%82%e7%82%b9%e7%9b%b4%e7%ba%bf%e6%8e%92%e5%88%97%e6%b2%a1%e6%9c%89%e6%94%af%e8%b7%af">#</a>
+</h3>
+<p>显然中间三个节点为开销最少的vertex cover。但若第一步删除了这三个节点之一，无法删除其他两个节点。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230530112941993.png" width="auto" alt="image-20230530112941993"  /></p>
+<p>**存在的问题：**无法撤回上一步操作，很容易陷入局部最优后终止程序。</p>
+<p><strong>改进：</strong><code>Metropolis</code>算法。</p>
+<h3 id="metropolis算法">
+  Metropolis算法
+  <a class="anchor" href="#metropolis%e7%ae%97%e6%b3%95">#</a>
+</h3>
+<p>将“删除一个节点”修改为<strong>随机选择邻域内所有解</strong>，即可以增加节点。</p>
+<p>若当前操作比当前最优操作开销更大，仍需要选择是否更新当前解。</p>
+<p>如case 1，仍存在可能将中心节点加回来。但对于case 0，可能导致在添加或删除中无限循环。</p>
+<p>因此metropolis算法的效果取决于$probability$的定义，即取决于T。</p>
+<blockquote>
+<p>实际上T与温度有关，Metropolis是一个物理学家，这个算法有物理学背景，T指温度。</p>
+</blockquote>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230530113248233.png" width="auto" alt="image-20230530113248233"  /></p>
+<p>由于很难确定合适的T，因此改进为<strong>模拟退火法</strong>。</p>
+<h3 id="模拟退火simulated-annealing">
+  模拟退火（Simulated Annealing）
+  <a class="anchor" href="#%e6%a8%a1%e6%8b%9f%e9%80%80%e7%81%absimulated-annealing">#</a>
+</h3>
+<p>模拟退火：一种用于求解优化问题的随机搜索算法，通过模拟固体在冷却过程中的能量最小化来寻找问题的全局最优解。</p>
+<p>思想：材料从高温开始逐渐冷却，使其有足够的时间在一系列较低的温度下达到平衡。</p>
+<p>因此需要一个温度序列。Cooling schedule：$T={T_1,T_2,\ldots}$。</p>
+<h2 id="实例2hopfield-neural-networks">
+  实例2：Hopfield Neural Networks
+  <a class="anchor" href="#%e5%ae%9e%e4%be%8b2hopfield-neural-networks">#</a>
+</h2>
+<p>给出图G，及其边的权重$w$（正数或负数均可）。</p>
+<p>若权重为负，表示两点在同一个state，否则两点位于不同的state（只有两种state）。权重的绝对值表示这种需求的强烈程度。</p>
+<p>输出为：$a\\ configuration\\ S\\ of \\ the\\ network$。即把状态$S_u$分配给每个结点$u$的分配方式。</p>
+<p>有可能出现无法同时满足的情况，如：</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230630163930932.png" width="auto" alt="image-20230630163930932"  /></p>
+<p>那么此时要找到一个足够接近的解（sufficiently good）。那么如何定义good？</p>
+<h3 id="定义">
+  定义
+  <a class="anchor" href="#%e5%ae%9a%e4%b9%89">#</a>
+</h3>
+<ul>
+<li>
+<p>在构造$S$中，若边$e=(u,v)$满足$w_es_us_v&lt;0(w_e&lt;0当且仅当s_u=s_v)$，则称该边为<em>good</em>，否则为<em>bad</em>。</p>
+</li>
+<li>
+<p>在构造$S$中，若点$u$满足其引出的<em>good</em>边的数量<mark>大于等于</mark><em>bad</em>边的数量，则称该点为<em>satisfied</em>。</p>
+<blockquote>
+<p>数学表示形式：</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230630164621429.png" width="auto" alt="image-20230630164621429"  /></p>
+</blockquote>
+</li>
+<li>
+<p>如果一个构造中所有结点都是<em>satisfied</em>，则称该构造为稳定的（<em>stable</em>）。</p>
+<blockquote>
+<p>注意点是否为<em>satisfied</em>要根据边的权重来判断，例：</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230630165025828.png" width="auto" alt="image-20230630165025828"  /></p>
+</blockquote>
+</li>
+</ul>
+<h3 id="问题">
+  问题
+  <a class="anchor" href="#%e9%97%ae%e9%a2%98">#</a>
+</h3>
+<p>对于一个$Hopfield$网络，是否一定存在一个稳定构造，若是，如何找到这个构造？</p>
+<h3 id="state_flipping算法">
+  State_flipping算法
+  <a class="anchor" href="#state_flipping%e7%ae%97%e6%b3%95">#</a>
+</h3>
+<p>从一个随机构造开始（如所有结点为同一个状态），循环检测$S$是否稳定。</p>
+<p>若否，选出一个<em>unsatisfied</em>的节点，并将其状态反转，直到检测到$S$为稳定构造。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230630165356295.png" width="auto" alt="image-20230630165356295"  /></p>
+<blockquote>
+<p>通过例子可以观察到，一个节点的状态极有可能多次翻转。那么这个程序是否一定能结束呢？（是）</p>
+</blockquote>
+<p><strong>断言：</strong><code>state_flipping</code>算法可以在==最多$W=\Sigma_e|w_e|$次==（即所有权重绝对值之和）迭代后找到一种稳定构造。</p>
+<p><strong>证明：</strong></p>
+<blockquote>
+<ul>
+<li>
+<p>定义函数$\Phi(S)=\Sigma_{e\\ is\\ good }|w_e|$，即所有good的边的权重绝对值之和。用于衡量how good。</p>
+</li>
+<li>
+<p>当节点$u$的状态翻转时，与$u$相连的所有边，$good\rightarrow bad\\ &amp;&amp;\\ bad\rightarrow good$，其他边不变。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230630170530122.png" width="auto" alt="image-20230630170530122"  /></p>
+</li>
+<li>
+<p>每次翻转后都能保证$\Phi(S)$至少增加1，显然$0\le \Phi(S)\le W$，因此最坏的情况是从0开始，每次只能+1，总迭代次数为$W$。</p>
+</li>
+</ul>
+</blockquote>
+<h3 id="与局部搜索联系">
+  与局部搜索联系
+  <a class="anchor" href="#%e4%b8%8e%e5%b1%80%e9%83%a8%e6%90%9c%e7%b4%a2%e8%81%94%e7%b3%bb">#</a>
+</h3>
+<ul>
+<li>
+<p>**问题：**使$\Phi$最大化。</p>
+</li>
+<li>
+<p>**可行解：**所有的构造集合。</p>
+</li>
+<li>
+<p><strong>$S\sim S&rsquo;$</strong>：$S&rsquo;$可以由$S$经过一次翻转得到。</p>
+</li>
+</ul>
+<p><strong>断言：</strong><code>state-flipping</code>算法中任何使$\Phi$最大化的局部最优解都能达成稳定构造。</p>
+<p><code>State-flipping</code>算法的时间复杂度最坏情况为$W$，但由于$W$的增长速率无法确定，因此不是多项式时间算法。</p>
+<p>是否存在多项式算法仍然是一个开放问题。</p>
+<h2 id="实例3maximum-cut问题">
+  实例3：Maximum Cut问题
+  <a class="anchor" href="#%e5%ae%9e%e4%be%8b3maximum-cut%e9%97%ae%e9%a2%98">#</a>
+</h2>
+<h3 id="定义-1">
+  定义
+  <a class="anchor" href="#%e5%ae%9a%e4%b9%89-1">#</a>
+</h3>
+<p>给定一个无向图$G=(V,E)$，边的权重均为<mark>正整数</mark>，找到一种节点分割方式$(A,B)$（如将所有节点分成两个颜色），使得跨越这个分割的所有边的权重之和最大化。即$w(A,B)$最大化。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230630171649985.png" width="auto" alt="image-20230630171649985"  /></p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230630172139822.png" width="auto" alt="image-20230630172139822"  /></p>
+<p><strong>实际应用：</strong></p>
+<p>给出$n$个活动和$m$个人，每个人希望参加其中的两个活动（即每个人作为一条边，把两个节点连接起来）。</p>
+<p>将每个活动设置为上午/下午，使得最多数量的人能满足需求（尽可能希望一条边的两个节点颜色不同）。</p>
+<h3 id="与局部搜索联系-1">
+  与局部搜索联系
+  <a class="anchor" href="#%e4%b8%8e%e5%b1%80%e9%83%a8%e6%90%9c%e7%b4%a2%e8%81%94%e7%b3%bb-1">#</a>
+</h3>
+<ul>
+<li>**问题：**使$w(A,B)$最大化。</li>
+<li>**可行解：**任意的分割方式$(A,B)$。</li>
+<li><strong>$S\sim S&rsquo;：$</strong>$S$可以通过将一个节点从一方移到另一方来得到$S&rsquo;$。（称为<code>Single-flip neighborhood</code>）</li>
+</ul>
+<p>显然，<code>Maximum Cut</code>问题实际上是<code>Hopfield Neural Network</code>问题的特殊情况，即所有边的权重均为正。</p>
+<h3 id="state_flipping算法-1">
+  State_flipping算法
+  <a class="anchor" href="#state_flipping%e7%ae%97%e6%b3%95-1">#</a>
+</h3>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230630172926977.png" width="auto" alt="image-20230630172926977"  /></p>
+<p><strong>核心问题：</strong></p>
+<ul>
+<li>不是多项式时间算法。</li>
+<li>如何评估局部最优解<em>how good</em>。</li>
+<li>尝试重新定义一个更好的<em>local</em>。</li>
+</ul>
+<h3 id="1-局部最优解的质量评估">
+  1. 局部最优解的质量评估
+  <a class="anchor" href="#1-%e5%b1%80%e9%83%a8%e6%9c%80%e4%bc%98%e8%a7%a3%e7%9a%84%e8%b4%a8%e9%87%8f%e8%af%84%e4%bc%b0">#</a>
+</h3>
+<p><em><em>断言：<em><em>若$(A,B)$定义为局部最优解，$(A</em>,B</em>)$定义为全局最优解，则有$w(A,B)\ge \frac{1}{2}w(A</em>,B</em>)$。即近似比例约为2。</p>
+<p><strong>证明：</strong></p>
+<blockquote>
+<ul>
+<li>
+<p>$(A,B)$为局部最优解 $\Rightarrow$ 对于任意节点$u\in A$，都有$\Sigma_{v\in A}w_{uv}\le \Sigma_{v\in B}w_{uv}$（每个节点都是<em>satisfied</em>）。</p>
+</li>
+<li>
+<p>把所有A中的节点加和 $\Rightarrow$ $\Sigma_{u\in A}\Sigma_{v\in A}w_{uv}\le \Sigma_{u\in A}\Sigma_{v\in B}w_{uv}$。由于左侧重复了一次，则有：</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230630174114310.png" width="auto" alt="image-20230630174114310"  /></p>
+</li>
+<li>
+<p>同理对于所有$u\in B$，有：</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230630174231146.png" width="auto" alt="image-20230630174231146"  /></p>
+</li>
+<li>
+<p>两侧加和，左侧为所有边的权重之和，显然大于等于全局最优解；右侧为局部最优解的两倍，则有：</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230630174450201.png" width="auto" alt="image-20230630174450201"  /></p>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>
+<p>因此，1976年发现了存在近似比例为2的局部搜索算法。</p>
+</li>
+<li>
+<p>1995年发现了近似比例为1.1382的近似算法。</p>
+</li>
+<li>
+<p>1997年证明了：除非$P=NP$，否则不存在近似比例为$\frac{17}{16}$的近似算法。</p>
+</li>
+</ul>
+<h3 id="2-多项式算法问题">
+  2. 多项式算法问题
+  <a class="anchor" href="#2-%e5%a4%9a%e9%a1%b9%e5%bc%8f%e7%ae%97%e6%b3%95%e9%97%ae%e9%a2%98">#</a>
+</h3>
+<p>一种解决办法：当程序运行到解为<em>big enough</em>时，结束程序。</p>
+<p><strong>Big-imporvement-flip算法</strong></p>
+<p>只选择能提升$w(A,B)$大小至少为$\frac{2\epsilon}{|V|}w(A,B)$的节点进行翻转。当$\epsilon=0$时，即为<code>State-flipping</code>算法。</p>
+<p><strong>断言1：</strong><code>big-improvement-flip</code>算法结束时，返回的$w(A,B)$满足：$(2+\epsilon)w(A,B)\ge w(A*,B*)$。</p>
+<p><strong>断言2：</strong><code>big-improvement-flip</code>算法迭代次数最多为：$O(n/\epsilon logW)$，显然为多项式算法。</p>
+<h3 id="3-定义一个更好的local">
+  3. 定义一个更好的<em>local</em>
+  <a class="anchor" href="#3-%e5%ae%9a%e4%b9%89%e4%b8%80%e4%b8%aa%e6%9b%b4%e5%a5%bd%e7%9a%84local">#</a>
+</h3>
+<ul>
+<li>
+<p>邻域的定义应当足够大，使得我们不容易陷入<em>bad local optimal</em>。</p>
+</li>
+<li>
+<p>领域的定义不能过于大，使得找到局部最优的开销过大。</p>
+</li>
+</ul>
+<p><strong>一种解决办法：</strong></p>
+<p>$Single-flip\\ \rightarrow\\ k-flips$，即每次翻转k个节点。此时局部搜索的时间复杂度为$\Theta(n^k)$。</p>
+<p><strong>一种启发式算法：</strong></p>
+<p>$K-L\\ heuristic$。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230630181020853.png" width="auto" alt="image-20230630181020853"  /></p>
+
+
+    
+
+<hr/>
+
+
+<div class="page-end" id="footer">
+    <div class="backlinks-container">
+        <h3>Backlinks</h3>
+<ul class="backlinks">
+    
+    
+    
+    
+    
+    
+    
+    <li>
+      No backlinks found
+    </li>
+    
+</ul>
+
+    </div>
+    <div>
+        <script
+  src="https://cdn.jsdelivr.net/npm/d3@6.7.0/dist/d3.min.js"
+  integrity="sha256-+7jaYCp29O1JusNWHaYtgUn6EhuP0VaFuswhNV06MyI="
+  crossorigin="anonymous"
+></script>
+<h3>Interactive Graph</h3>
+<div id="graph-container"></div>
+<style>
+  :root {
+    --g-node: var(--secondary);
+    --g-node-active: var(--primary);
+    --g-node-inactive: var(--visited);
+    --g-link: var(--outlinegray);
+    --g-link-active: #5a7282;
+  }
+</style>
+
+<script src="https://ArcticPirateL.github.io/quartz/js/graph.3d608db416a7219b41b53602cd180019.js"></script>
+
+    </div>
+</div>
+
+
+
+
+
+
+<div id="contact_buttons">
+    <footer>
+        
+        
+        <p>Made with <a href="https://github.com/64bitpandas/amethyst">Amethyst</a>, © 2023 Arctic</p>
+        <ul>
+            
+            <li><a href="https://ArcticPirateL.github.io">Home</a></li>
+            <li><a href="https://bencuan.me">Website</a></li><li><a href="https://blog.bencuan.me">Blog</a></li></ul>
+    </footer>
+</div>
+
+
+    
+  </article>
+ 
+      
+      
+      
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#局部搜索local-search">局部搜索（Local Search）</a>
+      <ul>
+        <li><a href="#概念">概念</a>
+          <ul>
+            <li><a href="#local">Local</a></li>
+            <li><a href="#search">Search</a></li>
+            <li><a href="#邻域关系">邻域关系</a></li>
+          </ul>
+        </li>
+        <li><a href="#实例1vertex-cover问题">实例1：Vertex Cover问题</a>
+          <ul>
+            <li><a href="#case-0只有节点没有边">Case 0：只有节点没有边</a></li>
+            <li><a href="#case-1中心节点cover所有边">Case 1：中心节点cover所有边</a></li>
+            <li><a href="#case-2节点直线排列没有支路">Case 2：节点直线排列没有支路</a></li>
+            <li><a href="#metropolis算法">Metropolis算法</a></li>
+            <li><a href="#模拟退火simulated-annealing">模拟退火（Simulated Annealing）</a></li>
+          </ul>
+        </li>
+        <li><a href="#实例2hopfield-neural-networks">实例2：Hopfield Neural Networks</a>
+          <ul>
+            <li><a href="#定义">定义</a></li>
+            <li><a href="#问题">问题</a></li>
+            <li><a href="#state_flipping算法">State_flipping算法</a></li>
+            <li><a href="#与局部搜索联系">与局部搜索联系</a></li>
+          </ul>
+        </li>
+        <li><a href="#实例3maximum-cut问题">实例3：Maximum Cut问题</a>
+          <ul>
+            <li><a href="#定义-1">定义</a></li>
+            <li><a href="#与局部搜索联系-1">与局部搜索联系</a></li>
+            <li><a href="#state_flipping算法-1">State_flipping算法</a></li>
+            <li><a href="#1-局部最优解的质量评估">1. 局部最优解的质量评估</a></li>
+            <li><a href="#2-多项式算法问题">2. 多项式算法问题</a></li>
+            <li><a href="#3-定义一个更好的local">3. 定义一个更好的<em>local</em></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

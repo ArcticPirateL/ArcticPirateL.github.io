@@ -2,22 +2,28 @@
 <html lang="en" dir="ltr">
 <head>
   <meta property="og:title" content="" />
-<meta property="og:description" content="ADS绪论#高级数据结构与算法分析主要包括三块问题：
-动态查找问题#总体目的：查找树且完全二叉树（降低高度）。
-难度过大，因此数据结构核心目标：有一定自由度。因此需要考虑如何进行树的平衡。
-高级堆（优先队列问题）#总体目的：插入任意&amp;删除最小/最大。
-结构特性：完全二叉树（structure property）
-排序特性：结点上满足堆的条件（所在子树最大/最小）（order property）。
-新问题：云计算，每个云端服务器管理一个堆，本质上为资源整合。（弹性计算）
-​ 云计算的调度问题，把正在计算的任务迁移到其他机器，使其最高效运转，即两个优先队列的合并问题。
-算法思想#包括分治算法、动态规划、贪婪算法、NPC问题……
-大致归为两类：
-经典算法：如贪婪算法、分治算法…… 非经典算法：寻找次优解，如加速、并行…… " />
+<meta property="og:description" content="B&#43;树#概述#常用于数据库、文件系统。大量数据通常存储在磁盘中而非主存，然而磁盘中查找文件速度较慢，为提升速度需要将存储空间划分为很多个block。
+B树是搜索树的一种，与二叉搜索树不同。B树包括原始B树、B&#43;树、B-树等。
+定义#order为M的树。结构特性如下：
+根节点是叶子节点或有2到M个孩子。 除根节点外所有的非叶子节点有==[M/2, M]==个孩子。 所有叶子节点深度相同。 从底层向上层构建，平衡性非常好。
+所有真实数据都存放在叶子节点中。
+每个中间节点包括M个儿子指针和M-1个key，key存放除第一个子节点外的每个子节点中最小的元素值。
+所有叶子节点为从小到大的顺序。
+查找操作#与二叉搜索树类似，从根节点开始，比较节点的key值和要查找的值。
+插入操作#首先查找到将要插入的叶子节点位置。
+若满足B&#43;树的节点数要求，直接插入即可。
+若不满足，则分裂成两个叶子节点，并更新父节点的key值。
+若导致父节点也不满足节点数要求，则继续向上分裂。
+存在问题：不断低效插入导致高度增加较快。此时可以优先考虑未满的叶子节点进行插入，使尽可能多的叶子节点达到full状态。
+代码实现#$$T(M,N)=O((\frac{M}{logM})logN)$$
+$$T_{Find}(M,N)=O(logN)$$
+$$Depth(M,N)=O(log_\frac{M}{2}N)$$
+根据时间复杂度公式，并不是M越大越高效。实际结果表明，M=3或4时表现最佳。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/ADS%E7%BB%AA%E8%AE%BA/" /><meta property="article:section" content="数据结构" />
+<meta property="og:url" content="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/B&#43;%E6%A0%91/" /><meta property="article:section" content="数据结构" />
 
 <meta property="og:site_name" content="📓 Arctic的笔记本" />
-<title>Ads绪论 | 📓 Arctic的笔记本</title>
+<title>B 树 | 📓 Arctic的笔记本</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.45ec1f6261e17c6488824ac77b6b8a0c11eef38eaed587cfecad4b284f57ee79.css" integrity="sha256-RewfYmHhfGSIgkrHe2uKDBHu846u1YfP7K1LKE9X7nk=" crossorigin="anonymous">
@@ -34,17 +40,23 @@ https://github.com/alex-shpak/hugo-book
 <meta charset="UTF-8" />
 <meta
   name="description"
-  content="ADS绪论#高级数据结构与算法分析主要包括三块问题：
-动态查找问题#总体目的：查找树且完全二叉树（降低高度）。
-难度过大，因此数据结构核心目标：有一定自由度。因此需要考虑如何进行树的平衡。
-高级堆（优先队列问题）#总体目的：插入任意&amp;删除最小/最大。
-结构特性：完全二叉树（structure property）
-排序特性：结点上满足堆的条件（所在子树最大/最小）（order property）。
-新问题：云计算，每个云端服务器管理一个堆，本质上为资源整合。（弹性计算）
-​ 云计算的调度问题，把正在计算的任务迁移到其他机器，使其最高效运转，即两个优先队列的合并问题。
-算法思想#包括分治算法、动态规划、贪婪算法、NPC问题……
-大致归为两类：
-经典算法：如贪婪算法、分治算法…… 非经典算法：寻找次优解，如加速、并行…… "
+  content="B&#43;树#概述#常用于数据库、文件系统。大量数据通常存储在磁盘中而非主存，然而磁盘中查找文件速度较慢，为提升速度需要将存储空间划分为很多个block。
+B树是搜索树的一种，与二叉搜索树不同。B树包括原始B树、B&#43;树、B-树等。
+定义#order为M的树。结构特性如下：
+根节点是叶子节点或有2到M个孩子。 除根节点外所有的非叶子节点有==[M/2, M]==个孩子。 所有叶子节点深度相同。 从底层向上层构建，平衡性非常好。
+所有真实数据都存放在叶子节点中。
+每个中间节点包括M个儿子指针和M-1个key，key存放除第一个子节点外的每个子节点中最小的元素值。
+所有叶子节点为从小到大的顺序。
+查找操作#与二叉搜索树类似，从根节点开始，比较节点的key值和要查找的值。
+插入操作#首先查找到将要插入的叶子节点位置。
+若满足B&#43;树的节点数要求，直接插入即可。
+若不满足，则分裂成两个叶子节点，并更新父节点的key值。
+若导致父节点也不满足节点数要求，则继续向上分裂。
+存在问题：不断低效插入导致高度增加较快。此时可以优先考虑未满的叶子节点进行插入，使尽可能多的叶子节点达到full状态。
+代码实现#$$T(M,N)=O((\frac{M}{logM})logN)$$
+$$T_{Find}(M,N)=O(logN)$$
+$$Depth(M,N)=O(log_\frac{M}{2}N)$$
+根据时间复杂度公式，并不是M越大越高效。实际结果表明，M=3或4时表现最佳。"
 />
 <title>
   📓 Arctic的笔记本
@@ -379,7 +391,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/ADS%E7%BB%AA%E8%AE%BA/" class="active">Ads绪论</a>
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/ADS%E7%BB%AA%E8%AE%BA/" class="">Ads绪论</a>
   
 
         </li>
@@ -499,7 +511,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-dc1d97ba8e317a05384d3a997a5261b7" class="toggle"  />
+    <input type="checkbox" id="section-dc1d97ba8e317a05384d3a997a5261b7" class="toggle" checked />
     <label for="section-dc1d97ba8e317a05384d3a997a5261b7" class="flex justify-between">
       <a role="button" class="book-collapse-toggle ">树</a>
     </label>
@@ -515,7 +527,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/B&#43;%E6%A0%91/" class="">B 树</a>
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/B&#43;%E6%A0%91/" class="active">B 树</a>
   
 
         </li>
@@ -732,7 +744,7 @@ https://github.com/alex-shpak/hugo-book
       
       
   <article class="markdown">
-    <h1 class="title">Ads绪论</h1>
+    <h1 class="title">B 树</h1>
     
 
 
@@ -740,6 +752,15 @@ https://github.com/alex-shpak/hugo-book
 
 
 
+  
+  
+
+  
+  
+
+  
+  
+
 
 
 
@@ -762,44 +783,90 @@ https://github.com/alex-shpak/hugo-book
   
   
   
+    
+    
+      
+      
+    
+    
+  
+  
+  
+
+
+
+
+
   
   
 
 
-
-
-
-
-<h1 id="ads绪论">
-  ADS绪论
-  <a class="anchor" href="#ads%e7%bb%aa%e8%ae%ba">#</a>
+<h1 id="b树">
+  B+树
+  <a class="anchor" href="#b%e6%a0%91">#</a>
 </h1>
-<p>高级数据结构与算法分析主要包括三块问题：</p>
-<h2 id="动态查找问题">
-  动态查找问题
-  <a class="anchor" href="#%e5%8a%a8%e6%80%81%e6%9f%a5%e6%89%be%e9%97%ae%e9%a2%98">#</a>
+<h2 id="概述">
+  概述
+  <a class="anchor" href="#%e6%a6%82%e8%bf%b0">#</a>
 </h2>
-<p><strong>总体目的</strong>：查找树且完全二叉树（降低高度）。</p>
-<p>难度过大，因此数据结构核心目标：有一定自由度。因此需要考虑如何进行树的平衡。</p>
-<h2 id="高级堆优先队列问题">
-  高级堆（优先队列问题）
-  <a class="anchor" href="#%e9%ab%98%e7%ba%a7%e5%a0%86%e4%bc%98%e5%85%88%e9%98%9f%e5%88%97%e9%97%ae%e9%a2%98">#</a>
+<p>常用于数据库、文件系统。大量数据通常存储在磁盘中而非主存，然而磁盘中查找文件速度较慢，为提升速度需要将存储空间划分为很多个block。</p>
+<p>B树是搜索树的一种，与二叉搜索树不同。B树包括原始B树、B+树、B-树等。</p>
+<h2 id="定义">
+  定义
+  <a class="anchor" href="#%e5%ae%9a%e4%b9%89">#</a>
 </h2>
-<p><strong>总体目的</strong>：插入任意&amp;删除最小/最大。</p>
-<p><strong>结构特性</strong>：完全二叉树（structure property）</p>
-<p><strong>排序特性</strong>：结点上满足堆的条件（所在子树最大/最小）（order property）。</p>
-<p><strong>新问题</strong>：云计算，每个云端服务器管理一个堆，本质上为资源整合。（弹性计算）</p>
-<p>​               云计算的调度问题，把正在计算的任务迁移到其他机器，使其最高效运转，即<strong>两个优先队列的合并</strong>问题。</p>
-<h2 id="算法思想">
-  算法思想
-  <a class="anchor" href="#%e7%ae%97%e6%b3%95%e6%80%9d%e6%83%b3">#</a>
-</h2>
-<p>包括分治算法、动态规划、贪婪算法、NPC问题……</p>
-<p>大致归为两类：</p>
+<p>order为M的树。结构特性如下：</p>
 <ul>
-<li>经典算法：如贪婪算法、分治算法……</li>
-<li>非经典算法：寻找次优解，如加速、并行……</li>
+<li>根节点是叶子节点或有<strong>2到M个</strong>孩子。</li>
+<li>除根节点外所有的非叶子节点有<mark>[M/2, M]</mark>个孩子。</li>
+<li>所有叶子节点深度相同。</li>
 </ul>
+<blockquote>
+<p>从底层向上层构建，平衡性非常好。</p>
+</blockquote>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E6%A0%91%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424213008361.png" width="auto" alt="image-20230424213008361"  /></p>
+<p>所有真实数据<strong>都存放在叶子节点</strong>中。</p>
+<p>每个中间节点包括M个儿子指针和M-1个key，key存放除第一个子节点外的每个子节点中最小的元素值。</p>
+<p>所有叶子节点为从小到大的顺序。</p>
+<h2 id="查找操作">
+  查找操作
+  <a class="anchor" href="#%e6%9f%a5%e6%89%be%e6%93%8d%e4%bd%9c">#</a>
+</h2>
+<p>与二叉搜索树类似，从根节点开始，比较节点的key值和要查找的值。</p>
+<h2 id="插入操作">
+  插入操作
+  <a class="anchor" href="#%e6%8f%92%e5%85%a5%e6%93%8d%e4%bd%9c">#</a>
+</h2>
+<ul>
+<li>
+<p>首先查找到将要插入的叶子节点位置。</p>
+</li>
+<li>
+<p>若满足B+树的节点数要求，直接插入即可。</p>
+</li>
+<li>
+<p>若不满足，则分裂成两个叶子节点，并更新父节点的key值。</p>
+</li>
+<li>
+<p>若导致父节点也不满足节点数要求，则继续向上分裂。</p>
+</li>
+</ul>
+<p><strong>存在问题</strong>：不断低效插入导致高度增加较快。此时可以优先考虑未满的叶子节点进行插入，使尽可能多的叶子节点达到full状态。</p>
+<h2 id="代码实现">
+  代码实现
+  <a class="anchor" href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0">#</a>
+</h2>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E6%A0%91%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424214712051.png" width="auto" alt="image-20230424214712051"  /></p>
+<p>$$T(M,N)=O((\frac{M}{logM})logN)$$</p>
+<p>$$T_{Find}(M,N)=O(logN)$$</p>
+<p>$$Depth(M,N)=O(log_\frac{M}{2}N)$$</p>
+<p>根据时间复杂度公式，并不是M越大越高效。实际结果表明，M=3或4时表现最佳。</p>
 
 
     
@@ -890,11 +957,13 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#ads绪论">ADS绪论</a>
+    <li><a href="#b树">B+树</a>
       <ul>
-        <li><a href="#动态查找问题">动态查找问题</a></li>
-        <li><a href="#高级堆优先队列问题">高级堆（优先队列问题）</a></li>
-        <li><a href="#算法思想">算法思想</a></li>
+        <li><a href="#概述">概述</a></li>
+        <li><a href="#定义">定义</a></li>
+        <li><a href="#查找操作">查找操作</a></li>
+        <li><a href="#插入操作">插入操作</a></li>
+        <li><a href="#代码实现">代码实现</a></li>
       </ul>
     </li>
   </ul>

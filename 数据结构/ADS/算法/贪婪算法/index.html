@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta property="og:title" content="" />
+<meta property="og:description" content="贪婪算法#概述#在Dijkstra算法求解最短路径、Kruskal算法求解最小生成树中都使用了贪婪算法的思想。
+用于求解最优问题。通常已知一些约束和最优函数，满足约束的解决方案成为可行方案（feasible solution）。
+最优函数值最大的可行方案称为最优方案。
+核心思想#每个步骤都选择最优解，上一步选择的结果在后续步骤中不会改变，即不能撤销前面步骤，同时每个选择都应确保方案可行。
+注意：
+贪婪算法只在当前最优解即为总体最优解时能正确解出最优解，即local optimum = global optimum的gool luck情况。 贪婪算法不能保证结果一定为最优，但它给出的结果一定与最优结果取值相近，即启发式算法（heuristics）。因此当寻找实际的最优解需要耗费大量时间时，直觉上可以采用贪婪算法。good enough。 活动选择问题#给出需要共用同一资源的一系列时间，记为$S={a_1,a_2,……,a_n}$。每个事件$a_i$发生的时间间隔为$[s_i,f_i)$。
+对于事件$a_i$和$a_j$，若有$s_i\ge f_j$或$s_j\ge f_j$，则称为两个事件兼容，即两个事件的时间不重合。
+假设：$f_1\le f_2\le……\le f_{n-1}\le f_n$。
+目标是选择能够兼容发生的事件的最大子集。
+例：
+最多能兼容4个事件，为最优解，且最优结果不唯一。
+动态规划求解#定义$S_{ij}$为起始时间在$a_i$开始之后且结束时间在$a_j$结束之前的解。
+将$S_{ij}$分为两个子问题，进行divide-conquer。
+时间复杂度为$O(N^3)$。
+贪婪算法求解#不同的贪婪规则：
+挑选在不与前面重合的前提下，最早开始的事件。
+挑选在不与前面重合的前提下，时间最短的事件。
+挑选在不与前面重合的前提下，与其余事件冲突最少的事件。
+挑选在不与前面重合的前提下，最早结束的事件。即尽快使资源得到释放。
+正确性证明#需要证明：①算法的结果满足时间不重合。 ②结果最优。
+定理
+对于任意非空的子问题$S_k$，若$a_m$是$S_k$中最早结束的事件，则$a_m$一定是$S_k$最优解的集合中的元素。（最优解不一定唯一）
+证明：
+设$A_k$为某一最优解集合（不一定包括$a_m$），设$a_{ef}$为某个最优解集合中结束时间最早的一个事件。
+①若$a_m$与$a_{ef}$是同一个事件，则无需额外证明。
+②否则，用$a_m$替换$a_{ef}$，得到新的集合$A_k&rsquo;$。由于$a_m$是整个集合中最早结束的事件，因此有$f_m\le f_{ef}$。
+显然$a_m$与这一解集合中的其他事件都不冲突，因此$A_k&rsquo;$是一个新的最优解集合。
+最终解决办法
+每次选择最先结束的事件，尾递归可以转换为迭代求解，因此总的时间复杂度为：$O(NlogN)$。
+问题：能否将“最先结束”这一条件替换为“最迟开始”？
+答：可以，能够通过证明。
+另一种DP求解#其中$c_{1,j}$表示从第一个事件到第j个事件间的最优解，$k(j)$表示在$a_j$开始前结束且距离$a_j$最近的事件。
+相较于第一种动态规划，在证明了上述定理的基础上，把i、j双重循环简化为单层循环。
+$c_{1,j-1}$表示不选取$a_j$时的最优解，$c_{1,k(j)}$表示在$a_j$之前与$a_j$不冲突的最优解，$c_{1,k(j)}&#43;1$表示选取$a_j$时的最优解。
+如果修改问题为：每个事件带有一定权重，而最优解指的是所有事件权重之和最大的解
+此时动态规划算法依然是正确的，但贪婪算法不一定正确。
+贪婪策略的要素#将最优问题分步骤解决，使得每步中需要做出一个选择。 需要证明，总存在至少一个最优解包含贪婪算法的选择（与上述正确性证明类似），这保证了贪婪算法是安全可行的。 需要证明，存在最优子结构。即用贪婪算法选择出的最优子解&#43;剩余部分的最优子解=原问题的最优解。 霍夫曼编码问题#问题描述#霍夫曼编码通常用于文件压缩。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/%E8%B4%AA%E5%A9%AA%E7%AE%97%E6%B3%95/" /><meta property="article:section" content="数据结构" />
+
+<meta property="og:site_name" content="📓 Arctic的笔记本" />
+<title>贪婪算法 | 📓 Arctic的笔记本</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.45ec1f6261e17c6488824ac77b6b8a0c11eef38eaed587cfecad4b284f57ee79.css" integrity="sha256-RewfYmHhfGSIgkrHe2uKDBHu846u1YfP7K1LKE9X7nk=" crossorigin="anonymous">
+
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+  
+
+
+
+<meta charset="UTF-8" />
+<meta
+  name="description"
+  content="贪婪算法#概述#在Dijkstra算法求解最短路径、Kruskal算法求解最小生成树中都使用了贪婪算法的思想。
+用于求解最优问题。通常已知一些约束和最优函数，满足约束的解决方案成为可行方案（feasible solution）。
+最优函数值最大的可行方案称为最优方案。
+核心思想#每个步骤都选择最优解，上一步选择的结果在后续步骤中不会改变，即不能撤销前面步骤，同时每个选择都应确保方案可行。
+注意：
+贪婪算法只在当前最优解即为总体最优解时能正确解出最优解，即local optimum = global optimum的gool luck情况。 贪婪算法不能保证结果一定为最优，但它给出的结果一定与最优结果取值相近，即启发式算法（heuristics）。因此当寻找实际的最优解需要耗费大量时间时，直觉上可以采用贪婪算法。good enough。 活动选择问题#给出需要共用同一资源的一系列时间，记为$S={a_1,a_2,……,a_n}$。每个事件$a_i$发生的时间间隔为$[s_i,f_i)$。
+对于事件$a_i$和$a_j$，若有$s_i\ge f_j$或$s_j\ge f_j$，则称为两个事件兼容，即两个事件的时间不重合。
+假设：$f_1\le f_2\le……\le f_{n-1}\le f_n$。
+目标是选择能够兼容发生的事件的最大子集。
+例：
+最多能兼容4个事件，为最优解，且最优结果不唯一。
+动态规划求解#定义$S_{ij}$为起始时间在$a_i$开始之后且结束时间在$a_j$结束之前的解。
+将$S_{ij}$分为两个子问题，进行divide-conquer。
+时间复杂度为$O(N^3)$。
+贪婪算法求解#不同的贪婪规则：
+挑选在不与前面重合的前提下，最早开始的事件。
+挑选在不与前面重合的前提下，时间最短的事件。
+挑选在不与前面重合的前提下，与其余事件冲突最少的事件。
+挑选在不与前面重合的前提下，最早结束的事件。即尽快使资源得到释放。
+正确性证明#需要证明：①算法的结果满足时间不重合。 ②结果最优。
+定理
+对于任意非空的子问题$S_k$，若$a_m$是$S_k$中最早结束的事件，则$a_m$一定是$S_k$最优解的集合中的元素。（最优解不一定唯一）
+证明：
+设$A_k$为某一最优解集合（不一定包括$a_m$），设$a_{ef}$为某个最优解集合中结束时间最早的一个事件。
+①若$a_m$与$a_{ef}$是同一个事件，则无需额外证明。
+②否则，用$a_m$替换$a_{ef}$，得到新的集合$A_k&rsquo;$。由于$a_m$是整个集合中最早结束的事件，因此有$f_m\le f_{ef}$。
+显然$a_m$与这一解集合中的其他事件都不冲突，因此$A_k&rsquo;$是一个新的最优解集合。
+最终解决办法
+每次选择最先结束的事件，尾递归可以转换为迭代求解，因此总的时间复杂度为：$O(NlogN)$。
+问题：能否将“最先结束”这一条件替换为“最迟开始”？
+答：可以，能够通过证明。
+另一种DP求解#其中$c_{1,j}$表示从第一个事件到第j个事件间的最优解，$k(j)$表示在$a_j$开始前结束且距离$a_j$最近的事件。
+相较于第一种动态规划，在证明了上述定理的基础上，把i、j双重循环简化为单层循环。
+$c_{1,j-1}$表示不选取$a_j$时的最优解，$c_{1,k(j)}$表示在$a_j$之前与$a_j$不冲突的最优解，$c_{1,k(j)}&#43;1$表示选取$a_j$时的最优解。
+如果修改问题为：每个事件带有一定权重，而最优解指的是所有事件权重之和最大的解
+此时动态规划算法依然是正确的，但贪婪算法不一定正确。
+贪婪策略的要素#将最优问题分步骤解决，使得每步中需要做出一个选择。 需要证明，总存在至少一个最优解包含贪婪算法的选择（与上述正确性证明类似），这保证了贪婪算法是安全可行的。 需要证明，存在最优子结构。即用贪婪算法选择出的最优子解&#43;剩余部分的最优子解=原问题的最优解。 霍夫曼编码问题#问题描述#霍夫曼编码通常用于文件压缩。"
+/>
+<title>
+  📓 Arctic的笔记本
+</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+
+
+
+<link rel="shortcut icon" type="image/png"  href="https://ArcticPirateL.github.io/favicon.png" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+<link href="https://ArcticPirateL.github.io/styles.e08ceb33360cec132feb69cfb982e2a4.min.css" rel="stylesheet" />
+
+
+<link href="https://ArcticPirateL.github.io/quartz/styles/_light_syntax.86a48a52faebeaaf42158b72922b1c90.min.css" rel="stylesheet" id="theme-link">
+
+  
+
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+      integrity="sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"
+        integrity="sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx"
+        crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR"
+        crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/contrib/copy-tex.min.js"
+        integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A"
+        crossorigin="anonymous"></script>
+
+  
+
+
+
+
+
+
+<script src="https://ArcticPirateL.github.io/quartz/js/darkmode.8f8af77a3b900357313e7e044e85a9ad.min.js"></script>
+
+
+
+<script src="https://ArcticPirateL.github.io/quartz/js/util.e6844bcc6148c92f3b102d867c918e7c.min.js"></script>
+
+
+
+<script async src="https://unpkg.com/@floating-ui/core@0.7.3"></script>
+<script async src="https://unpkg.com/@floating-ui/dom@0.5.4"></script>
+
+<script src="https://ArcticPirateL.github.io/quartz/js/popover.d15bbb66588317f9fbee1a95e4750bea.min.js"></script>
+
+
+
+
+<script defer src="https://ArcticPirateL.github.io/quartz/js/code-title.d6525fa48597ed29631fab15192407e2.min.js"></script>
+
+
+
+
+<script defer src="https://ArcticPirateL.github.io/quartz/js/clipboard.3ce3710d38377077f1cee5228144b8a8.min.js"></script>
+
+
+
+
+<script defer src="https://ArcticPirateL.github.io/quartz/js/callouts.e83135249ba7df7bb9912c90a91a55c6.min.js"></script>
+
+
+
+ 
+<script>
+  const SEARCH_ENABLED =  false 
+  const LATEX_ENABLED =  true 
+  const PRODUCTION =  true 
+  const BASE_URL = "https://ArcticPirateL.github.io"
+  const fetchData = Promise.all([
+        fetch("https:\/\/ArcticPirateL.github.io\/indices\/linkIndex.8f82182ab1f0691ed61ef55d039d916d.min.json")
+          .then(data => data.json())
+          .then(data => ({
+            index: data.index,
+            links: data.links,
+          })),
+        fetch("https:\/\/ArcticPirateL.github.io\/indices\/contentIndex.8263e16ff65aa55ee0ce2c719e87df13.min.json")
+          .then(data => data.json()),
+      ])
+      .then(([{index, links}, content]) => ({
+        index,
+        links,
+        content,
+      }))
+
+    const render = () => {
+    
+    const siteBaseURL = new URL(BASE_URL);
+    const pathBase = siteBaseURL.pathname;
+    const pathWindow = window.location.pathname;
+    const isHome = pathBase == pathWindow;
+
+    addCopyButtons();
+    
+
+    
+
+    addCollapsibleCallouts();
+    
+
+    
+    initPopover(
+      "https://ArcticPirateL.github.io",
+       true 
+    )
+    
+
+    
+    const footer = document.getElementById("footer")
+    if (footer) {
+      const container = document.getElementById("graph-container")
+      
+      if (!container) return requestAnimationFrame(render)
+      
+      container.textContent = ""
+
+      const drawGlobal = isHome &&  true ;
+      drawGraph(
+          "https://ArcticPirateL.github.io",
+          drawGlobal,
+          [{"/moc":"#4388cc"}],
+          drawGlobal ? {"centerForce":1,"depth":-1,"enableDrag":true,"enableLegend":false,"enableZoom":true,"fontSize":0.5,"linkDistance":1,"opacityScale":3,"repelForce":1,"scale":1.4} : {"centerForce":1,"depth":1,"enableDrag":true,"enableLegend":false,"enableZoom":true,"fontSize":0.6,"linkDistance":1,"opacityScale":3,"repelForce":2,"scale":1.2}
+        );
+
+      }
+    
+
+    
+      var els = document.getElementsByClassName("mermaid");
+      if (els.length > 0) {
+        import('https://unpkg.com/mermaid@9/dist/mermaid.esm.min.mjs').then(
+          (obj) => {
+            
+            
+            obj.default.init();
+          }
+        )
+      }
+    
+  }
+
+  const init = (doc = document) => {
+    
+    addCopyButtons();
+    
+
+    addTitleToCodeBlocks();
+    renderMathInElement(doc.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+      ],
+      macros: {
+        '’': "'"
+      },
+      throwOnError : false
+    });
+    
+  };
+</script>
+
+<script>
+  window.Million = {
+    navigate: (url) => (window.location.href = url),
+    prefetch: () => {},
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    init()
+    render()
+  })
+</script>
+
+
+</head>
+<div id="search-container">
+  <div id="search-space">
+    <input autocomplete="off" id="search-bar" name="search" type="text" aria-label="Search"
+      placeholder="Search for something..." dir="">
+    <div id="results-container">
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/flexsearch@0.7.21/dist/flexsearch.bundle.js"
+  integrity="sha256-i3A0NZGkhsKjVMzFxv3ksk0DZh3aXqu0l49Bbh0MdjE=" crossorigin="anonymous" defer></script>
+
+<script defer src="https://ArcticPirateL.github.io/quartz/js/full-text-search.cc0284dc74ffd43585e5227c0138681e.min.js"></script>
+
+
+
+<header class="book-header">
+    
+    <label for="menu-control">
+      <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+    </label>
+    <h1 id="page-title"><a href="https://ArcticPirateL.github.io">📓 Arctic的笔记本</a></h1>
+    <div class="spacer"></div>
+    <div id="search-icon" class="quartz-search">
+      <p>Search</p>
+      <svg tabindex="0" aria-labelledby="title desc" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title id="title">Search Icon</title><desc id="desc">Icon to open search</desc><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg>
+    </div>
+    <div class='darkmode'>
+    <input class='toggle' id='darkmode-toggle' type='checkbox' tabindex="-1">
+    <label id="toggle-label-light" for='darkmode-toggle' tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35;" xml:space="preserve">
+            <title>Light Mode</title>
+            <path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z" />
+        </svg>
+    </label>
+    <label id="toggle-label-dark" for='darkmode-toggle' tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background='new 0 0 100 100'" xml:space="preserve">
+            <title>Dark Mode</title>
+            <path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z" />
+        </svg>
+    </label>
+</div>
+</header>
+
+
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <main class="flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<div class="menu-search">
+  <div id="search-icon" class="quartz-search">
+    <p>Search</p>
+    <svg tabindex="0" aria-labelledby="title desc" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7">
+      <title id="title">Search Icon</title>
+      <desc id="desc">Icon to open search</desc>
+      <g class="search-path" fill="none">
+        <path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4" />
+        <circle cx="8" cy="8" r="7" />
+      </g>
+    </svg>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-faa006b4e8c111649edfcae5fe6b24ff" class="toggle" checked />
+    <label for="section-faa006b4e8c111649edfcae5fe6b24ff" class="flex justify-between">
+      <a role="button" class="book-collapse-toggle ">数据结构</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0d302acb88494e149011feeb192d6398" class="toggle" checked />
+    <label for="section-0d302acb88494e149011feeb192d6398" class="flex justify-between">
+      <a role="button" class="book-collapse-toggle ">Ads</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/ADS%E7%BB%AA%E8%AE%BA/" class="">Ads绪论</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-90596e9847a82884c56cd4b76f9de37a" class="toggle"  />
+    <label for="section-90596e9847a82884c56cd4b76f9de37a" class="flex justify-between">
+      <a role="button" class="book-collapse-toggle ">堆</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E4%BA%8C%E9%A1%B9%E9%98%9F%E5%88%97/" class="">二项队列</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E5%B7%A6%E5%BC%8F%E5%A0%86/" class="">左式堆</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E6%96%9C%E5%A0%86/" class="">斜堆</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-f1974ad0347428db0e7ae62c9bb2760d" class="toggle"  />
+    <label for="section-f1974ad0347428db0e7ae62c9bb2760d" class="flex justify-between">
+      <a role="button" class="book-collapse-toggle ">文件</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%96%87%E4%BB%B6/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/" class="">倒排索引</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%96%87%E4%BB%B6/%E5%A4%96%E9%83%A8%E6%8E%92%E5%BA%8F/" class="">外部排序</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-dc1d97ba8e317a05384d3a997a5261b7" class="toggle"  />
+    <label for="section-dc1d97ba8e317a05384d3a997a5261b7" class="flex justify-between">
+      <a role="button" class="book-collapse-toggle ">树</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/B&#43;%E6%A0%91/" class="">B 树</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/Splay%E6%A0%91/" class="">Splay树</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/%E7%BA%A2%E9%BB%91%E6%A0%91/" class="">红黑树</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-3baa8f110f9b5b7e3633bb10105b9cbe" class="toggle" checked />
+    <label for="section-3baa8f110f9b5b7e3633bb10105b9cbe" class="flex justify-between">
+      <a role="button" class="book-collapse-toggle ">算法</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/NP%E9%97%AE%E9%A2%98/" class="">Np问题</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/%E5%88%86%E6%B2%BB%E7%AE%97%E6%B3%95/" class="">分治算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="">动态规划</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/%E5%B1%80%E9%83%A8%E6%90%9C%E7%B4%A2/" class="">局部搜索</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/%E5%B9%B6%E8%A1%8C%E7%AE%97%E6%B3%95/" class="">并行算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/%E8%B4%AA%E5%A9%AA%E7%AE%97%E6%B3%95/" class="active">贪婪算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/%E8%BF%91%E4%BC%BC%E7%AE%97%E6%B3%95/" class="">近似算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/%E9%9A%8F%E6%9C%BA%E5%8C%96%E7%AE%97%E6%B3%95/" class="">随机化算法</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/ArcticPirateL"  target="_blank" rel="noopener">
+        Github
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+    <div class="book-page container">
+      
+
+      
+      
+  <article class="markdown">
+    <h1 class="title">贪婪算法</h1>
+    
+
+
+
+
+
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+  
+  
+
+
+
+
+
+
+<h1 id="贪婪算法">
+  贪婪算法
+  <a class="anchor" href="#%e8%b4%aa%e5%a9%aa%e7%ae%97%e6%b3%95">#</a>
+</h1>
+<h2 id="概述">
+  概述
+  <a class="anchor" href="#%e6%a6%82%e8%bf%b0">#</a>
+</h2>
+<p>在Dijkstra算法求解最短路径、Kruskal算法求解最小生成树中都使用了贪婪算法的思想。</p>
+<p>用于求解最优问题。通常已知一些约束和最优函数，满足约束的解决方案成为可行方案（feasible solution）。</p>
+<p>最优函数值最大的可行方案称为<strong>最优方案</strong>。</p>
+<h2 id="核心思想">
+  核心思想
+  <a class="anchor" href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e6%83%b3">#</a>
+</h2>
+<p>每个步骤都选择最优解，上一步选择的结果在后续步骤中不会改变，即不能撤销前面步骤，同时每个选择都应确保方案可行。</p>
+<blockquote>
+<p>注意：</p>
+<ul>
+<li>贪婪算法只在当前最优解即为总体最优解时能正确解出最优解，即local optimum = global optimum的gool luck情况。</li>
+<li>贪婪算法<strong>不能保证</strong>结果一定为最优，但它给出的结果一定与最优结果取值相近，即<strong>启发式算法（heuristics）</strong>。因此当寻找实际的最优解需要耗费大量时间时，直觉上可以采用贪婪算法。good enough。</li>
+</ul>
+</blockquote>
+<h2 id="活动选择问题">
+  活动选择问题
+  <a class="anchor" href="#%e6%b4%bb%e5%8a%a8%e9%80%89%e6%8b%a9%e9%97%ae%e9%a2%98">#</a>
+</h2>
+<p>给出需要共用同一资源的一系列时间，记为$S={a_1,a_2,……,a_n}$。每个事件$a_i$发生的时间间隔为$[s_i,f_i)$。</p>
+<p>对于事件$a_i$和$a_j$，若有$s_i\ge f_j$或$s_j\ge f_j$，则称为两个事件<strong>兼容</strong>，即两个事件的时间不重合。</p>
+<p>假设：$f_1\le f_2\le……\le f_{n-1}\le f_n$。</p>
+<p>目标是选择能够兼容发生的事件的最大子集。</p>
+<p><strong>例</strong>：</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230425115900700.png" width="auto" alt="image-20230425115900700"  /></p>
+<p>最多能兼容4个事件，为最优解，且最优结果不唯一。</p>
+<h3 id="动态规划求解">
+  动态规划求解
+  <a class="anchor" href="#%e5%8a%a8%e6%80%81%e8%a7%84%e5%88%92%e6%b1%82%e8%a7%a3">#</a>
+</h3>
+<p>定义$S_{ij}$为起始时间在$a_i$开始之后且结束时间在$a_j$结束之前的解。</p>
+<p>将$S_{ij}$分为两个子问题，进行divide-conquer。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230425225421497.png" width="auto" alt="image-20230425225421497"  /></p>
+<p>时间复杂度为$O(N^3)$。</p>
+<h3 id="贪婪算法求解">
+  贪婪算法求解
+  <a class="anchor" href="#%e8%b4%aa%e5%a9%aa%e7%ae%97%e6%b3%95%e6%b1%82%e8%a7%a3">#</a>
+</h3>
+<p><strong>不同的贪婪规则</strong>：</p>
+<ul>
+<li>
+<p>挑选在不与前面重合的前提下，最早开始的事件。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230425121135779.png" width="auto" alt="image-20230425121135779"  /></p>
+</li>
+<li>
+<p>挑选在不与前面重合的前提下，时间最短的事件。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230425121243157.png" width="auto" alt="image-20230425121243157"  /></p>
+</li>
+<li>
+<p>挑选在不与前面重合的前提下，与其余事件冲突最少的事件。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230425121357095.png" width="auto" alt="image-20230425121357095"  /></p>
+</li>
+<li>
+<p>挑选在不与前面重合的前提下，最早结束的事件。即尽快使资源得到释放。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230425121600369.png" width="auto" alt="image-20230425121600369"  /></p>
+</li>
+</ul>
+<h3 id="正确性证明">
+  正确性证明
+  <a class="anchor" href="#%e6%ad%a3%e7%a1%ae%e6%80%a7%e8%af%81%e6%98%8e">#</a>
+</h3>
+<p>需要证明：①算法的结果满足时间不重合。  ②结果最优。</p>
+<p><strong>定理</strong></p>
+<p>对于任意非空的子问题$S_k$，若$a_m$是$S_k$中最早结束的事件，则$a_m$一定是$S_k$最优解的集合中的元素。（最优解不一定唯一）</p>
+<blockquote>
+<p>证明：</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230425122507329.png" width="auto" alt="image-20230425122507329"  /></p>
+<p>设$A_k$为某一最优解集合（不一定包括$a_m$），设$a_{ef}$为某个最优解集合中结束时间最早的一个事件。</p>
+<p>①若$a_m$与$a_{ef}$是同一个事件，则无需额外证明。</p>
+<p>②否则，用$a_m$替换$a_{ef}$，得到新的集合$A_k&rsquo;$。由于$a_m$是整个集合中最早结束的事件，因此有$f_m\le f_{ef}$。</p>
+<p>显然$a_m$与这一解集合中的其他事件都不冲突，因此$A_k&rsquo;$是一个新的最优解集合。</p>
+</blockquote>
+<p><strong>最终解决办法</strong></p>
+<p>每次选择最先结束的事件，尾递归可以转换为迭代求解，因此总的时间复杂度为：$O(NlogN)$。</p>
+<blockquote>
+<p>问题：能否将“最先结束”这一条件替换为“最迟开始”？</p>
+<p>答：可以，能够通过证明。</p>
+</blockquote>
+<h3 id="另一种dp求解">
+  另一种DP求解
+  <a class="anchor" href="#%e5%8f%a6%e4%b8%80%e7%a7%8ddp%e6%b1%82%e8%a7%a3">#</a>
+</h3>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230425204729379.png" width="auto" alt="image-20230425204729379"  /></p>
+<p>其中$c_{1,j}$表示从第一个事件到第j个事件间的最优解，$k(j)$表示在$a_j$开始前结束且距离$a_j$最近的事件。</p>
+<p>相较于第一种动态规划，在证明了上述定理的基础上，把i、j双重循环简化为单层循环。</p>
+<p>$c_{1,j-1}$表示不选取$a_j$时的最优解，$c_{1,k(j)}$表示在$a_j$之前与$a_j$不冲突的最优解，$c_{1,k(j)}+1$表示选取$a_j$时的最优解。</p>
+<p><strong>如果修改问题为：每个事件带有一定权重，而最优解指的是所有事件权重之和最大的解</strong></p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230425205840928.png" width="auto" alt="image-20230425205840928"  /></p>
+<p>此时动态规划算法依然是正确的，但贪婪算法不一定正确。</p>
+<h3 id="贪婪策略的要素">
+  贪婪策略的要素
+  <a class="anchor" href="#%e8%b4%aa%e5%a9%aa%e7%ad%96%e7%95%a5%e7%9a%84%e8%a6%81%e7%b4%a0">#</a>
+</h3>
+<ul>
+<li>将最优问题分步骤解决，使得每步中需要做出一个选择。</li>
+<li>需要证明，总存在至少一个最优解包含贪婪算法的选择（与上述正确性证明类似），这保证了贪婪算法是安全可行的。</li>
+<li>需要证明，存在最优子结构。即用贪婪算法选择出的最优子解+剩余部分的最优子解=原问题的最优解。</li>
+</ul>
+<h2 id="霍夫曼编码问题">
+  霍夫曼编码问题
+  <a class="anchor" href="#%e9%9c%8d%e5%a4%ab%e6%9b%bc%e7%bc%96%e7%a0%81%e9%97%ae%e9%a2%98">#</a>
+</h2>
+<h3 id="问题描述">
+  问题描述
+  <a class="anchor" href="#%e9%97%ae%e9%a2%98%e6%8f%8f%e8%bf%b0">#</a>
+</h3>
+<p>霍夫曼编码通常用于文件压缩。</p>
+<p>如一个文件由一个长度为1000的字符串组成，其中只包括a、u、x、z四个字符。正常情况下需要8000 bits来存储这个字符串。</p>
+<p>但由于只包含四个字符，只用2 bits即可区分不同的字符，此时共需要2000 bits来存储这个字符串。</p>
+<p>因此，当字符串中存在C中不同的字符时，可以用$logC$个bits来表示每个字符。</p>
+<p>例如字符串：aaaxuaxz</p>
+<p>为使存储空间更加节省，我们需要获取一些额外的信息，包括：</p>
+<ul>
+<li>
+<p>frequency：某个符号出现的次数（频率）。</p>
+<blockquote>
+<p>此时可以使用可变长度的bits对某个符号进行编码。如a=0, u=110, x=10, z=111。</p>
+<p>最终编码为：00010110010111</p>
+<p>可见其长度明显小于使用1B或2 bits的编码，实现了文件压缩效果。</p>
+<p>注：当所有字符出现的频率都相同时，这种方法不会有压缩的效果。</p>
+</blockquote>
+</li>
+</ul>
+<p><strong>问题：如何得到这些字符的编码？</strong></p>
+<p>使用一个二叉树（trie）表示原始的编码。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230425214814148.png" width="auto" alt="image-20230425214814148"  /></p>
+<blockquote>
+<p><strong>定义</strong>：对于一个字符$C_i$，$d_i$为其在二叉树中的深度，$f_i$为其在文件中出现的频率。定义这种编码的 <strong>$cost=\sum{d_if_i}$</strong>。</p>
+<p>​           显然对于一个字符，深度表示其编码长度，频率表示其出现次数，因此$d_if_i$表示其在整个文件中总共的编码长度。</p>
+<p>​           因此$d_if_i$的累加和表示这种编码方式编码的文件总长度。</p>
+</blockquote>
+<p><strong>最优解</strong>：即cost最小的编码方式。frequency越大的字符，取的depth越小。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230425215805204.png" width="auto" alt="image-20230425215805204"  /></p>
+<blockquote>
+<p><strong>存在的问题</strong>：如果已知每个字符的编码，求原字符串。如果将u的编码从110替换为100，则逆向的结果不唯一！</p>
+<p><strong>因此要求</strong>：任何一个字符的编码不能是另一个字符的<strong>前缀</strong>。即当u=100时，x=10是u的前缀，此时结果不唯一。</p>
+<p><strong>在二叉树的结构上体现为：<strong>每条路径上不能有大于等于2个字符节点，即所有字符节点必须是</strong>叶子节点</strong>。</p>
+<p>​                                              同时由于要达到最小的cost，因此必须为<strong>满二叉树</strong>（每个节点要么是叶子节点，要么有两个儿子）。</p>
+<blockquote>
+<p>原理：如果存在degree为1的节点，则可以删除该节点，得到更短的编码长度，不符合cost最小的最优结果。</p>
+</blockquote>
+<p><strong>这种编码称为前缀编码（prefix code）。</strong></p>
+<blockquote>
+<p><strong>一个结论</strong>：包含$n$个字符的字母表$C$，其中所有字符最终的最优前缀编码长度一定小于等于$n-1$。</p>
+</blockquote>
+</blockquote>
+<p>**目标：**找到能使所有字符位于叶子节点，且总cost最小的满二叉树。</p>
+<h3 id="贪婪算法求解-1">
+  贪婪算法求解
+  <a class="anchor" href="#%e8%b4%aa%e5%a9%aa%e7%ae%97%e6%b3%95%e6%b1%82%e8%a7%a3-1">#</a>
+</h3>
+<p>首先明确，求解这一满二叉树需要按<strong>从底层到顶层</strong>的顺序构建二叉树。</p>
+<p>要求拥有最小频率的字符编码长度最长，即到根节点的路径最长。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230425221854768.png" width="auto" alt="image-20230425221854768"  /></p>
+<p><strong>算法步骤：</strong></p>
+<ul>
+<li>
+<p>定义节点的weight为其儿子的weight之和，单个节点的初始weight为其frequency的值。</p>
+</li>
+<li>
+<p>使用最小堆结构，初始化为将所有的单个字符节点插入到堆中。</p>
+</li>
+<li>
+<p>每次循环定义一个新节点，删除两次堆中的最小节点，分别attach到新节点的左右儿子。</p>
+</li>
+<li>
+<p>更新新节点的权重，并将新节点插入到最小堆中，继续循环。</p>
+</li>
+</ul>
+<p>这种算法保证了depth与frequency乘积的总和达到最小。</p>
+<blockquote>
+<p>最后需要在每个分支添上0或1，表示最终编码。</p>
+</blockquote>
+<p><strong>时间复杂度为：</strong>$T=O(ClogC)$，其中$C$表示字符个数。</p>
+<p><strong>具体例子</strong>：</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230425223546953.png" width="auto" alt="image-20230425223546953"  /></p>
+<h3 id="正确性证明-1">
+  正确性证明
+  <a class="anchor" href="#%e6%ad%a3%e7%a1%ae%e6%80%a7%e8%af%81%e6%98%8e-1">#</a>
+</h3>
+<ul>
+<li>
+<p>证明最优解包含贪婪算法解出的结果。</p>
+<blockquote>
+<p><strong>引理1</strong>：设$C$为字母表，$x,y$是其中frequency最小的两个字符。</p>
+<p>​              则一定存在一个$C$的最优前缀编码，其中$x$和$y$有着相同的depth，两者的编码差别只在最后一位。</p>
+<p><strong>需要证明</strong>：已知$T$为一个最优解，对字符重新排序使得$x$和$y$有相同的depth，证明$cost(T&rsquo;)\le cost(T)$，则$T&rsquo;$也是最优解。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230425224304579.png" width="auto" alt="image-20230425224304579"  /></p>
+</blockquote>
+</li>
+<li>
+<p>证明存在最优子结构。</p>
+<blockquote>
+<p><strong>引理2</strong>：已知字母表$C&rsquo;$中字符$z$的frequency等于字母表$C$中$x$和$y$的frequency之和。</p>
+<p>​              则如果将$C&rsquo;$中的$z$替换为一个左右儿子各为$x$和$y$的新节点，新的$T$也是$C$的最优解。</p>
+<p><strong>本质</strong>：证明其余问题的最优解（$T&rsquo;$）+  子问题的最优解（$x,y$同深度）=  原始问题的最优解（$T$）</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230425225214389.png" width="auto" alt="image-20230425225214389"  /></p>
+</blockquote>
+</li>
+</ul>
+<h2 id="分治算法vs贪婪算法vs动态规划">
+  分治算法vs贪婪算法vs动态规划
+  <a class="anchor" href="#%e5%88%86%e6%b2%bb%e7%ae%97%e6%b3%95vs%e8%b4%aa%e5%a9%aa%e7%ae%97%e6%b3%95vs%e5%8a%a8%e6%80%81%e8%a7%84%e5%88%92">#</a>
+</h2>
+<p>对于每个贪婪算法，总存在一个较为复杂的动态规划算法能解决相同的问题。</p>
+<h3 id="分治算法">
+  分治算法
+  <a class="anchor" href="#%e5%88%86%e6%b2%bb%e7%ae%97%e6%b3%95">#</a>
+</h3>
+<p><strong>优点：</strong></p>
+<ul>
+<li>分治算法的思想简单，易于理解。</li>
+<li>对于某些问题，分治算法可以有效地减少计算量。</li>
+<li>分治算法可以很容易地并行化，适用于多核计算。</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>分治算法中，递归会导致函数调用次数的增加，因此在处理大规模数据时，可能会导致栈溢出。</li>
+<li>分治算法不适用于某些问题，例如求最长公共子序列等问题。</li>
+</ul>
+<p><strong>适用条件：</strong></p>
+<ul>
+<li>问题可以划分为多个相互独立的子问题。</li>
+<li>子问题的规模比原问题小，并且解决子问题的时间复杂度较小。</li>
+<li>子问题的解可以合并为原问题的解。</li>
+</ul>
+<h3 id="贪婪算法-1">
+  贪婪算法
+  <a class="anchor" href="#%e8%b4%aa%e5%a9%aa%e7%ae%97%e6%b3%95-1">#</a>
+</h3>
+<p><strong>优点：</strong></p>
+<ul>
+<li>简单：贪心算法通常比较简单，易于实现和理解。</li>
+<li>高效：贪心算法的时间复杂度通常比较低，能够在较短的时间内得到一个可行的解。</li>
+<li>可以解决一些特殊问题：贪心算法可以很好地解决一些特殊的最优化问题，如霍夫曼编码、活动选择问题等。</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>局部最优解：贪心算法只考虑了当前状态下的最优解，无法保证一定能够得到全局最优解。</li>
+<li>难以设计：有些问题难以用贪心算法求解，需要深入的分析和设计。</li>
+</ul>
+<p><strong>适用条件：</strong></p>
+<ul>
+<li>子问题的最优解能够递推到整个问题的最优解。</li>
+<li>贪心策略能够保证问题的最优解。</li>
+</ul>
+<h3 id="动态规划算法">
+  动态规划算法
+  <a class="anchor" href="#%e5%8a%a8%e6%80%81%e8%a7%84%e5%88%92%e7%ae%97%e6%b3%95">#</a>
+</h3>
+<p><strong>优点：</strong></p>
+<ul>
+<li>可以得到全局最优解：动态规划算法可以保证得到全局最优解，比贪心算法更为强大。</li>
+<li>可以解决一些无法用贪心算法解决的问题：动态规划算法可以很好地解决一些无法用贪心算法解决的问题，如背包问题、最长公共子序列等。</li>
+<li>动态规划算法可以优化一些问题的计算时间，减少不必要的重复计算。</li>
+<li>动态规划算法可以处理一些具有多阶段决策过程的问题。</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>相对较慢：动态规划算法需要逐步求解问题的最优解，相对较慢。</li>
+<li>需要较大的空间：动态规划算法需要存储中间结果，需要较大的空间。</li>
+</ul>
+<p><strong>适用条件：</strong></p>
+<ul>
+<li>问题具有最优子结构，即问题的最优解可以由子问题的最优解递推得到。</li>
+<li>问题的重叠子问题性质，即子问题之间存在重复计算的情况。</li>
+<li>问题可以分解为多个阶段，并且每个阶段可以做出一个决策，影响下一阶段的状态。</li>
+</ul>
+<h3 id="总结">
+  总结
+  <a class="anchor" href="#%e6%80%bb%e7%bb%93">#</a>
+</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>分治算法</th>
+<th>动态规划</th>
+<th>贪婪算法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>适用类型</strong></td>
+<td>通用问题</td>
+<td>优化问题</td>
+<td>优化问题</td>
+</tr>
+<tr>
+<td><strong>子问题结构</strong></td>
+<td>每个子问题不同</td>
+<td>很多子问题重复（不独立）</td>
+<td>只有一个子问题</td>
+</tr>
+<tr>
+<td><strong>最优子结构</strong></td>
+<td>不需要</td>
+<td>必须满足</td>
+<td>必须满足</td>
+</tr>
+<tr>
+<td><strong>子问题数</strong></td>
+<td>全部子问题都要解决</td>
+<td>全部子问题都要解决</td>
+<td>只要解决一个子问题</td>
+</tr>
+<tr>
+<td><strong>子问题在最优解里</strong></td>
+<td>全部</td>
+<td>部分</td>
+<td>部分</td>
+</tr>
+<tr>
+<td><strong>选择与求解次序</strong></td>
+<td>先选择后解决子问题</td>
+<td>先解决子问题后选择</td>
+<td>先选择后解决子问题</td>
+</tr>
+</tbody>
+</table>
+
+
+    
+
+<hr/>
+
+
+<div class="page-end" id="footer">
+    <div class="backlinks-container">
+        <h3>Backlinks</h3>
+<ul class="backlinks">
+    
+    
+    
+    
+    
+    
+    
+    <li>
+      No backlinks found
+    </li>
+    
+</ul>
+
+    </div>
+    <div>
+        <script
+  src="https://cdn.jsdelivr.net/npm/d3@6.7.0/dist/d3.min.js"
+  integrity="sha256-+7jaYCp29O1JusNWHaYtgUn6EhuP0VaFuswhNV06MyI="
+  crossorigin="anonymous"
+></script>
+<h3>Interactive Graph</h3>
+<div id="graph-container"></div>
+<style>
+  :root {
+    --g-node: var(--secondary);
+    --g-node-active: var(--primary);
+    --g-node-inactive: var(--visited);
+    --g-link: var(--outlinegray);
+    --g-link-active: #5a7282;
+  }
+</style>
+
+<script src="https://ArcticPirateL.github.io/quartz/js/graph.3d608db416a7219b41b53602cd180019.js"></script>
+
+    </div>
+</div>
+
+
+
+
+
+
+<div id="contact_buttons">
+    <footer>
+        
+        
+        <p>Made with <a href="https://github.com/64bitpandas/amethyst">Amethyst</a>, © 2023 Arctic</p>
+        <ul>
+            
+            <li><a href="https://ArcticPirateL.github.io">Home</a></li>
+            <li><a href="https://bencuan.me">Website</a></li><li><a href="https://blog.bencuan.me">Blog</a></li></ul>
+    </footer>
+</div>
+
+
+    
+  </article>
+ 
+      
+      
+      
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#贪婪算法">贪婪算法</a>
+      <ul>
+        <li><a href="#概述">概述</a></li>
+        <li><a href="#核心思想">核心思想</a></li>
+        <li><a href="#活动选择问题">活动选择问题</a>
+          <ul>
+            <li><a href="#动态规划求解">动态规划求解</a></li>
+            <li><a href="#贪婪算法求解">贪婪算法求解</a></li>
+            <li><a href="#正确性证明">正确性证明</a></li>
+            <li><a href="#另一种dp求解">另一种DP求解</a></li>
+            <li><a href="#贪婪策略的要素">贪婪策略的要素</a></li>
+          </ul>
+        </li>
+        <li><a href="#霍夫曼编码问题">霍夫曼编码问题</a>
+          <ul>
+            <li><a href="#问题描述">问题描述</a></li>
+            <li><a href="#贪婪算法求解-1">贪婪算法求解</a></li>
+            <li><a href="#正确性证明-1">正确性证明</a></li>
+          </ul>
+        </li>
+        <li><a href="#分治算法vs贪婪算法vs动态规划">分治算法vs贪婪算法vs动态规划</a>
+          <ul>
+            <li><a href="#分治算法">分治算法</a></li>
+            <li><a href="#贪婪算法-1">贪婪算法</a></li>
+            <li><a href="#动态规划算法">动态规划算法</a></li>
+            <li><a href="#总结">总结</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

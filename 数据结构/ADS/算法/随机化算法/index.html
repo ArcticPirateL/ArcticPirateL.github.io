@@ -2,22 +2,25 @@
 <html lang="en" dir="ltr">
 <head>
   <meta property="og:title" content="" />
-<meta property="og:description" content="ADS绪论#高级数据结构与算法分析主要包括三块问题：
-动态查找问题#总体目的：查找树且完全二叉树（降低高度）。
-难度过大，因此数据结构核心目标：有一定自由度。因此需要考虑如何进行树的平衡。
-高级堆（优先队列问题）#总体目的：插入任意&amp;删除最小/最大。
-结构特性：完全二叉树（structure property）
-排序特性：结点上满足堆的条件（所在子树最大/最小）（order property）。
-新问题：云计算，每个云端服务器管理一个堆，本质上为资源整合。（弹性计算）
-​ 云计算的调度问题，把正在计算的任务迁移到其他机器，使其最高效运转，即两个优先队列的合并问题。
-算法思想#包括分治算法、动态规划、贪婪算法、NPC问题……
-大致归为两类：
-经典算法：如贪婪算法、分治算法…… 非经典算法：寻找次优解，如加速、并行…… " />
+<meta property="og:description" content="随机化算法（Randomized Alogorithms）#随机化的定义#the world behaves randomly：随机生成乱序的输入并使用传统算法解决 $\Rightarrow$ 平均情况分析（Average-case Analysis）。 the algorithm behaves randomly：当输入情况最坏时算法采用随机决策的方式求解。 两种随机化目标：
+efficient algorithm： yield the correct answer with ==high probability==.注重效率高。 deterministic algorithm： always correct and run efficiently ==in expectation==.注重正确性。 概率前置知识#$Pr[A]$：事件$A$发生的概率。
+$\overline A$：事件$A$的补集，即不发生。
+$E[X]$：随机变量$X$的期望（平均值）。
+$E[X]=\Sigma_{j=0}^{\infin}j\cdot Pr[X=j]$。
+实例1：Hiring问题#雇佣一个助手，共$N$天，每天面试一个人。
+面试开销：$C_i &laquo; $雇佣开销：$C_h$。
+分析开销，假设$N$天面试雇佣了$M$个应聘者，则总开销为：$O(NC_i&#43;MC_h)$。目标为使总开销最小化。
+原始解法#从0开始，每次遇到更好的应聘者，解雇此前最好的，雇佣当前的。
+最坏情况：候选人的质量按升序排列。此时开销约为$O(NC_h)$。
+最好情况：候选人的质量按降序排列。
+改进方向：
+提高解决最坏情况的效率。 尝试避免出现最坏情况。 若候选人随机顺序出现。设$X$为雇佣次数，找到$X$的期望。核心问题是如何知道$Pr[X=j]$。
+定义$X_i=\begin{cases} 1 &amp; ifcandidateiishired\ 0 &amp; ifcandidateiisNOThired \end{cases} \Rightarrow X=\Sigma_{i=1}^NX_i$ 得到：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/ADS%E7%BB%AA%E8%AE%BA/" /><meta property="article:section" content="数据结构" />
+<meta property="og:url" content="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/%E9%9A%8F%E6%9C%BA%E5%8C%96%E7%AE%97%E6%B3%95/" /><meta property="article:section" content="数据结构" />
 
 <meta property="og:site_name" content="📓 Arctic的笔记本" />
-<title>Ads绪论 | 📓 Arctic的笔记本</title>
+<title>随机化算法 | 📓 Arctic的笔记本</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.45ec1f6261e17c6488824ac77b6b8a0c11eef38eaed587cfecad4b284f57ee79.css" integrity="sha256-RewfYmHhfGSIgkrHe2uKDBHu846u1YfP7K1LKE9X7nk=" crossorigin="anonymous">
@@ -34,17 +37,20 @@ https://github.com/alex-shpak/hugo-book
 <meta charset="UTF-8" />
 <meta
   name="description"
-  content="ADS绪论#高级数据结构与算法分析主要包括三块问题：
-动态查找问题#总体目的：查找树且完全二叉树（降低高度）。
-难度过大，因此数据结构核心目标：有一定自由度。因此需要考虑如何进行树的平衡。
-高级堆（优先队列问题）#总体目的：插入任意&amp;删除最小/最大。
-结构特性：完全二叉树（structure property）
-排序特性：结点上满足堆的条件（所在子树最大/最小）（order property）。
-新问题：云计算，每个云端服务器管理一个堆，本质上为资源整合。（弹性计算）
-​ 云计算的调度问题，把正在计算的任务迁移到其他机器，使其最高效运转，即两个优先队列的合并问题。
-算法思想#包括分治算法、动态规划、贪婪算法、NPC问题……
-大致归为两类：
-经典算法：如贪婪算法、分治算法…… 非经典算法：寻找次优解，如加速、并行…… "
+  content="随机化算法（Randomized Alogorithms）#随机化的定义#the world behaves randomly：随机生成乱序的输入并使用传统算法解决 $\Rightarrow$ 平均情况分析（Average-case Analysis）。 the algorithm behaves randomly：当输入情况最坏时算法采用随机决策的方式求解。 两种随机化目标：
+efficient algorithm： yield the correct answer with ==high probability==.注重效率高。 deterministic algorithm： always correct and run efficiently ==in expectation==.注重正确性。 概率前置知识#$Pr[A]$：事件$A$发生的概率。
+$\overline A$：事件$A$的补集，即不发生。
+$E[X]$：随机变量$X$的期望（平均值）。
+$E[X]=\Sigma_{j=0}^{\infin}j\cdot Pr[X=j]$。
+实例1：Hiring问题#雇佣一个助手，共$N$天，每天面试一个人。
+面试开销：$C_i &laquo; $雇佣开销：$C_h$。
+分析开销，假设$N$天面试雇佣了$M$个应聘者，则总开销为：$O(NC_i&#43;MC_h)$。目标为使总开销最小化。
+原始解法#从0开始，每次遇到更好的应聘者，解雇此前最好的，雇佣当前的。
+最坏情况：候选人的质量按升序排列。此时开销约为$O(NC_h)$。
+最好情况：候选人的质量按降序排列。
+改进方向：
+提高解决最坏情况的效率。 尝试避免出现最坏情况。 若候选人随机顺序出现。设$X$为雇佣次数，找到$X$的期望。核心问题是如何知道$Pr[X=j]$。
+定义$X_i=\begin{cases} 1 &amp; ifcandidateiishired\ 0 &amp; ifcandidateiisNOThired \end{cases} \Rightarrow X=\Sigma_{i=1}^NX_i$ 得到："
 />
 <title>
   📓 Arctic的笔记本
@@ -379,7 +385,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/ADS%E7%BB%AA%E8%AE%BA/" class="active">Ads绪论</a>
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/ADS%E7%BB%AA%E8%AE%BA/" class="">Ads绪论</a>
   
 
         </li>
@@ -559,7 +565,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-3baa8f110f9b5b7e3633bb10105b9cbe" class="toggle"  />
+    <input type="checkbox" id="section-3baa8f110f9b5b7e3633bb10105b9cbe" class="toggle" checked />
     <label for="section-3baa8f110f9b5b7e3633bb10105b9cbe" class="flex justify-between">
       <a role="button" class="book-collapse-toggle ">算法</a>
     </label>
@@ -666,7 +672,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/%E9%9A%8F%E6%9C%BA%E5%8C%96%E7%AE%97%E6%B3%95/" class="">随机化算法</a>
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/%E9%9A%8F%E6%9C%BA%E5%8C%96%E7%AE%97%E6%B3%95/" class="active">随机化算法</a>
   
 
         </li>
@@ -732,7 +738,7 @@ https://github.com/alex-shpak/hugo-book
       
       
   <article class="markdown">
-    <h1 class="title">Ads绪论</h1>
+    <h1 class="title">随机化算法</h1>
     
 
 
@@ -740,6 +746,132 @@ https://github.com/alex-shpak/hugo-book
 
 
 
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
 
 
 
@@ -762,44 +894,217 @@ https://github.com/alex-shpak/hugo-book
   
   
   
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+  
+  
+
+
+
+
+
+  
+  
+
+  
+  
+
   
   
 
 
-
-
-
-
-<h1 id="ads绪论">
-  ADS绪论
-  <a class="anchor" href="#ads%e7%bb%aa%e8%ae%ba">#</a>
+<h1 id="随机化算法randomized-alogorithms">
+  随机化算法（Randomized Alogorithms）
+  <a class="anchor" href="#%e9%9a%8f%e6%9c%ba%e5%8c%96%e7%ae%97%e6%b3%95randomized-alogorithms">#</a>
 </h1>
-<p>高级数据结构与算法分析主要包括三块问题：</p>
-<h2 id="动态查找问题">
-  动态查找问题
-  <a class="anchor" href="#%e5%8a%a8%e6%80%81%e6%9f%a5%e6%89%be%e9%97%ae%e9%a2%98">#</a>
+<h2 id="随机化的定义">
+  随机化的定义
+  <a class="anchor" href="#%e9%9a%8f%e6%9c%ba%e5%8c%96%e7%9a%84%e5%ae%9a%e4%b9%89">#</a>
 </h2>
-<p><strong>总体目的</strong>：查找树且完全二叉树（降低高度）。</p>
-<p>难度过大，因此数据结构核心目标：有一定自由度。因此需要考虑如何进行树的平衡。</p>
-<h2 id="高级堆优先队列问题">
-  高级堆（优先队列问题）
-  <a class="anchor" href="#%e9%ab%98%e7%ba%a7%e5%a0%86%e4%bc%98%e5%85%88%e9%98%9f%e5%88%97%e9%97%ae%e9%a2%98">#</a>
-</h2>
-<p><strong>总体目的</strong>：插入任意&amp;删除最小/最大。</p>
-<p><strong>结构特性</strong>：完全二叉树（structure property）</p>
-<p><strong>排序特性</strong>：结点上满足堆的条件（所在子树最大/最小）（order property）。</p>
-<p><strong>新问题</strong>：云计算，每个云端服务器管理一个堆，本质上为资源整合。（弹性计算）</p>
-<p>​               云计算的调度问题，把正在计算的任务迁移到其他机器，使其最高效运转，即<strong>两个优先队列的合并</strong>问题。</p>
-<h2 id="算法思想">
-  算法思想
-  <a class="anchor" href="#%e7%ae%97%e6%b3%95%e6%80%9d%e6%83%b3">#</a>
-</h2>
-<p>包括分治算法、动态规划、贪婪算法、NPC问题……</p>
-<p>大致归为两类：</p>
 <ul>
-<li>经典算法：如贪婪算法、分治算法……</li>
-<li>非经典算法：寻找次优解，如加速、并行……</li>
+<li><em>the world behaves randomly</em>：随机生成乱序的输入并使用传统算法解决 $\Rightarrow$ 平均情况分析（<em>Average-case Analysis</em>）。</li>
+<li><em>the algorithm behaves randomly</em>：当输入情况最坏时算法采用随机决策的方式求解。</li>
 </ul>
+<p><strong>两种随机化目标：</strong></p>
+<ul>
+<li><strong>efficient algorithm：</strong> yield the correct answer with <mark>high probability</mark>.注重效率高。</li>
+<li><strong>deterministic algorithm：</strong> always correct and run efficiently <mark>in expectation</mark>.注重正确性。</li>
+</ul>
+<h2 id="概率前置知识">
+  概率前置知识
+  <a class="anchor" href="#%e6%a6%82%e7%8e%87%e5%89%8d%e7%bd%ae%e7%9f%a5%e8%af%86">#</a>
+</h2>
+<ul>
+<li>
+<p>$Pr[A]$：事件$A$发生的概率。</p>
+</li>
+<li>
+<p>$\overline A$：事件$A$的补集，即不发生。</p>
+</li>
+<li>
+<p>$E[X]$：随机变量$X$的期望（平均值）。</p>
+<blockquote>
+<p>$E[X]=\Sigma_{j=0}^{\infin}j\cdot Pr[X=j]$。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="实例1hiring问题">
+  实例1：Hiring问题
+  <a class="anchor" href="#%e5%ae%9e%e4%be%8b1hiring%e9%97%ae%e9%a2%98">#</a>
+</h2>
+<ul>
+<li>
+<p>雇佣一个助手，共$N$天，每天面试一个人。</p>
+</li>
+<li>
+<p>面试开销：$C_i &laquo; $雇佣开销：$C_h$。</p>
+</li>
+</ul>
+<p>分析开销，假设$N$天面试雇佣了$M$个应聘者，则总开销为：$O(NC_i+MC_h)$。目标为使总开销最小化。</p>
+<h3 id="原始解法">
+  原始解法
+  <a class="anchor" href="#%e5%8e%9f%e5%a7%8b%e8%a7%a3%e6%b3%95">#</a>
+</h3>
+<blockquote>
+<p>从0开始，每次遇到更好的应聘者，解雇此前最好的，雇佣当前的。</p>
+</blockquote>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230630185405612.png" width="auto" alt="image-20230630185405612"  /></p>
+<p>最坏情况：候选人的质量按升序排列。此时开销约为$O(NC_h)$。</p>
+<p>最好情况：候选人的质量按降序排列。</p>
+<p><strong>改进方向：</strong></p>
+<ul>
+<li>提高解决最坏情况的效率。</li>
+<li>尝试避免出现最坏情况。</li>
+</ul>
+<p>若候选人随机顺序出现。设$X$为雇佣次数，找到$X$的期望。核心问题是如何知道$Pr[X=j]$。</p>
+<p>定义$X_i=\begin{cases} 1 &amp; ifcandidateiishired\\ 0 &amp; ifcandidateiisNOThired  \end{cases} \Rightarrow X=\Sigma_{i=1}^NX_i$  得到：</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230630190541714.png" width="auto" alt="image-20230630190541714"  /></p>
+<p>假设：每个人称为当前最佳的可能性相等。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230630190743319.png" width="auto" alt="image-20230630190743319"  /></p>
+<p><strong>结论：</strong> 若候选人随机出现，则开销为$O(C_hlnN+NC_i)$，明显小于最坏情况。因此需要随机化算法。</p>
+<h3 id="随机化算法">
+  随机化算法
+  <a class="anchor" href="#%e9%9a%8f%e6%9c%ba%e5%8c%96%e7%ae%97%e6%b3%95">#</a>
+</h3>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230630190959945.png" width="auto" alt="image-20230630190959945"  /></p>
+<p>无论候选人以什么顺序出现，都进行一次随机化。避免了最坏情况，但增大了开销。</p>
+<p><em><strong>Randomized Permutation Algorithm</strong></em>的核心难题是如何实现<em>equally likely</em>。</p>
+<p>目标：重新排列给定的数组$A[]$。</p>
+<p>方法：为每个$A[i]$分配一个<mark>随机的优先级</mark>$P[i]$，并按优先级排序。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230630191417117.png" width="auto" alt="image-20230630191417117"  /></p>
+<p><strong>断言</strong>：<code>PermuteBySorting</code>能够生成一个<em>uniform</em>的随机排列，若所有优先级互不相同。</p>
+<blockquote>
+<p><em>uniform</em>的含义为所有$N!$中随机排列的情况出现的可能性相等。</p>
+</blockquote>
+<h3 id="online-hiring算法">
+  Online Hiring算法
+  <a class="anchor" href="#online-hiring%e7%ae%97%e6%b3%95">#</a>
+</h3>
+<p>只雇佣一次。通过第1-k个候选者选出bestQ，但不更新best，也不进行录用。第k+1-n个候选者与当前的bestQ比较，一旦大于就录用。</p>
+<p>显然，不一定选出真正最优的候选者。</p>
+<p><strong>问题：</strong></p>
+<ul>
+<li>对于给定的k，我们成功选择出最优候选者的概率是多少。</li>
+<li>选择k为多少能够使这个概率最大化。</li>
+</ul>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230630191911629.png" width="auto" alt="image-20230630191911629"  /></p>
+<p><strong>问题1：给定k，选择正确的概率</strong></p>
+<p>定义情况$S_i$表示选择出最优候选者，且最优的候选者出现在第$i$个位置。</p>
+<p>因此最终选出最优候选者的概率为$i$出现在第$k$个位置之后的概率之和。</p>
+<p>因此$S_i$发生的条件为：①$A$：最优候选者的位置为$i$。②$B$：第$k+1\sim i-1$的候选者均未被录用。</p>
+<p>由于两者相互独立，因此$Pr[S_i]=Pr[A]\cdot Pr[B]$。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230630193220206.png" width="auto" alt="image-20230630193220206"  /></p>
+<p>最终结论：</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230630193316102.png" width="auto" alt="image-20230630193316102"  /></p>
+<p><strong>问题2：求k，使概率最大</strong></p>
+<p>即找到对应的$k$使得左侧最大化。</p>
+<p>最终解出当$k=\frac{N}{e}$时，我们选择出最优候选者的概率至少为$\frac1e$。(e=2.71828……)</p>
+<p>即使用总人数的前三分之一作为标杆，寻找后三分之二中第一个超过标杆的人，选择成功的概率至少为三分之一。</p>
+<h2 id="实例2quicksort问题">
+  实例2：Quicksort问题
+  <a class="anchor" href="#%e5%ae%9e%e4%be%8b2quicksort%e9%97%ae%e9%a2%98">#</a>
+</h2>
+<p>快速排序平均情况的时间复杂度为$O(NlogN)$，最坏情况为$O(N^2)$。我们称这种版本为<em>deterministic quicksort</em>。</p>
+<p>一种随机化办法：每次随机选择<em>pivot</em>的值。</p>
+<ul>
+<li>
+<p>定义<em><strong>Central splitter</strong></em>表示能够保证每边至少包含$n/4$的<em>pivot</em>点。</p>
+</li>
+<li>
+<p>定义<em><strong>Modified Quicksort</strong></em>表示每次递归之前都选择<em>Central splitter</em>的快速排序算法。</p>
+</li>
+</ul>
+<p>**断言：**我们寻找<em>Central splitter</em>的迭代次数最多为2。</p>
+<blockquote>
+<p>每次随机化命中<em>Central splitter</em>空间的概率为$1/2$。</p>
+</blockquote>
+<p>定义<em><strong>type</strong></em>：定义了第j次递归中<em>Central splitter</em>的最大空间。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230630195014282.png" width="auto" alt="image-20230630195014282"  /></p>
+<p><strong>断言：</strong> <em>type j</em>最多有$(\frac43)^{j+1}$个子问题。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230630195448393.png" width="auto" alt="image-20230630195448393"  /></p>
+<h2 id="总结">
+  总结
+  <a class="anchor" href="#%e6%80%bb%e7%bb%93">#</a>
+</h2>
+<p><em><strong>offline hiring algorithm</strong></em>：<em>always correct but less efficient.</em></p>
+<p><em><strong>online hiring algorithm</strong></em>：<em>efficient but no longer guarantee the correctness.</em></p>
+<p><em><strong>modified quicksort</strong></em>：<em>always efficient and correctness but NlogN is an expectation not the real case.</em></p>
 
 
     
@@ -890,11 +1195,19 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#ads绪论">ADS绪论</a>
+    <li><a href="#随机化算法randomized-alogorithms">随机化算法（Randomized Alogorithms）</a>
       <ul>
-        <li><a href="#动态查找问题">动态查找问题</a></li>
-        <li><a href="#高级堆优先队列问题">高级堆（优先队列问题）</a></li>
-        <li><a href="#算法思想">算法思想</a></li>
+        <li><a href="#随机化的定义">随机化的定义</a></li>
+        <li><a href="#概率前置知识">概率前置知识</a></li>
+        <li><a href="#实例1hiring问题">实例1：Hiring问题</a>
+          <ul>
+            <li><a href="#原始解法">原始解法</a></li>
+            <li><a href="#随机化算法">随机化算法</a></li>
+            <li><a href="#online-hiring算法">Online Hiring算法</a></li>
+          </ul>
+        </li>
+        <li><a href="#实例2quicksort问题">实例2：Quicksort问题</a></li>
+        <li><a href="#总结">总结</a></li>
       </ul>
     </li>
   </ul>

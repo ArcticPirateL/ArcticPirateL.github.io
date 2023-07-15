@@ -2,22 +2,19 @@
 <html lang="en" dir="ltr">
 <head>
   <meta property="og:title" content="" />
-<meta property="og:description" content="ADS绪论#高级数据结构与算法分析主要包括三块问题：
-动态查找问题#总体目的：查找树且完全二叉树（降低高度）。
-难度过大，因此数据结构核心目标：有一定自由度。因此需要考虑如何进行树的平衡。
-高级堆（优先队列问题）#总体目的：插入任意&amp;删除最小/最大。
-结构特性：完全二叉树（structure property）
-排序特性：结点上满足堆的条件（所在子树最大/最小）（order property）。
-新问题：云计算，每个云端服务器管理一个堆，本质上为资源整合。（弹性计算）
-​ 云计算的调度问题，把正在计算的任务迁移到其他机器，使其最高效运转，即两个优先队列的合并问题。
-算法思想#包括分治算法、动态规划、贪婪算法、NPC问题……
-大致归为两类：
-经典算法：如贪婪算法、分治算法…… 非经典算法：寻找次优解，如加速、并行…… " />
+<meta property="og:description" content="动态规划（DP）#动态规划算法与分治法类似，其基本思想也是将待求解问题分解成若干个子问题，先求解子问题，然后从这些子问题的解得到原问题的解。与分治法不同的是，适合于用动态规划求解的问题，经分解得到子问题往往不是互相独立的。若用分治法来解这类问题，则分解得到的子问题数目太多，有些子问题被重复计算了很多次。如果我们能够保存已解决的子问题的答案，而在需要时再找出已求得的答案，这样就可以避免大量的重复计算，节省时间。我们可以用一个表来记录所有已解的子问题的答案。不管该子问题以后是否被用到，只要它被计算过，就将其结果填入表中。这就是动态规划法的基本思路。
+步骤：
+找到最优子结构 递归地定义状态转移方程（最终结果与子结构结果的关系） 找到子问题的最优解 核心：使用表代替递归。
+time memory tradeoff：
+例一：斐波那契数列#$$ F(N)=F(N-1)&#43;F(N-2) $$
+递归存在的问题：F0、F1、F2……重复计算多次，导致时间复杂度很高。
+解决方式：保存前两步的斐波那契数，每步依次更新。
+例二：矩阵相乘优先排序#不同顺序计算所需的时间不同。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/ADS%E7%BB%AA%E8%AE%BA/" /><meta property="article:section" content="数据结构" />
+<meta property="og:url" content="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" /><meta property="article:section" content="数据结构" />
 
 <meta property="og:site_name" content="📓 Arctic的笔记本" />
-<title>Ads绪论 | 📓 Arctic的笔记本</title>
+<title>动态规划 | 📓 Arctic的笔记本</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.45ec1f6261e17c6488824ac77b6b8a0c11eef38eaed587cfecad4b284f57ee79.css" integrity="sha256-RewfYmHhfGSIgkrHe2uKDBHu846u1YfP7K1LKE9X7nk=" crossorigin="anonymous">
@@ -34,17 +31,14 @@ https://github.com/alex-shpak/hugo-book
 <meta charset="UTF-8" />
 <meta
   name="description"
-  content="ADS绪论#高级数据结构与算法分析主要包括三块问题：
-动态查找问题#总体目的：查找树且完全二叉树（降低高度）。
-难度过大，因此数据结构核心目标：有一定自由度。因此需要考虑如何进行树的平衡。
-高级堆（优先队列问题）#总体目的：插入任意&amp;删除最小/最大。
-结构特性：完全二叉树（structure property）
-排序特性：结点上满足堆的条件（所在子树最大/最小）（order property）。
-新问题：云计算，每个云端服务器管理一个堆，本质上为资源整合。（弹性计算）
-​ 云计算的调度问题，把正在计算的任务迁移到其他机器，使其最高效运转，即两个优先队列的合并问题。
-算法思想#包括分治算法、动态规划、贪婪算法、NPC问题……
-大致归为两类：
-经典算法：如贪婪算法、分治算法…… 非经典算法：寻找次优解，如加速、并行…… "
+  content="动态规划（DP）#动态规划算法与分治法类似，其基本思想也是将待求解问题分解成若干个子问题，先求解子问题，然后从这些子问题的解得到原问题的解。与分治法不同的是，适合于用动态规划求解的问题，经分解得到子问题往往不是互相独立的。若用分治法来解这类问题，则分解得到的子问题数目太多，有些子问题被重复计算了很多次。如果我们能够保存已解决的子问题的答案，而在需要时再找出已求得的答案，这样就可以避免大量的重复计算，节省时间。我们可以用一个表来记录所有已解的子问题的答案。不管该子问题以后是否被用到，只要它被计算过，就将其结果填入表中。这就是动态规划法的基本思路。
+步骤：
+找到最优子结构 递归地定义状态转移方程（最终结果与子结构结果的关系） 找到子问题的最优解 核心：使用表代替递归。
+time memory tradeoff：
+例一：斐波那契数列#$$ F(N)=F(N-1)&#43;F(N-2) $$
+递归存在的问题：F0、F1、F2……重复计算多次，导致时间复杂度很高。
+解决方式：保存前两步的斐波那契数，每步依次更新。
+例二：矩阵相乘优先排序#不同顺序计算所需的时间不同。"
 />
 <title>
   📓 Arctic的笔记本
@@ -379,7 +373,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/ADS%E7%BB%AA%E8%AE%BA/" class="active">Ads绪论</a>
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/ADS%E7%BB%AA%E8%AE%BA/" class="">Ads绪论</a>
   
 
         </li>
@@ -559,7 +553,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-3baa8f110f9b5b7e3633bb10105b9cbe" class="toggle"  />
+    <input type="checkbox" id="section-3baa8f110f9b5b7e3633bb10105b9cbe" class="toggle" checked />
     <label for="section-3baa8f110f9b5b7e3633bb10105b9cbe" class="flex justify-between">
       <a role="button" class="book-collapse-toggle ">算法</a>
     </label>
@@ -601,7 +595,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="">动态规划</a>
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%AE%97%E6%B3%95/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="active">动态规划</a>
   
 
         </li>
@@ -732,7 +726,7 @@ https://github.com/alex-shpak/hugo-book
       
       
   <article class="markdown">
-    <h1 class="title">Ads绪论</h1>
+    <h1 class="title">动态规划</h1>
     
 
 
@@ -740,6 +734,9 @@ https://github.com/alex-shpak/hugo-book
 
 
 
+  
+  
+
 
 
 
@@ -770,36 +767,41 @@ https://github.com/alex-shpak/hugo-book
 
 
 
-<h1 id="ads绪论">
-  ADS绪论
-  <a class="anchor" href="#ads%e7%bb%aa%e8%ae%ba">#</a>
+<h1 id="动态规划dp">
+  动态规划（DP）
+  <a class="anchor" href="#%e5%8a%a8%e6%80%81%e8%a7%84%e5%88%92dp">#</a>
 </h1>
-<p>高级数据结构与算法分析主要包括三块问题：</p>
-<h2 id="动态查找问题">
-  动态查找问题
-  <a class="anchor" href="#%e5%8a%a8%e6%80%81%e6%9f%a5%e6%89%be%e9%97%ae%e9%a2%98">#</a>
-</h2>
-<p><strong>总体目的</strong>：查找树且完全二叉树（降低高度）。</p>
-<p>难度过大，因此数据结构核心目标：有一定自由度。因此需要考虑如何进行树的平衡。</p>
-<h2 id="高级堆优先队列问题">
-  高级堆（优先队列问题）
-  <a class="anchor" href="#%e9%ab%98%e7%ba%a7%e5%a0%86%e4%bc%98%e5%85%88%e9%98%9f%e5%88%97%e9%97%ae%e9%a2%98">#</a>
-</h2>
-<p><strong>总体目的</strong>：插入任意&amp;删除最小/最大。</p>
-<p><strong>结构特性</strong>：完全二叉树（structure property）</p>
-<p><strong>排序特性</strong>：结点上满足堆的条件（所在子树最大/最小）（order property）。</p>
-<p><strong>新问题</strong>：云计算，每个云端服务器管理一个堆，本质上为资源整合。（弹性计算）</p>
-<p>​               云计算的调度问题，把正在计算的任务迁移到其他机器，使其最高效运转，即<strong>两个优先队列的合并</strong>问题。</p>
-<h2 id="算法思想">
-  算法思想
-  <a class="anchor" href="#%e7%ae%97%e6%b3%95%e6%80%9d%e6%83%b3">#</a>
-</h2>
-<p>包括分治算法、动态规划、贪婪算法、NPC问题……</p>
-<p>大致归为两类：</p>
+<p>动态规划算法与分治法类似，其基本思想也是将待求解问题<strong>分解成若干个子问题</strong>，先求解子问题，然后从这些子问题的解得到原问题的解。与分治法不同的是，适合于用动态规划求解的问题，经分解得到子问题往往不是互相独立的。若用分治法来解这类问题，则分解得到的子问题数目太多，有些子问题被重复计算了很多次。如果我们能够保存已解决的子问题的答案，而在需要时再找出已求得的答案，这样就可以避免大量的重复计算，节省时间。我们可以用<strong>一个表</strong>来记录所有已解的子问题的答案。不管该子问题以后是否被用到，只要它被计算过，就将其结果填入表中。这就是动态规划法的基本思路。</p>
+<p>步骤：</p>
 <ul>
-<li>经典算法：如贪婪算法、分治算法……</li>
-<li>非经典算法：寻找次优解，如加速、并行……</li>
+<li>找到最优子结构</li>
+<li>递归地定义状态转移方程（最终结果与子结构结果的关系）</li>
+<li>找到子问题的最优解</li>
 </ul>
+<p>核心：使用表代替递归。</p>
+<p>time memory tradeoff：</p>
+<h2 id="例一斐波那契数列">
+  例一：斐波那契数列
+  <a class="anchor" href="#%e4%be%8b%e4%b8%80%e6%96%90%e6%b3%a2%e9%82%a3%e5%a5%91%e6%95%b0%e5%88%97">#</a>
+</h2>
+<p>$$
+F(N)=F(N-1)+F(N-2)
+$$</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230418165331024.png" width="auto" alt="image-20230418165331024"  /></p>
+<p>递归存在的问题：F0、F1、F2……重复计算多次，导致时间复杂度很高。</p>
+<p>解决方式：保存前两步的斐波那契数，每步依次更新。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E7%AE%97%E6%B3%95%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230418165621285.png" width="auto" alt="image-20230418165621285"  /></p>
+<h2 id="例二矩阵相乘优先排序">
+  例二：矩阵相乘优先排序
+  <a class="anchor" href="#%e4%be%8b%e4%ba%8c%e7%9f%a9%e9%98%b5%e7%9b%b8%e4%b9%98%e4%bc%98%e5%85%88%e6%8e%92%e5%ba%8f">#</a>
+</h2>
+<p>不同顺序计算所需的时间不同。</p>
 
 
     
@@ -890,11 +892,10 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#ads绪论">ADS绪论</a>
+    <li><a href="#动态规划dp">动态规划（DP）</a>
       <ul>
-        <li><a href="#动态查找问题">动态查找问题</a></li>
-        <li><a href="#高级堆优先队列问题">高级堆（优先队列问题）</a></li>
-        <li><a href="#算法思想">算法思想</a></li>
+        <li><a href="#例一斐波那契数列">例一：斐波那契数列</a></li>
+        <li><a href="#例二矩阵相乘优先排序">例二：矩阵相乘优先排序</a></li>
       </ul>
     </li>
   </ul>
