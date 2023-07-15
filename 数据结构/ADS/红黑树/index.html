@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta property="og:title" content="" />
+<meta property="og:description" content="红黑树#概述#AVL树是首个自平衡树，定义了“平衡”的衡量标准（BF）。
+Splay树是AVL树的简化版，无需考虑平衡，表现与AVL树相同。
+现实应用中存在其他定义“平衡”的方法：如红黑树、B&#43;树，红黑树应用于C&#43;&#43;STL中的map等类型。
+目标#平衡二叉搜索树。
+节点结构如下：
+NULL节点也称为NIL。
+定义#五个特性#每个节点是红色或黑色中的一个。 根节点为黑色。 每个NULL叶子节点为黑色。 红色节点的两个儿子一定为黑色。 对于每个节点，其到叶子节点的所有简单路径上黑色节点的个数相同。 black_height：从x到叶子节点的黑色节点的个数，不包括root包括NULL。bh(Tree) = bh(root)
+internal_nodes：除NIL节点外的结点。
+external_nodes：NIL节点。
+定理#拥有N个internal_nodes的红黑树，其高度最大为2ln(N&#43;1)。
+即使没有AVL更为严格的平衡定义，红黑树也将其高度限制在了O(lgN)的水平。
+对于任何节点x，以x为根的所有子树的internal_nodes个数大于等于2^bh(x)^-1。通过数学归纳法证明。
+将x替换为root，则sizeof(x) = N，得到N&gt;=2^bh^-1。
+bh(Tree) &gt;= h(Tree)/2。
+证明：每条路径上，除根节点外，至少有一半的节点时黑色。
+N &gt;= 2^bh^-1 &gt;= 2^h/2^-1，证明结束。
+插入操作#需要尽可能避免改变红黑树的bh，避免重新平衡。因此新插入的节点颜色应为红色。但再次插入红节点时需要重新平衡，引出三种情况：
+Case 1#新节点为红色，父节点为红色，父节点的兄弟节点也为红色。
+解决方式：父代所有节点和祖父节点红黑颜色调换。
+Case 2#新节点为红色且是父节点的右儿子，父节点为红色，父节点的兄弟节点为黑色。
+解决方式：将新节点和其父节点进行一次旋转。
+Case 3#新节点为红色且是父亲的左儿子，父节点为红色，父节点的兄弟节点为黑色。
+解决方式：首先将父节点和祖父节点互换颜色，再将父节点作为新的根节点进行旋转。
+AVL树 &amp; 红黑树#step 1：向二叉搜索树中插入节点。 step 2：从底层到顶层，检查BF/颜色是否符合规定。 最坏情况相同，都需要进行两次rotation。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%BA%A2%E9%BB%91%E6%A0%91/" /><meta property="article:section" content="数据结构" />
+
+<meta property="og:site_name" content="📓 Arctic的笔记本" />
+<title>红黑树 | 📓 Arctic的笔记本</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.45ec1f6261e17c6488824ac77b6b8a0c11eef38eaed587cfecad4b284f57ee79.css" integrity="sha256-RewfYmHhfGSIgkrHe2uKDBHu846u1YfP7K1LKE9X7nk=" crossorigin="anonymous">
+
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+  
+
+
+
+<meta charset="UTF-8" />
+<meta
+  name="description"
+  content="红黑树#概述#AVL树是首个自平衡树，定义了“平衡”的衡量标准（BF）。
+Splay树是AVL树的简化版，无需考虑平衡，表现与AVL树相同。
+现实应用中存在其他定义“平衡”的方法：如红黑树、B&#43;树，红黑树应用于C&#43;&#43;STL中的map等类型。
+目标#平衡二叉搜索树。
+节点结构如下：
+NULL节点也称为NIL。
+定义#五个特性#每个节点是红色或黑色中的一个。 根节点为黑色。 每个NULL叶子节点为黑色。 红色节点的两个儿子一定为黑色。 对于每个节点，其到叶子节点的所有简单路径上黑色节点的个数相同。 black_height：从x到叶子节点的黑色节点的个数，不包括root包括NULL。bh(Tree) = bh(root)
+internal_nodes：除NIL节点外的结点。
+external_nodes：NIL节点。
+定理#拥有N个internal_nodes的红黑树，其高度最大为2ln(N&#43;1)。
+即使没有AVL更为严格的平衡定义，红黑树也将其高度限制在了O(lgN)的水平。
+对于任何节点x，以x为根的所有子树的internal_nodes个数大于等于2^bh(x)^-1。通过数学归纳法证明。
+将x替换为root，则sizeof(x) = N，得到N&gt;=2^bh^-1。
+bh(Tree) &gt;= h(Tree)/2。
+证明：每条路径上，除根节点外，至少有一半的节点时黑色。
+N &gt;= 2^bh^-1 &gt;= 2^h/2^-1，证明结束。
+插入操作#需要尽可能避免改变红黑树的bh，避免重新平衡。因此新插入的节点颜色应为红色。但再次插入红节点时需要重新平衡，引出三种情况：
+Case 1#新节点为红色，父节点为红色，父节点的兄弟节点也为红色。
+解决方式：父代所有节点和祖父节点红黑颜色调换。
+Case 2#新节点为红色且是父节点的右儿子，父节点为红色，父节点的兄弟节点为黑色。
+解决方式：将新节点和其父节点进行一次旋转。
+Case 3#新节点为红色且是父亲的左儿子，父节点为红色，父节点的兄弟节点为黑色。
+解决方式：首先将父节点和祖父节点互换颜色，再将父节点作为新的根节点进行旋转。
+AVL树 &amp; 红黑树#step 1：向二叉搜索树中插入节点。 step 2：从底层到顶层，检查BF/颜色是否符合规定。 最坏情况相同，都需要进行两次rotation。"
+/>
+<title>
+  📓 Arctic的笔记本
+</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+
+
+
+<link rel="shortcut icon" type="image/png"  href="https://ArcticPirateL.github.io/favicon.png" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+<link href="https://ArcticPirateL.github.io/styles.e08ceb33360cec132feb69cfb982e2a4.min.css" rel="stylesheet" />
+
+
+<link href="https://ArcticPirateL.github.io/quartz/styles/_light_syntax.86a48a52faebeaaf42158b72922b1c90.min.css" rel="stylesheet" id="theme-link">
+
+  
+
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+      integrity="sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"
+        integrity="sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx"
+        crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR"
+        crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/contrib/copy-tex.min.js"
+        integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A"
+        crossorigin="anonymous"></script>
+
+  
+
+
+
+
+
+
+<script src="https://ArcticPirateL.github.io/quartz/js/darkmode.8f8af77a3b900357313e7e044e85a9ad.min.js"></script>
+
+
+
+<script src="https://ArcticPirateL.github.io/quartz/js/util.e6844bcc6148c92f3b102d867c918e7c.min.js"></script>
+
+
+
+<script async src="https://unpkg.com/@floating-ui/core@0.7.3"></script>
+<script async src="https://unpkg.com/@floating-ui/dom@0.5.4"></script>
+
+<script src="https://ArcticPirateL.github.io/quartz/js/popover.d15bbb66588317f9fbee1a95e4750bea.min.js"></script>
+
+
+
+
+<script defer src="https://ArcticPirateL.github.io/quartz/js/code-title.d6525fa48597ed29631fab15192407e2.min.js"></script>
+
+
+
+
+<script defer src="https://ArcticPirateL.github.io/quartz/js/clipboard.3ce3710d38377077f1cee5228144b8a8.min.js"></script>
+
+
+
+
+<script defer src="https://ArcticPirateL.github.io/quartz/js/callouts.e83135249ba7df7bb9912c90a91a55c6.min.js"></script>
+
+
+
+ 
+<script>
+  const SEARCH_ENABLED =  false 
+  const LATEX_ENABLED =  true 
+  const PRODUCTION =  true 
+  const BASE_URL = "https://ArcticPirateL.github.io"
+  const fetchData = Promise.all([
+        fetch("https:\/\/ArcticPirateL.github.io\/indices\/linkIndex.8f82182ab1f0691ed61ef55d039d916d.min.json")
+          .then(data => data.json())
+          .then(data => ({
+            index: data.index,
+            links: data.links,
+          })),
+        fetch("https:\/\/ArcticPirateL.github.io\/indices\/contentIndex.8263e16ff65aa55ee0ce2c719e87df13.min.json")
+          .then(data => data.json()),
+      ])
+      .then(([{index, links}, content]) => ({
+        index,
+        links,
+        content,
+      }))
+
+    const render = () => {
+    
+    const siteBaseURL = new URL(BASE_URL);
+    const pathBase = siteBaseURL.pathname;
+    const pathWindow = window.location.pathname;
+    const isHome = pathBase == pathWindow;
+
+    addCopyButtons();
+    
+
+    
+
+    addCollapsibleCallouts();
+    
+
+    
+    initPopover(
+      "https://ArcticPirateL.github.io",
+       true 
+    )
+    
+
+    
+    const footer = document.getElementById("footer")
+    if (footer) {
+      const container = document.getElementById("graph-container")
+      
+      if (!container) return requestAnimationFrame(render)
+      
+      container.textContent = ""
+
+      const drawGlobal = isHome &&  true ;
+      drawGraph(
+          "https://ArcticPirateL.github.io",
+          drawGlobal,
+          [{"/moc":"#4388cc"}],
+          drawGlobal ? {"centerForce":1,"depth":-1,"enableDrag":true,"enableLegend":false,"enableZoom":true,"fontSize":0.5,"linkDistance":1,"opacityScale":3,"repelForce":1,"scale":1.4} : {"centerForce":1,"depth":1,"enableDrag":true,"enableLegend":false,"enableZoom":true,"fontSize":0.6,"linkDistance":1,"opacityScale":3,"repelForce":2,"scale":1.2}
+        );
+
+      }
+    
+
+    
+      var els = document.getElementsByClassName("mermaid");
+      if (els.length > 0) {
+        import('https://unpkg.com/mermaid@9/dist/mermaid.esm.min.mjs').then(
+          (obj) => {
+            
+            
+            obj.default.init();
+          }
+        )
+      }
+    
+  }
+
+  const init = (doc = document) => {
+    
+    addCopyButtons();
+    
+
+    addTitleToCodeBlocks();
+    renderMathInElement(doc.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+      ],
+      macros: {
+        '’': "'"
+      },
+      throwOnError : false
+    });
+    
+  };
+</script>
+
+<script>
+  window.Million = {
+    navigate: (url) => (window.location.href = url),
+    prefetch: () => {},
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    init()
+    render()
+  })
+</script>
+
+
+</head>
+<div id="search-container">
+  <div id="search-space">
+    <input autocomplete="off" id="search-bar" name="search" type="text" aria-label="Search"
+      placeholder="Search for something..." dir="">
+    <div id="results-container">
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/flexsearch@0.7.21/dist/flexsearch.bundle.js"
+  integrity="sha256-i3A0NZGkhsKjVMzFxv3ksk0DZh3aXqu0l49Bbh0MdjE=" crossorigin="anonymous" defer></script>
+
+<script defer src="https://ArcticPirateL.github.io/quartz/js/full-text-search.cc0284dc74ffd43585e5227c0138681e.min.js"></script>
+
+
+
+<header class="book-header">
+    
+    <label for="menu-control">
+      <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+    </label>
+    <h1 id="page-title"><a href="https://ArcticPirateL.github.io">📓 Arctic的笔记本</a></h1>
+    <div class="spacer"></div>
+    <div id="search-icon" class="quartz-search">
+      <p>Search</p>
+      <svg tabindex="0" aria-labelledby="title desc" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title id="title">Search Icon</title><desc id="desc">Icon to open search</desc><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg>
+    </div>
+    <div class='darkmode'>
+    <input class='toggle' id='darkmode-toggle' type='checkbox' tabindex="-1">
+    <label id="toggle-label-light" for='darkmode-toggle' tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35;" xml:space="preserve">
+            <title>Light Mode</title>
+            <path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z" />
+        </svg>
+    </label>
+    <label id="toggle-label-dark" for='darkmode-toggle' tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background='new 0 0 100 100'" xml:space="preserve">
+            <title>Dark Mode</title>
+            <path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z" />
+        </svg>
+    </label>
+</div>
+</header>
+
+
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <main class="flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<div class="menu-search">
+  <div id="search-icon" class="quartz-search">
+    <p>Search</p>
+    <svg tabindex="0" aria-labelledby="title desc" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7">
+      <title id="title">Search Icon</title>
+      <desc id="desc">Icon to open search</desc>
+      <g class="search-path" fill="none">
+        <path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4" />
+        <circle cx="8" cy="8" r="7" />
+      </g>
+    </svg>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-faa006b4e8c111649edfcae5fe6b24ff" class="toggle" checked />
+    <label for="section-faa006b4e8c111649edfcae5fe6b24ff" class="flex justify-between">
+      <a role="button" class="book-collapse-toggle ">数据结构</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0d302acb88494e149011feeb192d6398" class="toggle" checked />
+    <label for="section-0d302acb88494e149011feeb192d6398" class="flex justify-between">
+      <a role="button" class="book-collapse-toggle ">Ads</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/ADS%E7%BB%AA%E8%AE%BA/" class="">Ads绪论</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/B&#43;%E6%A0%91/" class="">B 树</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/NP%E9%97%AE%E9%A2%98/" class="">Np问题</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/Splay%E6%A0%91/" class="">Splay树</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E4%BA%8C%E9%A1%B9%E9%98%9F%E5%88%97/" class="">二项队列</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/" class="">倒排索引</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%88%86%E6%B2%BB%E7%AE%97%E6%B3%95/" class="">分治算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="">动态规划</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A4%96%E9%83%A8%E6%8E%92%E5%BA%8F/" class="">外部排序</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%B1%80%E9%83%A8%E6%90%9C%E7%B4%A2/" class="">局部搜索</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%B7%A6%E5%BC%8F%E5%A0%86/" class="">左式堆</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%B9%B6%E8%A1%8C%E7%AE%97%E6%B3%95/" class="">并行算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%96%9C%E5%A0%86/" class="">斜堆</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%BA%A2%E9%BB%91%E6%A0%91/" class="active">红黑树</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E8%B4%AA%E5%A9%AA%E7%AE%97%E6%B3%95/" class="">贪婪算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E8%BF%91%E4%BC%BC%E7%AE%97%E6%B3%95/" class="">近似算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E9%9A%8F%E6%9C%BA%E5%8C%96%E7%AE%97%E6%B3%95/" class="">随机化算法</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/64bitpandas/amethyst"  target="_blank" rel="noopener">
+        Github
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+    <div class="book-page container">
+      
+
+      
+      
+  <article class="markdown">
+    <h1 class="title">红黑树</h1>
+    
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+  
+  
+
+
+
+
+
+
+<h1 id="红黑树">
+  红黑树
+  <a class="anchor" href="#%e7%ba%a2%e9%bb%91%e6%a0%91">#</a>
+</h1>
+<h2 id="概述">
+  概述
+  <a class="anchor" href="#%e6%a6%82%e8%bf%b0">#</a>
+</h2>
+<p>AVL树是首个自平衡树，定义了“平衡”的衡量标准（BF）。</p>
+<p>Splay树是AVL树的简化版，无需考虑平衡，表现与AVL树相同。</p>
+<p>现实应用中存在其他定义“平衡”的方法：如红黑树、B+树，红黑树应用于C++STL中的map等类型。</p>
+<h2 id="目标">
+  目标
+  <a class="anchor" href="#%e7%9b%ae%e6%a0%87">#</a>
+</h2>
+<p>平衡二叉搜索树。</p>
+<p>节点结构如下：</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424191052131.png" width="auto" alt="image-20230424191052131"  /></p>
+<p>NULL节点也称为NIL。</p>
+<h2 id="定义">
+  定义
+  <a class="anchor" href="#%e5%ae%9a%e4%b9%89">#</a>
+</h2>
+<h3 id="五个特性">
+  五个特性
+  <a class="anchor" href="#%e4%ba%94%e4%b8%aa%e7%89%b9%e6%80%a7">#</a>
+</h3>
+<ul>
+<li>每个节点是红色或黑色中的一个。</li>
+<li>根节点为黑色。</li>
+<li>每个NULL叶子节点为黑色。</li>
+<li>红色节点的两个儿子一定为黑色。</li>
+<li>对于每个节点，其到叶子节点的所有简单路径上黑色节点的个数相同。</li>
+</ul>
+<blockquote>
+<p>black_height：从x到叶子节点的黑色节点的个数，不包括root包括NULL。bh(Tree) = bh(root)</p>
+<p>internal_nodes：除NIL节点外的结点。</p>
+<p>external_nodes：NIL节点。</p>
+</blockquote>
+<h3 id="定理">
+  定理
+  <a class="anchor" href="#%e5%ae%9a%e7%90%86">#</a>
+</h3>
+<p>拥有N个internal_nodes的红黑树，其高度最大为<strong>2ln(N+1)</strong>。</p>
+<blockquote>
+<p>即使没有AVL更为严格的平衡定义，红黑树也将其高度限制在了O(lgN)的水平。</p>
+</blockquote>
+<ul>
+<li>
+<p>对于任何节点x，以x为根的所有子树的internal_nodes个数<strong>大于等于</strong>2^bh(x)^-1。通过数学归纳法证明。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424192753971.png" width="auto" alt="image-20230424192753971"  /></p>
+<p>将x替换为root，则sizeof(x) = N，得到N&gt;=2^bh^-1。</p>
+</li>
+<li>
+<p>bh(Tree) &gt;= h(Tree)/2。</p>
+<blockquote>
+<p>证明：每条路径上，除根节点外，至少有一半的节点时黑色。</p>
+</blockquote>
+<p>N &gt;= 2^bh^-1 &gt;= 2^h/2^-1，证明结束。</p>
+</li>
+</ul>
+<h2 id="插入操作">
+  插入操作
+  <a class="anchor" href="#%e6%8f%92%e5%85%a5%e6%93%8d%e4%bd%9c">#</a>
+</h2>
+<p>需要尽可能避免改变红黑树的bh，避免重新平衡。因此新插入的节点颜色应为<strong>红色</strong>。但再次插入红节点时需要重新平衡，引出三种情况：</p>
+<h3 id="case-1">
+  Case 1
+  <a class="anchor" href="#case-1">#</a>
+</h3>
+<p>新节点为红色，父节点为红色，父节点的兄弟节点也为红色。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424193633301.png" width="auto" alt="image-20230424193633301"  /></p>
+<blockquote>
+<p>解决方式：父代所有节点和祖父节点红黑颜色调换。</p>
+</blockquote>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424194001212.png" width="auto" alt="image-20230424194001212"  /></p>
+<h3 id="case-2">
+  Case 2
+  <a class="anchor" href="#case-2">#</a>
+</h3>
+<p>新节点为红色且是父节点的<strong>右儿子</strong>，父节点为红色，父节点的兄弟节点为黑色。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424194107181.png" width="auto" alt="image-20230424194107181"  /></p>
+<blockquote>
+<p>解决方式：将新节点和其父节点进行一次旋转。</p>
+</blockquote>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424194701803.png" width="auto" alt="image-20230424194701803"  /></p>
+<h3 id="case-3">
+  Case 3
+  <a class="anchor" href="#case-3">#</a>
+</h3>
+<p>新节点为红色且是父亲的<strong>左儿子</strong>，父节点为红色，父节点的兄弟节点为黑色。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424195232716.png" width="auto" alt="image-20230424195232716"  /></p>
+<blockquote>
+<p>解决方式：首先将父节点和祖父节点互换颜色，再将父节点作为新的根节点进行旋转。</p>
+</blockquote>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424195345408.png" width="auto" alt="image-20230424195345408"  /></p>
+<h3 id="avl树--红黑树">
+  AVL树 &amp; 红黑树
+  <a class="anchor" href="#avl%e6%a0%91--%e7%ba%a2%e9%bb%91%e6%a0%91">#</a>
+</h3>
+<ul>
+<li>step 1：向二叉搜索树中插入节点。</li>
+<li>step 2：从底层到顶层，检查BF/颜色是否符合规定。</li>
+</ul>
+<p>最坏情况相同，都需要进行两次rotation。</p>
+<h3 id="时间复杂度">
+  时间复杂度
+  <a class="anchor" href="#%e6%97%b6%e9%97%b4%e5%a4%8d%e6%9d%82%e5%ba%a6">#</a>
+</h3>
+<p>$$
+T=O(h)=O(logN)
+$$</p>
+<h2 id="删除操作">
+  删除操作
+  <a class="anchor" href="#%e5%88%a0%e9%99%a4%e6%93%8d%e4%bd%9c">#</a>
+</h2>
+<p>需要从底层向顶层平衡，AVL树的最坏情况是从叶子节点开始，直到整棵树平衡，消耗O(log N)；</p>
+<p>而红黑树的优势在于，最坏情况只需要3次旋转即可。</p>
+<p><strong>二叉树的删除</strong></p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424200653981.png" width="auto" alt="image-20230424200653981"  /></p>
+<p><strong>红黑树的删除</strong></p>
+<p>对于degree 2 node，替换节点的同时保留原节点的颜色，不需要重新平衡。</p>
+<p>对于degree 1 node，同样不需要重新平衡。</p>
+<p>对于叶子节点，需要重新平衡，会出现一条路径黑色节点少一个的情况。因此需要向这条路径中加入一个黑色节点。</p>
+<h3 id="case-1-1">
+  Case 1
+  <a class="anchor" href="#case-1-1">#</a>
+</h3>
+<p>删除的节点为黑色，兄弟结点为红色，父节点为黑色。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424201348457.png" width="auto" alt="image-20230424201348457"  /></p>
+<blockquote>
+<p>解决方法：先将兄弟节点与父节点颜色调换，再旋转兄弟节点，最后把新成为父节点的节点加上一个黑节点。（仍未解决）</p>
+</blockquote>
+<h3 id="case-2--case-3--case-4">
+  Case 2 &amp; Case 3 &amp; Case 4
+  <a class="anchor" href="#case-2--case-3--case-4">#</a>
+</h3>
+<p>删除的节点为黑色，其兄弟节点均为黑色。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424201707874.png" width="auto" alt="image-20230424201707874"  /></p>
+<p><strong>Case 2</strong>：兄弟节点的两个儿子均为黑色。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424201827592.png" width="auto" alt="image-20230424201827592"  /></p>
+<blockquote>
+<p>解决方法：首先将兄弟节点变为红色，面临两种情况。</p>
+<p>①如果父节点为红色，将父节点变为黑色。</p>
+<p>②如果父节点为黑色，更新x指向父节点，继续向x所在路径添加黑节点。这是最坏的情况，需要向上继续执行操作直到遇到case3或case4的情况或x最终为根节点，但不需要旋转，只进行了改变颜色的操作。</p>
+</blockquote>
+<p>**Case 3：**兄弟节点的左儿子为红色，右儿子为黑色。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424202617315.png" width="auto" alt="image-20230424202617315"  /></p>
+<blockquote>
+<p>解决方法：首先调换兄弟节点及其左儿子的颜色，再进行一次旋转。更新w指向旋转后的兄弟节点，可跳转到case4。</p>
+</blockquote>
+<p>**Case 4：**兄弟节点的右儿子是红色，左儿子任意。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424205520138.png" width="auto" alt="image-20230424205520138"  /></p>
+<blockquote>
+<p>解决方法：w节点的父亲和右儿子都变成黑色，w节点本身与原父亲节点的颜色相同，再进行一次旋转，最终解决问题。</p>
+</blockquote>
+<p>共有3次旋转。</p>
+<h3 id="举例">
+  举例
+  <a class="anchor" href="#%e4%b8%be%e4%be%8b">#</a>
+</h3>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424211304733.png" width="auto" alt="image-20230424211304733"  /></p>
+<h2 id="旋转次数分析">
+  旋转次数分析
+  <a class="anchor" href="#%e6%97%8b%e8%bd%ac%e6%ac%a1%e6%95%b0%e5%88%86%e6%9e%90">#</a>
+</h2>
+<table>
+<thead>
+<tr>
+<th>operation</th>
+<th>AVL树</th>
+<th>红黑树</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>插入</td>
+<td>&lt;=2</td>
+<td>&lt;=2</td>
+</tr>
+<tr>
+<td>删除</td>
+<td>O(log N)</td>
+<td>&lt;=3</td>
+</tr>
+</tbody>
+</table>
+<p>当主要操作为查找时，AVL更快，由于其高度较低；</p>
+<p>当存在大量插入或删除操作时，红黑树更好。</p>
+
+
+    
+
+<hr/>
+
+
+<div class="page-end" id="footer">
+    <div class="backlinks-container">
+        <h3>Backlinks</h3>
+<ul class="backlinks">
+    
+    
+    
+    
+    
+    
+    
+    <li>
+      No backlinks found
+    </li>
+    
+</ul>
+
+    </div>
+    <div>
+        <script
+  src="https://cdn.jsdelivr.net/npm/d3@6.7.0/dist/d3.min.js"
+  integrity="sha256-+7jaYCp29O1JusNWHaYtgUn6EhuP0VaFuswhNV06MyI="
+  crossorigin="anonymous"
+></script>
+<h3>Interactive Graph</h3>
+<div id="graph-container"></div>
+<style>
+  :root {
+    --g-node: var(--secondary);
+    --g-node-active: var(--primary);
+    --g-node-inactive: var(--visited);
+    --g-link: var(--outlinegray);
+    --g-link-active: #5a7282;
+  }
+</style>
+
+<script src="https://ArcticPirateL.github.io/quartz/js/graph.3d608db416a7219b41b53602cd180019.js"></script>
+
+    </div>
+</div>
+
+
+
+
+
+
+<div id="contact_buttons">
+    <footer>
+        
+        
+        <p>Made with <a href="https://github.com/64bitpandas/amethyst">Amethyst</a>, © 2023 Ben Cuan</p>
+        <ul>
+            
+            <li><a href="https://ArcticPirateL.github.io">Home</a></li>
+            <li><a href="https://bencuan.me">Website</a></li><li><a href="https://blog.bencuan.me">Blog</a></li></ul>
+    </footer>
+</div>
+
+
+    
+  </article>
+ 
+      
+      
+      
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#红黑树">红黑树</a>
+      <ul>
+        <li><a href="#概述">概述</a></li>
+        <li><a href="#目标">目标</a></li>
+        <li><a href="#定义">定义</a>
+          <ul>
+            <li><a href="#五个特性">五个特性</a></li>
+            <li><a href="#定理">定理</a></li>
+          </ul>
+        </li>
+        <li><a href="#插入操作">插入操作</a>
+          <ul>
+            <li><a href="#case-1">Case 1</a></li>
+            <li><a href="#case-2">Case 2</a></li>
+            <li><a href="#case-3">Case 3</a></li>
+            <li><a href="#avl树--红黑树">AVL树 &amp; 红黑树</a></li>
+            <li><a href="#时间复杂度">时间复杂度</a></li>
+          </ul>
+        </li>
+        <li><a href="#删除操作">删除操作</a>
+          <ul>
+            <li><a href="#case-1-1">Case 1</a></li>
+            <li><a href="#case-2--case-3--case-4">Case 2 &amp; Case 3 &amp; Case 4</a></li>
+            <li><a href="#举例">举例</a></li>
+          </ul>
+        </li>
+        <li><a href="#旋转次数分析">旋转次数分析</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

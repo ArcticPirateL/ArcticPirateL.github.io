@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta property="og:title" content="" />
+<meta property="og:description" content="近似算法（Approximation）#概述#用于解决困难问题，如NPC问题。
+对于NPC问题的处理方法：
+N很小，$O(2^N)$也可以接受。
+总体问题很复杂，但可以在多项式时间解决一些重要的特殊情况。
+寻找一个能在多项式时间得出的次优解（near-optimal solution）。→ 渐近算法
+近似比例（approximation radio）#定义#若对于任意大小的输入$n$，渐近算法求解的开销$C$不超过最优解开销$C*$的$\rho (n)$因子，则该算法的渐近比例为$\rho(n)$。称为**$\rho(n)$渐近算法**。
+近似方案（approximation scheme）#一个最优解问题的渐近方案是一个输入为问题instance和一个正数$\epsilon$的渐近算法，使其对于任何确定的$\epsilon$，都是一个$(1&#43;\epsilon)$渐近算法。
+若对于任意确定的$\epsilon &gt;0$，渐近方案能在多项式时间内得出结果，则称为PTAS（polynomial-time approximation scheme）。
+通常PTAS的时间复杂度形如$O(n^{2/\epsilon})$。随着$\epsilon$减小，时间复杂度增大。
+有一种特殊情况复杂度形如$O((1/\epsilon)^2n^3)$，优于上面的情况，这种PTAS称为FPTAS（fully polynomial-time）。
+fully表示时间复杂度中的两个变量$n$和$\epsilon$都是多项式形式。
+实例1：装箱问题#Bin Packing，NP-Hard问题。
+给出大小分别为$S_1,S_2,……S_N$的$N$个物品，每个$S_i$都有$0&lt;S_i\le 1$。每个背包有单位空间，将这些物品装入数量最少的背包里。
+**decision version：**给出K个背包和N个物品的大小，求解是否能装下。
+NP-Compelete问题。
+Next Fit#依次遍历每个物品，若上一个背包能放下则放入上一个背包，否则新开一个背包。线性时间复杂度。
+定理：
+若$M$为物品集$I$的最优解（即最少背包数），则Next Fit近似算法的结果一定不超过$2M-1$，且存在解法使得结果刚好等于$2M-1$。
+证明：
+反证法：即证明若NF算法结果为$2M$或$2M&#43;1$，则最优解的结果一定大于等于$M&#43;1$。
+近似比例为2，需要更好的方案。
+First Fit#搜索第一个满足能装下该物品的背包，若存在，则放入该背包中；若不存在，则新开一个背包。时间复杂度为$O(NlogN)$。
+定理：
+若$M$为物品集$I$的最优解（即最少背包数），则First Fit近似算法的结果一定不超过$17M/10$，且存在解法使得结果刚好等于$17(M-1)/10$。
+近似比例为1.7。
+Best Fit#将物品放置在“最拥挤”的背包里，即放下物品后剩余空间最小。时间复杂度为$O(NlogN)$。结果同样$\le 1.7M$。
+Worst Fit#将物品放置在“最空闲”的背包里，即放下物品后剩余空间最大。
+对比#另一个例子：" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E8%BF%91%E4%BC%BC%E7%AE%97%E6%B3%95/" /><meta property="article:section" content="数据结构" />
+
+<meta property="og:site_name" content="📓 Arctic的笔记本" />
+<title>近似算法 | 📓 Arctic的笔记本</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.45ec1f6261e17c6488824ac77b6b8a0c11eef38eaed587cfecad4b284f57ee79.css" integrity="sha256-RewfYmHhfGSIgkrHe2uKDBHu846u1YfP7K1LKE9X7nk=" crossorigin="anonymous">
+
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+  
+
+
+
+<meta charset="UTF-8" />
+<meta
+  name="description"
+  content="近似算法（Approximation）#概述#用于解决困难问题，如NPC问题。
+对于NPC问题的处理方法：
+N很小，$O(2^N)$也可以接受。
+总体问题很复杂，但可以在多项式时间解决一些重要的特殊情况。
+寻找一个能在多项式时间得出的次优解（near-optimal solution）。→ 渐近算法
+近似比例（approximation radio）#定义#若对于任意大小的输入$n$，渐近算法求解的开销$C$不超过最优解开销$C*$的$\rho (n)$因子，则该算法的渐近比例为$\rho(n)$。称为**$\rho(n)$渐近算法**。
+近似方案（approximation scheme）#一个最优解问题的渐近方案是一个输入为问题instance和一个正数$\epsilon$的渐近算法，使其对于任何确定的$\epsilon$，都是一个$(1&#43;\epsilon)$渐近算法。
+若对于任意确定的$\epsilon &gt;0$，渐近方案能在多项式时间内得出结果，则称为PTAS（polynomial-time approximation scheme）。
+通常PTAS的时间复杂度形如$O(n^{2/\epsilon})$。随着$\epsilon$减小，时间复杂度增大。
+有一种特殊情况复杂度形如$O((1/\epsilon)^2n^3)$，优于上面的情况，这种PTAS称为FPTAS（fully polynomial-time）。
+fully表示时间复杂度中的两个变量$n$和$\epsilon$都是多项式形式。
+实例1：装箱问题#Bin Packing，NP-Hard问题。
+给出大小分别为$S_1,S_2,……S_N$的$N$个物品，每个$S_i$都有$0&lt;S_i\le 1$。每个背包有单位空间，将这些物品装入数量最少的背包里。
+**decision version：**给出K个背包和N个物品的大小，求解是否能装下。
+NP-Compelete问题。
+Next Fit#依次遍历每个物品，若上一个背包能放下则放入上一个背包，否则新开一个背包。线性时间复杂度。
+定理：
+若$M$为物品集$I$的最优解（即最少背包数），则Next Fit近似算法的结果一定不超过$2M-1$，且存在解法使得结果刚好等于$2M-1$。
+证明：
+反证法：即证明若NF算法结果为$2M$或$2M&#43;1$，则最优解的结果一定大于等于$M&#43;1$。
+近似比例为2，需要更好的方案。
+First Fit#搜索第一个满足能装下该物品的背包，若存在，则放入该背包中；若不存在，则新开一个背包。时间复杂度为$O(NlogN)$。
+定理：
+若$M$为物品集$I$的最优解（即最少背包数），则First Fit近似算法的结果一定不超过$17M/10$，且存在解法使得结果刚好等于$17(M-1)/10$。
+近似比例为1.7。
+Best Fit#将物品放置在“最拥挤”的背包里，即放下物品后剩余空间最小。时间复杂度为$O(NlogN)$。结果同样$\le 1.7M$。
+Worst Fit#将物品放置在“最空闲”的背包里，即放下物品后剩余空间最大。
+对比#另一个例子："
+/>
+<title>
+  📓 Arctic的笔记本
+</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+
+
+
+<link rel="shortcut icon" type="image/png"  href="https://ArcticPirateL.github.io/favicon.png" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+<link href="https://ArcticPirateL.github.io/styles.e08ceb33360cec132feb69cfb982e2a4.min.css" rel="stylesheet" />
+
+
+<link href="https://ArcticPirateL.github.io/quartz/styles/_light_syntax.86a48a52faebeaaf42158b72922b1c90.min.css" rel="stylesheet" id="theme-link">
+
+  
+
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+      integrity="sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"
+        integrity="sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx"
+        crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR"
+        crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/contrib/copy-tex.min.js"
+        integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A"
+        crossorigin="anonymous"></script>
+
+  
+
+
+
+
+
+
+<script src="https://ArcticPirateL.github.io/quartz/js/darkmode.8f8af77a3b900357313e7e044e85a9ad.min.js"></script>
+
+
+
+<script src="https://ArcticPirateL.github.io/quartz/js/util.e6844bcc6148c92f3b102d867c918e7c.min.js"></script>
+
+
+
+<script async src="https://unpkg.com/@floating-ui/core@0.7.3"></script>
+<script async src="https://unpkg.com/@floating-ui/dom@0.5.4"></script>
+
+<script src="https://ArcticPirateL.github.io/quartz/js/popover.d15bbb66588317f9fbee1a95e4750bea.min.js"></script>
+
+
+
+
+<script defer src="https://ArcticPirateL.github.io/quartz/js/code-title.d6525fa48597ed29631fab15192407e2.min.js"></script>
+
+
+
+
+<script defer src="https://ArcticPirateL.github.io/quartz/js/clipboard.3ce3710d38377077f1cee5228144b8a8.min.js"></script>
+
+
+
+
+<script defer src="https://ArcticPirateL.github.io/quartz/js/callouts.e83135249ba7df7bb9912c90a91a55c6.min.js"></script>
+
+
+
+ 
+<script>
+  const SEARCH_ENABLED =  false 
+  const LATEX_ENABLED =  true 
+  const PRODUCTION =  true 
+  const BASE_URL = "https://ArcticPirateL.github.io"
+  const fetchData = Promise.all([
+        fetch("https:\/\/ArcticPirateL.github.io\/indices\/linkIndex.8f82182ab1f0691ed61ef55d039d916d.min.json")
+          .then(data => data.json())
+          .then(data => ({
+            index: data.index,
+            links: data.links,
+          })),
+        fetch("https:\/\/ArcticPirateL.github.io\/indices\/contentIndex.8263e16ff65aa55ee0ce2c719e87df13.min.json")
+          .then(data => data.json()),
+      ])
+      .then(([{index, links}, content]) => ({
+        index,
+        links,
+        content,
+      }))
+
+    const render = () => {
+    
+    const siteBaseURL = new URL(BASE_URL);
+    const pathBase = siteBaseURL.pathname;
+    const pathWindow = window.location.pathname;
+    const isHome = pathBase == pathWindow;
+
+    addCopyButtons();
+    
+
+    
+
+    addCollapsibleCallouts();
+    
+
+    
+    initPopover(
+      "https://ArcticPirateL.github.io",
+       true 
+    )
+    
+
+    
+    const footer = document.getElementById("footer")
+    if (footer) {
+      const container = document.getElementById("graph-container")
+      
+      if (!container) return requestAnimationFrame(render)
+      
+      container.textContent = ""
+
+      const drawGlobal = isHome &&  true ;
+      drawGraph(
+          "https://ArcticPirateL.github.io",
+          drawGlobal,
+          [{"/moc":"#4388cc"}],
+          drawGlobal ? {"centerForce":1,"depth":-1,"enableDrag":true,"enableLegend":false,"enableZoom":true,"fontSize":0.5,"linkDistance":1,"opacityScale":3,"repelForce":1,"scale":1.4} : {"centerForce":1,"depth":1,"enableDrag":true,"enableLegend":false,"enableZoom":true,"fontSize":0.6,"linkDistance":1,"opacityScale":3,"repelForce":2,"scale":1.2}
+        );
+
+      }
+    
+
+    
+      var els = document.getElementsByClassName("mermaid");
+      if (els.length > 0) {
+        import('https://unpkg.com/mermaid@9/dist/mermaid.esm.min.mjs').then(
+          (obj) => {
+            
+            
+            obj.default.init();
+          }
+        )
+      }
+    
+  }
+
+  const init = (doc = document) => {
+    
+    addCopyButtons();
+    
+
+    addTitleToCodeBlocks();
+    renderMathInElement(doc.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+      ],
+      macros: {
+        '’': "'"
+      },
+      throwOnError : false
+    });
+    
+  };
+</script>
+
+<script>
+  window.Million = {
+    navigate: (url) => (window.location.href = url),
+    prefetch: () => {},
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    init()
+    render()
+  })
+</script>
+
+
+</head>
+<div id="search-container">
+  <div id="search-space">
+    <input autocomplete="off" id="search-bar" name="search" type="text" aria-label="Search"
+      placeholder="Search for something..." dir="">
+    <div id="results-container">
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/flexsearch@0.7.21/dist/flexsearch.bundle.js"
+  integrity="sha256-i3A0NZGkhsKjVMzFxv3ksk0DZh3aXqu0l49Bbh0MdjE=" crossorigin="anonymous" defer></script>
+
+<script defer src="https://ArcticPirateL.github.io/quartz/js/full-text-search.cc0284dc74ffd43585e5227c0138681e.min.js"></script>
+
+
+
+<header class="book-header">
+    
+    <label for="menu-control">
+      <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+    </label>
+    <h1 id="page-title"><a href="https://ArcticPirateL.github.io">📓 Arctic的笔记本</a></h1>
+    <div class="spacer"></div>
+    <div id="search-icon" class="quartz-search">
+      <p>Search</p>
+      <svg tabindex="0" aria-labelledby="title desc" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title id="title">Search Icon</title><desc id="desc">Icon to open search</desc><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg>
+    </div>
+    <div class='darkmode'>
+    <input class='toggle' id='darkmode-toggle' type='checkbox' tabindex="-1">
+    <label id="toggle-label-light" for='darkmode-toggle' tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35;" xml:space="preserve">
+            <title>Light Mode</title>
+            <path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z" />
+        </svg>
+    </label>
+    <label id="toggle-label-dark" for='darkmode-toggle' tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background='new 0 0 100 100'" xml:space="preserve">
+            <title>Dark Mode</title>
+            <path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z" />
+        </svg>
+    </label>
+</div>
+</header>
+
+
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <main class="flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<div class="menu-search">
+  <div id="search-icon" class="quartz-search">
+    <p>Search</p>
+    <svg tabindex="0" aria-labelledby="title desc" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7">
+      <title id="title">Search Icon</title>
+      <desc id="desc">Icon to open search</desc>
+      <g class="search-path" fill="none">
+        <path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4" />
+        <circle cx="8" cy="8" r="7" />
+      </g>
+    </svg>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-faa006b4e8c111649edfcae5fe6b24ff" class="toggle" checked />
+    <label for="section-faa006b4e8c111649edfcae5fe6b24ff" class="flex justify-between">
+      <a role="button" class="book-collapse-toggle ">数据结构</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0d302acb88494e149011feeb192d6398" class="toggle" checked />
+    <label for="section-0d302acb88494e149011feeb192d6398" class="flex justify-between">
+      <a role="button" class="book-collapse-toggle ">Ads</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/ADS%E7%BB%AA%E8%AE%BA/" class="">Ads绪论</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/B&#43;%E6%A0%91/" class="">B 树</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/NP%E9%97%AE%E9%A2%98/" class="">Np问题</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/Splay%E6%A0%91/" class="">Splay树</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E4%BA%8C%E9%A1%B9%E9%98%9F%E5%88%97/" class="">二项队列</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/" class="">倒排索引</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%88%86%E6%B2%BB%E7%AE%97%E6%B3%95/" class="">分治算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="">动态规划</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A4%96%E9%83%A8%E6%8E%92%E5%BA%8F/" class="">外部排序</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%B1%80%E9%83%A8%E6%90%9C%E7%B4%A2/" class="">局部搜索</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%B7%A6%E5%BC%8F%E5%A0%86/" class="">左式堆</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%B9%B6%E8%A1%8C%E7%AE%97%E6%B3%95/" class="">并行算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%96%9C%E5%A0%86/" class="">斜堆</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E7%BA%A2%E9%BB%91%E6%A0%91/" class="">红黑树</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E8%B4%AA%E5%A9%AA%E7%AE%97%E6%B3%95/" class="">贪婪算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E8%BF%91%E4%BC%BC%E7%AE%97%E6%B3%95/" class="active">近似算法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E9%9A%8F%E6%9C%BA%E5%8C%96%E7%AE%97%E6%B3%95/" class="">随机化算法</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/64bitpandas/amethyst"  target="_blank" rel="noopener">
+        Github
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+    <div class="book-page container">
+      
+
+      
+      
+  <article class="markdown">
+    <h1 class="title">近似算法</h1>
+    
+
+
+
+
+
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+    
+    
+      
+      
+    
+    
+  
+  
+  
+
+
+
+
+
+
+<h1 id="近似算法approximation">
+  近似算法（Approximation）
+  <a class="anchor" href="#%e8%bf%91%e4%bc%bc%e7%ae%97%e6%b3%95approximation">#</a>
+</h1>
+<h2 id="概述">
+  概述
+  <a class="anchor" href="#%e6%a6%82%e8%bf%b0">#</a>
+</h2>
+<p>用于解决困难问题，如NPC问题。</p>
+<p><strong>对于NPC问题的处理方法：</strong></p>
+<ul>
+<li>
+<p>N很小，$O(2^N)$也可以接受。</p>
+</li>
+<li>
+<p>总体问题很复杂，但可以在多项式时间解决一些重要的特殊情况。</p>
+</li>
+<li>
+<p>寻找一个能在多项式时间得出的<strong>次优解（near-optimal solution）</strong>。→ 渐近算法</p>
+</li>
+</ul>
+<h2 id="近似比例approximation-radio">
+  近似比例（approximation radio）
+  <a class="anchor" href="#%e8%bf%91%e4%bc%bc%e6%af%94%e4%be%8bapproximation-radio">#</a>
+</h2>
+<h3 id="定义">
+  定义
+  <a class="anchor" href="#%e5%ae%9a%e4%b9%89">#</a>
+</h3>
+<p>若对于任意大小的输入$n$，渐近算法求解的开销$C$不超过最优解开销$C*$的$\rho (n)$因子，则该算法的渐近比例为$\rho(n)$。称为**$\rho(n)$渐近算法**。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230516102439955.png" width="auto" alt="image-20230516102439955"  /></p>
+<h3 id="近似方案approximation-scheme">
+  近似方案（approximation scheme）
+  <a class="anchor" href="#%e8%bf%91%e4%bc%bc%e6%96%b9%e6%a1%88approximation-scheme">#</a>
+</h3>
+<p>一个最优解问题的渐近方案是一个输入为问题instance和一个正数$\epsilon$的渐近算法，使其对于任何确定的$\epsilon$，都是一个$(1+\epsilon)$渐近算法。</p>
+<p>若对于任意确定的$\epsilon &gt;0$，渐近方案能在多项式时间内得出结果，则称为<strong>PTAS</strong>（polynomial-time approximation scheme）。</p>
+<blockquote>
+<p>通常PTAS的时间复杂度形如$O(n^{2/\epsilon})$。随着$\epsilon$减小，时间复杂度增大。</p>
+<p>有一种特殊情况复杂度形如$O((1/\epsilon)^2n^3)$，优于上面的情况，这种PTAS称为<strong>FPTAS</strong>（fully polynomial-time）。</p>
+<blockquote>
+<p>fully表示时间复杂度中的两个变量$n$和$\epsilon$都是多项式形式。</p>
+</blockquote>
+</blockquote>
+<h2 id="实例1装箱问题">
+  实例1：装箱问题
+  <a class="anchor" href="#%e5%ae%9e%e4%be%8b1%e8%a3%85%e7%ae%b1%e9%97%ae%e9%a2%98">#</a>
+</h2>
+<blockquote>
+<p>Bin Packing，NP-Hard问题。</p>
+</blockquote>
+<p>给出大小分别为$S_1,S_2,……S_N$的$N$个物品，每个$S_i$都有$0&lt;S_i\le 1$。每个背包有单位空间，将这些物品装入数量最少的背包里。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230523101426380.png" width="auto" alt="image-20230523101426380"  /></p>
+<p>**decision version：**给出K个背包和N个物品的大小，求解是否能装下。</p>
+<blockquote>
+<p>NP-Compelete问题。</p>
+</blockquote>
+<h3 id="next-fit">
+  Next Fit
+  <a class="anchor" href="#next-fit">#</a>
+</h3>
+<p>依次遍历每个物品，若上一个背包能放下则放入上一个背包，否则新开一个背包。线性时间复杂度。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230523101808809.png" width="auto" alt="image-20230523101808809"  /></p>
+<p><strong>定理：</strong></p>
+<p>若$M$为物品集$I$的最优解（即最少背包数），则Next Fit近似算法的结果一定不超过$2M-1$，且存在解法使得结果刚好等于$2M-1$。</p>
+<p><strong>证明：</strong></p>
+<p>反证法：即证明若NF算法结果为$2M$或$2M+1$，则最优解的结果一定大于等于$M+1$。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230523103541770.png" width="auto" alt="image-20230523103541770"  /></p>
+<p>近似比例为2，需要更好的方案。</p>
+<h3 id="first-fit">
+  First Fit
+  <a class="anchor" href="#first-fit">#</a>
+</h3>
+<p>搜索第一个满足能装下该物品的背包，若存在，则放入该背包中；若不存在，则新开一个背包。时间复杂度为$O(NlogN)$。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230523103824826.png" width="auto" alt="image-20230523103824826"  /></p>
+<p><strong>定理：</strong></p>
+<p>若$M$为物品集$I$的最优解（即最少背包数），则First Fit近似算法的结果一定不超过$17M/10$，且存在解法使得结果刚好等于$17(M-1)/10$。</p>
+<blockquote>
+<p>近似比例为1.7。</p>
+</blockquote>
+<h3 id="best-fit">
+  Best Fit
+  <a class="anchor" href="#best-fit">#</a>
+</h3>
+<p>将物品放置在“最拥挤”的背包里，即放下物品后剩余空间最小。时间复杂度为$O(NlogN)$。结果同样$\le 1.7M$。</p>
+<h3 id="worst-fit">
+  Worst Fit
+  <a class="anchor" href="#worst-fit">#</a>
+</h3>
+<p>将物品放置在“最空闲”的背包里，即放下物品后剩余空间最大。</p>
+<h3 id="对比">
+  对比
+  <a class="anchor" href="#%e5%af%b9%e6%af%94">#</a>
+</h3>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5C18b25d317a3c9ae26b03e38066e60aa.jpg" width="auto" alt="18b25d317a3c9ae26b03e38066e60aa"  /></p>
+<p><strong>另一个例子：</strong></p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230523104914451.png" width="auto" alt="image-20230523104914451"  /></p>
+<p>最优解为按列三个一组，结果为6；而按顺序放入背包得出的结果为10。</p>
+<h3 id="on-line算法">
+  On-line算法
+  <a class="anchor" href="#on-line%e7%ae%97%e6%b3%95">#</a>
+</h3>
+<p>按输入顺序依次计算，进行下一步后无法撤回上一步的选择。</p>
+<p>由于无法预知输入什么时候截止，因此on-line算法无法一直给出最优解。</p>
+<p><strong>定理：</strong></p>
+<p>存在一种输入使得背包问题的任何on-line算法得出的结果至少为最优结果的$5/3$。（趋近于1.7）</p>
+<blockquote>
+<p>如BF、WF、AWF、AF等算法的近似比例均约为1.7。</p>
+</blockquote>
+<h3 id="off-line算法">
+  Off-line算法
+  <a class="anchor" href="#off-line%e7%ae%97%e6%b3%95">#</a>
+</h3>
+<p>先获取所有输入列表，再进行计算。</p>
+<p>**问题所在：**较大的物品</p>
+<p><strong>解决办法：<strong>将输入的物品大小按</strong>降序</strong>排列，再按BF或FF算法计算。称为<code>BF/FF decreasing(primary)</code>算法。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230523111146803.png" width="auto" alt="image-20230523111146803"  /></p>
+<p><strong>定理：</strong></p>
+<p>若$M$为物品集$I$的最优解（即最少背包数），则FF decreasing算法的结果一定不超过$11M/9+6/9$，且存在解法使得结果刚好等于$11M/9+6/9$。</p>
+<blockquote>
+<p>近似比例约为1.2。</p>
+</blockquote>
+<h2 id="实例2背包问题">
+  实例2：背包问题
+  <a class="anchor" href="#%e5%ae%9e%e4%be%8b2%e8%83%8c%e5%8c%85%e9%97%ae%e9%a2%98">#</a>
+</h2>
+<p>商店的货架上摆放着不同重量和价值的商品，一个小偷在商店行窃，他携带的背包只能装固定重量的商品。装哪些商品才能获得最大的收益呢？在限定条件内找到最佳的物品组合，这样的问题统称为<code>背包问题（Knapsack Problem）(primary)</code>。</p>
+<h3 id="分类">
+  分类
+  <a class="anchor" href="#%e5%88%86%e7%b1%bb">#</a>
+</h3>
+<ul>
+<li>
+<p>**部分背包问题：**所有物品是可再分的，即允许将某件物品的一部分（例如 1/3）放入背包；</p>
+</li>
+<li>
+<p>**0-1 背包问题：**所有物品不可再分，要么整个装入背包，要么放弃，不允许出现“仅选择物品的 1/3 装入背包”的情况；</p>
+</li>
+<li>
+<p>**完全背包问题：**不对每一件物品的数量做限制，同一件物品可以选择多个装入背包；</p>
+</li>
+<li>
+<p>**多重背包问题：**每件物品的数量是有严格规定的，比如物品 A 有 2 件，物品 B 有 3 件。</p>
+</li>
+</ul>
+<h3 id="部分背包问题fractional-version">
+  部分背包问题（fractional version）
+  <a class="anchor" href="#%e9%83%a8%e5%88%86%e8%83%8c%e5%8c%85%e9%97%ae%e9%a2%98fractional-version">#</a>
+</h3>
+<p>背包容量为$M$，给出$N$个物品，每个物品$i$有重量$w_i$和收益$p_i$。若$x_i$为物品$i$放入背包的比例，则收益为$p_ix_i$。</p>
+<p><strong>最优解</strong>定义为：解出$x_i$，使得$\Sigma_{i=1}^{n}{p_ix_i}$取得最大值。限定条件为：$\Sigma_{i=1}^{n}{w_ix_i}\le M$，且$x_i \in [0,1]$。</p>
+<p>可以用简单的贪婪算法解决：</p>
+<ul>
+<li>将一个物品放入背包作为一个步骤。</li>
+<li>贪婪算法理论：①收益最大  ②重量最小  ③收益密度$p_i/w_i$最大（√）。</li>
+</ul>
+<h3 id="0-1背包问题">
+  0-1背包问题
+  <a class="anchor" href="#0-1%e8%83%8c%e5%8c%85%e9%97%ae%e9%a2%98">#</a>
+</h3>
+<p>$x_i$必须是1或0。即一个物品只能选择全部放入或不放入。<code>NP-Hard问题(primary)</code>。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230523115210177.png" width="auto" alt="image-20230523115210177"  /></p>
+<p><strong>贪婪算法</strong></p>
+<p>若应用贪婪算法取收益最大和收益密度最大中的较大值作为结果，其近似比例为2。</p>
+<blockquote>
+<p>证明：</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230523120500353.png" width="auto" alt="image-20230523120500353"  /></p>
+</blockquote>
+<p><strong>动态规划</strong></p>
+<p>定义$W_{i,p}$表示在物品集合${1,……,i}$中，总收益为$p$时的最小重量。</p>
+<ul>
+<li>若装入物品$i$：$W_{i,p}=w_i+W_{i-1,p-p_i}$。</li>
+<li>若放弃物品$i$：$W_{i,p}=W_{i-1,p}$。</li>
+<li>若无法达到$p$：$W_{i,p}=\infin$。</li>
+</ul>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230523121841432.png" width="auto" alt="image-20230523121841432"  /></p>
+<p>时间复杂度：考虑最坏情况，$i=1,……,n,\\ p=1,……,np_{max}$，此时时间复杂度为$O(n^2p_{max})$。</p>
+<blockquote>
+<p>注：该时间复杂度不代表该算法为P问题，由于$p_{max}$不是常数。</p>
+<p>当$p_{max}$非常大时，其耗时甚至可能大于穷举法。解决办法：把$profit$进行约化，同除一个数以减小数据大小。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230524021441229.png" width="auto" alt="image-20230524021441229"  /></p>
+</blockquote>
+<h2 id="实例3k中心问题">
+  实例3：K中心问题
+  <a class="anchor" href="#%e5%ae%9e%e4%be%8b3k%e4%b8%ad%e5%bf%83%e9%97%ae%e9%a2%98">#</a>
+</h2>
+<p>在居民区附近建超市。<code>site(primary)</code>表示居民建筑，<code>center(primary)</code>表示超市中心。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230526005750700.png" width="auto" alt="image-20230526005750700"  /></p>
+<p><strong>输入：</strong>$n$个居民建筑：$s_1,……s_n$。</p>
+<p>**问题：**给定整数$K$，选择$K$个超市中心（集合$C$），使得一个居民建筑到最近的超市中心的最大距离（distance）最小化。</p>
+<p><strong>定义<code>distance(primary)</code>：</strong></p>
+<ul>
+<li><strong>identity：</strong>$dist(x,x)=0$</li>
+<li><strong>symmetry：</strong>$dist(x,y)=dist(y,x)$</li>
+<li><strong>triangle inequality：</strong>$dist(x,y)\le dist(x,z)+dist(z,y)$</li>
+</ul>
+<p>$dist(s_i,C)=\min_{c\in C}{dist(s_i,c)}=distance\\ from\\ s_i\\ to\\ the\\ cloest\\ center$</p>
+<p>$r(C)=\max_{i}{dist(s_i,C)}=smallest\\ covering\\ radius$</p>
+<p>**目标：**找到满足$|C|=K$的超市中心集合$C$，使得$r(C)$最小。</p>
+<blockquote>
+<p>候选的超市中心有无数个。</p>
+</blockquote>
+<h3 id="贪婪算法">
+  贪婪算法
+  <a class="anchor" href="#%e8%b4%aa%e5%a9%aa%e7%ae%97%e6%b3%95">#</a>
+</h3>
+<p>将第一个中心放在对于一个中心点来说最好的位置上，再一次添加中心点，每次尽可能减小覆盖半径（covering radius）。</p>
+<p><strong>存在问题：</strong></p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230526011441775.png" width="auto" alt="image-20230526011441775"  /></p>
+<p><strong>改进：Greedy-2r算法</strong></p>
+<p>寻找$r(C*)$的上界，$C*$表示最优解。</p>
+<p>易知若最小的覆盖半径为$r(C*)$，则贪婪算法的最大覆盖半径不超过$r=2r(C*)$。</p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230526011905496.png" width="auto" alt="image-20230526011905496"  /></p>
+<p>**理论：<em><em>若该算法选择出了大于$K$个中心点，则对于不超过$K$的任意集合$C</em>$，覆盖半径均有$C</em>\gt r $。（反证法）</p>
+<p>**问题：*<em>如何获取$r(C</em>)$，即覆盖半径的上界？</p>
+<blockquote>
+<p>使用对$r$的<strong>二叉搜索</strong>。选择一个很大的数$r_{max}$，有$0\lt r \le r_{max}$，每次猜测$r=(0+r_{max})/2$。</p>
+<p>①Yes：说明能够找到K个中心点，即最优解覆盖半径小于等于r，此时可以减小r的值。</p>
+<p>②No：r的值过小，可以增大。</p>
+<p>不断缩小r的范围，直到确定值。近似比例为2。</p>
+<p>**时间复杂度：**多项式时间。</p>
+</blockquote>
+<p><strong>更聪明的算法：be far away</strong></p>
+<p>
+
+
+<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230526013647377.png" width="auto" alt="image-20230526013647377"  /></p>
+<p>**理论：<em><em>该算法将返回拥有$K$个中心点的集合$C$使得$r(C)\le 2r(C</em>)$，其中$C</em>$是最优解，近似比例为2。（反证法）</p>
+<p><strong>进一步改进：是否存在近似比例为3/2或4/3的算法？</strong></p>
+<blockquote>
+<p>**理论：**除非$P=NP$，否则对于中心点选择问题，不存在$\rho$-approximation算法使得$\rho \lt 2$。（反证法）</p>
+<blockquote>
+<p>证明：如果能在多项式时间内实现$\rho \lt 2$的近似算法，则可以在多项式时间内解决<code>DOMINATING-SET(primary)</code>问题（NPC）。</p>
+<p>Dominating set问题有大小为$K$的解<code>当且仅当(primary)</code>存在$K$个中心点集合使得$r(C*)=1$。</p>
+</blockquote>
+</blockquote>
+<h2 id="总结">
+  总结
+  <a class="anchor" href="#%e6%80%bb%e7%bb%93">#</a>
+</h2>
+<p><strong>三方面需要考虑：</strong></p>
+<ul>
+<li>**A. 最优性：**结果的最优程度。</li>
+<li>**B. 效率：**计算的开销</li>
+<li>**C. 普适性：**不仅对特殊情况适用。</li>
+</ul>
+<p>**A+C：**对所有情况的精准解法。如暴力穷举。</p>
+<p>**A+B：**对特殊情况的精准快速解法。如动态规划。</p>
+<p>**B+C：**效率+普适性替代结果的质量。如近似算法。</p>
+<blockquote>
+<p>即使$P=NP$，也不能保证同时实现$A+B+C$。</p>
+</blockquote>
+
+
+    
+
+<hr/>
+
+
+<div class="page-end" id="footer">
+    <div class="backlinks-container">
+        <h3>Backlinks</h3>
+<ul class="backlinks">
+    
+    
+    
+    
+    
+    
+    
+    <li>
+      No backlinks found
+    </li>
+    
+</ul>
+
+    </div>
+    <div>
+        <script
+  src="https://cdn.jsdelivr.net/npm/d3@6.7.0/dist/d3.min.js"
+  integrity="sha256-+7jaYCp29O1JusNWHaYtgUn6EhuP0VaFuswhNV06MyI="
+  crossorigin="anonymous"
+></script>
+<h3>Interactive Graph</h3>
+<div id="graph-container"></div>
+<style>
+  :root {
+    --g-node: var(--secondary);
+    --g-node-active: var(--primary);
+    --g-node-inactive: var(--visited);
+    --g-link: var(--outlinegray);
+    --g-link-active: #5a7282;
+  }
+</style>
+
+<script src="https://ArcticPirateL.github.io/quartz/js/graph.3d608db416a7219b41b53602cd180019.js"></script>
+
+    </div>
+</div>
+
+
+
+
+
+
+<div id="contact_buttons">
+    <footer>
+        
+        
+        <p>Made with <a href="https://github.com/64bitpandas/amethyst">Amethyst</a>, © 2023 Ben Cuan</p>
+        <ul>
+            
+            <li><a href="https://ArcticPirateL.github.io">Home</a></li>
+            <li><a href="https://bencuan.me">Website</a></li><li><a href="https://blog.bencuan.me">Blog</a></li></ul>
+    </footer>
+</div>
+
+
+    
+  </article>
+ 
+      
+      
+      
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#近似算法approximation">近似算法（Approximation）</a>
+      <ul>
+        <li><a href="#概述">概述</a></li>
+        <li><a href="#近似比例approximation-radio">近似比例（approximation radio）</a>
+          <ul>
+            <li><a href="#定义">定义</a></li>
+            <li><a href="#近似方案approximation-scheme">近似方案（approximation scheme）</a></li>
+          </ul>
+        </li>
+        <li><a href="#实例1装箱问题">实例1：装箱问题</a>
+          <ul>
+            <li><a href="#next-fit">Next Fit</a></li>
+            <li><a href="#first-fit">First Fit</a></li>
+            <li><a href="#best-fit">Best Fit</a></li>
+            <li><a href="#worst-fit">Worst Fit</a></li>
+            <li><a href="#对比">对比</a></li>
+            <li><a href="#on-line算法">On-line算法</a></li>
+            <li><a href="#off-line算法">Off-line算法</a></li>
+          </ul>
+        </li>
+        <li><a href="#实例2背包问题">实例2：背包问题</a>
+          <ul>
+            <li><a href="#分类">分类</a></li>
+            <li><a href="#部分背包问题fractional-version">部分背包问题（fractional version）</a></li>
+            <li><a href="#0-1背包问题">0-1背包问题</a></li>
+          </ul>
+        </li>
+        <li><a href="#实例3k中心问题">实例3：K中心问题</a>
+          <ul>
+            <li><a href="#贪婪算法">贪婪算法</a></li>
+          </ul>
+        </li>
+        <li><a href="#总结">总结</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
