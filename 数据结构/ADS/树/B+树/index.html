@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-  <meta property="og:title" content="" />
+  <meta property="og:title" content="B&#43;树" />
 <meta property="og:description" content="B&#43;树#概述#常用于数据库、文件系统。大量数据通常存储在磁盘中而非主存，然而磁盘中查找文件速度较慢，为提升速度需要将存储空间划分为很多个block。
 B树是搜索树的一种，与二叉搜索树不同。B树包括原始B树、B&#43;树、B-树等。
 定义#order为M的树。结构特性如下：
@@ -23,7 +23,7 @@ $$Depth(M,N)=O(log_\frac{M}{2}N)$$
 <meta property="og:url" content="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/B&#43;%E6%A0%91/" /><meta property="article:section" content="数据结构" />
 
 <meta property="og:site_name" content="📓 Arctic的笔记本" />
-<title>B 树 | 📓 Arctic的笔记本</title>
+<title>B&#43;树 | 📓 Arctic的笔记本</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.45ec1f6261e17c6488824ac77b6b8a0c11eef38eaed587cfecad4b284f57ee79.css" integrity="sha256-RewfYmHhfGSIgkrHe2uKDBHu846u1YfP7K1LKE9X7nk=" crossorigin="anonymous">
@@ -59,7 +59,7 @@ $$Depth(M,N)=O(log_\frac{M}{2}N)$$
 根据时间复杂度公式，并不是M越大越高效。实际结果表明，M=3或4时表现最佳。"
 />
 <title>
-  📓 Arctic的笔记本
+  B&#43;树
 </title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -420,19 +420,6 @@ $$Depth(M,N)=O(log_\frac{M}{2}N)$$
   
 
   
-    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E4%BA%8C%E9%A1%B9%E9%98%9F%E5%88%97/" class="">二项队列</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
     <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E5%B7%A6%E5%BC%8F%E5%A0%86/" class="">左式堆</a>
   
 
@@ -447,6 +434,19 @@ $$Depth(M,N)=O(log_\frac{M}{2}N)$$
 
   
     <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E6%96%9C%E5%A0%86/" class="">斜堆</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E4%BA%8C%E9%A1%B9%E9%98%9F%E5%88%97/" class="">二项队列</a>
   
 
         </li>
@@ -527,19 +527,6 @@ $$Depth(M,N)=O(log_\frac{M}{2}N)$$
   
 
   
-    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/B&#43;%E6%A0%91/" class="active">B 树</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
     <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/Splay%E6%A0%91/" class="">Splay树</a>
   
 
@@ -554,6 +541,19 @@ $$Depth(M,N)=O(log_\frac{M}{2}N)$$
 
   
     <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/%E7%BA%A2%E9%BB%91%E6%A0%91/" class="">红黑树</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/B&#43;%E6%A0%91/" class="active">B&#43;树</a>
   
 
         </li>
@@ -744,7 +744,7 @@ $$Depth(M,N)=O(log_\frac{M}{2}N)$$
       
       
   <article class="markdown">
-    <h1 class="title">B 树</h1>
+    <h1 class="title">B&#43;树</h1>
     
 
 
@@ -827,7 +827,7 @@ $$Depth(M,N)=O(log_\frac{M}{2}N)$$
 <p>
 
 
-<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E6%A0%91%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424213008361.png" width="auto" alt="image-20230424213008361"  /></p>
+<img src="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/images/image-20230424213008361.png" width="auto" alt="image-20230424213008361"  /></p>
 <p>所有真实数据<strong>都存放在叶子节点</strong>中。</p>
 <p>每个中间节点包括M个儿子指针和M-1个key，key存放除第一个子节点外的每个子节点中最小的元素值。</p>
 <p>所有叶子节点为从小到大的顺序。</p>
@@ -862,7 +862,7 @@ $$Depth(M,N)=O(log_\frac{M}{2}N)$$
 <p>
 
 
-<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E6%A0%91%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424214712051.png" width="auto" alt="image-20230424214712051"  /></p>
+<img src="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/images/image-20230424214712051.png" width="auto" alt="image-20230424214712051"  /></p>
 <p>$$T(M,N)=O((\frac{M}{logM})logN)$$</p>
 <p>$$T_{Find}(M,N)=O(logN)$$</p>
 <p>$$Depth(M,N)=O(log_\frac{M}{2}N)$$</p>

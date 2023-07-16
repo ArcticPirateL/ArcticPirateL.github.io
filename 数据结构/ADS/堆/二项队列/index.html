@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-  <meta property="og:title" content="" />
+  <meta property="og:title" content="二项队列" />
 <meta property="og:description" content="二项队列#定义#不是单个的堆结构的树，而是堆结构树的集合，成为森林。其中的每棵堆结构树都是一个二项树。
 height为0的二项树只有一个节点。
 height为k的二项树成为$B_k$，由一个$B_{k-1}$树连接到另一个$B_{k-1}$树的根节点上得到。
@@ -57,7 +57,7 @@ Insertion#插入属于特殊的合并操作，时间复杂度同样为$O(logN)
 DeleteMin#FindMin in $B_k$。$O(logN)$ 在二项队列中移除$B_k$。$O(1)$ 移除$B_k$的根节点。$O(logN)$ 合并两个二项队列。$O(logN)$ 因此，总时间复杂度为$O(logN)$。"
 />
 <title>
-  📓 Arctic的笔记本
+  二项队列
 </title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -418,19 +418,6 @@ DeleteMin#FindMin in $B_k$。$O(logN)$ 在二项队列中移除$B_k$。$O(1)$ 
   
 
   
-    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E4%BA%8C%E9%A1%B9%E9%98%9F%E5%88%97/" class="active">二项队列</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
     <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E5%B7%A6%E5%BC%8F%E5%A0%86/" class="">左式堆</a>
   
 
@@ -445,6 +432,19 @@ DeleteMin#FindMin in $B_k$。$O(logN)$ 在二项队列中移除$B_k$。$O(1)$ 
 
   
     <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E6%96%9C%E5%A0%86/" class="">斜堆</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E4%BA%8C%E9%A1%B9%E9%98%9F%E5%88%97/" class="active">二项队列</a>
   
 
         </li>
@@ -525,19 +525,6 @@ DeleteMin#FindMin in $B_k$。$O(logN)$ 在二项队列中移除$B_k$。$O(1)$ 
   
 
   
-    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/B&#43;%E6%A0%91/" class="">B 树</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
     <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/Splay%E6%A0%91/" class="">Splay树</a>
   
 
@@ -552,6 +539,19 @@ DeleteMin#FindMin in $B_k$。$O(logN)$ 在二项队列中移除$B_k$。$O(1)$ 
 
   
     <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/%E7%BA%A2%E9%BB%91%E6%A0%91/" class="">红黑树</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/B&#43;%E6%A0%91/" class="">B&#43;树</a>
   
 
         </li>
@@ -887,13 +887,13 @@ DeleteMin#FindMin in $B_k$。$O(logN)$ 在二项队列中移除$B_k$。$O(1)$ 
 <p>
 
 
-<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E5%A0%86%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424234335313.png" width="auto" alt="image-20230424234335313"  /></p>
+<img src="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/images/image-20230424234335313.png" width="auto" alt="image-20230424234335313"  /></p>
 <p><strong>规律</strong>：$B_k$树有k个儿子，包含$2^k$个节点，深度为d处的节点数为$C^k_d$。</p>
 <p><strong>结论</strong>：任意大小的优先队列都能用唯一的二项树集合表示。</p>
 <p>
 
 
-<img src="https://ArcticPirateL.github.io%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5CADS%5C%E5%A0%86%5CD%5CTypora%E5%9B%BE%E7%89%87%5Cimage-20230424234856683.png" width="auto" alt="image-20230424234856683"  /></p>
+<img src="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/images/image-20230424234856683.png" width="auto" alt="image-20230424234856683"  /></p>
 <h2 id="操作">
   操作
   <a class="anchor" href="#%e6%93%8d%e4%bd%9c">#</a>

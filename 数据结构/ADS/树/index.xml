@@ -7,31 +7,6 @@
     <generator>Hugo -- gohugo.io</generator><atom:link href="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title></title>
-      <link>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/B&#43;%E6%A0%91/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/B&#43;%E6%A0%91/</guid>
-      <description>B+树#概述#常用于数据库、文件系统。大量数据通常存储在磁盘中而非主存，然而磁盘中查找文件速度较慢，为提升速度需要将存储空间划分为很多个block。
-B树是搜索树的一种，与二叉搜索树不同。B树包括原始B树、B+树、B-树等。
-定义#order为M的树。结构特性如下：
-根节点是叶子节点或有2到M个孩子。 除根节点外所有的非叶子节点有==[M/2, M]==个孩子。 所有叶子节点深度相同。 从底层向上层构建，平衡性非常好。
-所有真实数据都存放在叶子节点中。
-每个中间节点包括M个儿子指针和M-1个key，key存放除第一个子节点外的每个子节点中最小的元素值。
-所有叶子节点为从小到大的顺序。
-查找操作#与二叉搜索树类似，从根节点开始，比较节点的key值和要查找的值。
-插入操作#首先查找到将要插入的叶子节点位置。
-若满足B+树的节点数要求，直接插入即可。
-若不满足，则分裂成两个叶子节点，并更新父节点的key值。
-若导致父节点也不满足节点数要求，则继续向上分裂。
-存在问题：不断低效插入导致高度增加较快。此时可以优先考虑未满的叶子节点进行插入，使尽可能多的叶子节点达到full状态。
-代码实现#$$T(M,N)=O((\frac{M}{logM})logN)$$
-$$T_{Find}(M,N)=O(logN)$$
-$$Depth(M,N)=O(log_\frac{M}{2}N)$$
-根据时间复杂度公式，并不是M越大越高效。实际结果表明，M=3或4时表现最佳。</description>
-    </item>
-    
-    <item>
-      <title></title>
       <link>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/Splay%E6%A0%91/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -89,6 +64,31 @@ Case 2#新节点为红色且是父节点的右儿子，父节点为红色，�
 Case 3#新节点为红色且是父亲的左儿子，父节点为红色，父节点的兄弟节点为黑色。
 解决方式：首先将父节点和祖父节点互换颜色，再将父节点作为新的根节点进行旋转。
 AVL树 &amp;amp; 红黑树#step 1：向二叉搜索树中插入节点。 step 2：从底层到顶层，检查BF/颜色是否符合规定。 最坏情况相同，都需要进行两次rotation。</description>
+    </item>
+    
+    <item>
+      <title>B&#43;树</title>
+      <link>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/B&#43;%E6%A0%91/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E6%A0%91/B&#43;%E6%A0%91/</guid>
+      <description>B+树#概述#常用于数据库、文件系统。大量数据通常存储在磁盘中而非主存，然而磁盘中查找文件速度较慢，为提升速度需要将存储空间划分为很多个block。
+B树是搜索树的一种，与二叉搜索树不同。B树包括原始B树、B+树、B-树等。
+定义#order为M的树。结构特性如下：
+根节点是叶子节点或有2到M个孩子。 除根节点外所有的非叶子节点有==[M/2, M]==个孩子。 所有叶子节点深度相同。 从底层向上层构建，平衡性非常好。
+所有真实数据都存放在叶子节点中。
+每个中间节点包括M个儿子指针和M-1个key，key存放除第一个子节点外的每个子节点中最小的元素值。
+所有叶子节点为从小到大的顺序。
+查找操作#与二叉搜索树类似，从根节点开始，比较节点的key值和要查找的值。
+插入操作#首先查找到将要插入的叶子节点位置。
+若满足B+树的节点数要求，直接插入即可。
+若不满足，则分裂成两个叶子节点，并更新父节点的key值。
+若导致父节点也不满足节点数要求，则继续向上分裂。
+存在问题：不断低效插入导致高度增加较快。此时可以优先考虑未满的叶子节点进行插入，使尽可能多的叶子节点达到full状态。
+代码实现#$$T(M,N)=O((\frac{M}{logM})logN)$$
+$$T_{Find}(M,N)=O(logN)$$
+$$Depth(M,N)=O(log_\frac{M}{2}N)$$
+根据时间复杂度公式，并不是M越大越高效。实际结果表明，M=3或4时表现最佳。</description>
     </item>
     
   </channel>

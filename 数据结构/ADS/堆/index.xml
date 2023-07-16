@@ -7,30 +7,6 @@
     <generator>Hugo -- gohugo.io</generator><atom:link href="https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title></title>
-      <link>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E4%BA%8C%E9%A1%B9%E9%98%9F%E5%88%97/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E4%BA%8C%E9%A1%B9%E9%98%9F%E5%88%97/</guid>
-      <description>二项队列#定义#不是单个的堆结构的树，而是堆结构树的集合，成为森林。其中的每棵堆结构树都是一个二项树。
-height为0的二项树只有一个节点。
-height为k的二项树成为$B_k$，由一个$B_{k-1}$树连接到另一个$B_{k-1}$树的根节点上得到。
-规律：$B_k$树有k个儿子，包含$2^k$个节点，深度为d处的节点数为$C^k_d$。
-结论：任意大小的优先队列都能用唯一的二项树集合表示。
-操作#FindMin#找到最小值，遍历查找所有根中的最小值即可，最多共有$logN$个根节点，时间复杂度为$O(logN)$。
-可以选择记录最小值所在的根，若更改则更新，此时时间复杂度为$O(1)$。
-然而若常见操作为delete min而不是find min，将会频繁的更新，用途不显著。
-Merge#类似于二进制加法。合并时可能由多种选择，不同选择结果不同，无硬性规定。
-合并时需确保新的根节点为较小的根。
-时间复杂度取决于树的数量，为$O(logN)$。
-必须将合并后的树进行按高度排序，而非按key值排序。
-Insertion#插入属于特殊的合并操作，时间复杂度同样为$O(logN)$。
-若最小的不存在的树是$B_i$，则时间复杂度为$T_p=Const*(i+1)$。
-向初始为空的二项队列中插入N次，会发生最坏情况为$O(N)$，因此平均时间为常数时间。
-DeleteMin#FindMin in $B_k$。$O(logN)$ 在二项队列中移除$B_k$。$O(1)$ 移除$B_k$的根节点。$O(logN)$ 合并两个二项队列。$O(logN)$ 因此，总时间复杂度为$O(logN)$。</description>
-    </item>
-    
-    <item>
-      <title></title>
       <link>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E5%B7%A6%E5%BC%8F%E5%A0%86/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -77,6 +53,30 @@ structure property#对于每个节点X，其左儿子的Npl大于等于右儿�
 规律： heavy或light性质前后发生改变的节点一定在最初的右路径上。
 ​ 且在右路径上原heavy的节点经过merge后一定会变成light节点。
 ​ 且在右路径上原light的节点经过merge后不一定会变成heavy节点。</description>
+    </item>
+    
+    <item>
+      <title>二项队列</title>
+      <link>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E4%BA%8C%E9%A1%B9%E9%98%9F%E5%88%97/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ArcticPirateL.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/ADS/%E5%A0%86/%E4%BA%8C%E9%A1%B9%E9%98%9F%E5%88%97/</guid>
+      <description>二项队列#定义#不是单个的堆结构的树，而是堆结构树的集合，成为森林。其中的每棵堆结构树都是一个二项树。
+height为0的二项树只有一个节点。
+height为k的二项树成为$B_k$，由一个$B_{k-1}$树连接到另一个$B_{k-1}$树的根节点上得到。
+规律：$B_k$树有k个儿子，包含$2^k$个节点，深度为d处的节点数为$C^k_d$。
+结论：任意大小的优先队列都能用唯一的二项树集合表示。
+操作#FindMin#找到最小值，遍历查找所有根中的最小值即可，最多共有$logN$个根节点，时间复杂度为$O(logN)$。
+可以选择记录最小值所在的根，若更改则更新，此时时间复杂度为$O(1)$。
+然而若常见操作为delete min而不是find min，将会频繁的更新，用途不显著。
+Merge#类似于二进制加法。合并时可能由多种选择，不同选择结果不同，无硬性规定。
+合并时需确保新的根节点为较小的根。
+时间复杂度取决于树的数量，为$O(logN)$。
+必须将合并后的树进行按高度排序，而非按key值排序。
+Insertion#插入属于特殊的合并操作，时间复杂度同样为$O(logN)$。
+若最小的不存在的树是$B_i$，则时间复杂度为$T_p=Const*(i+1)$。
+向初始为空的二项队列中插入N次，会发生最坏情况为$O(N)$，因此平均时间为常数时间。
+DeleteMin#FindMin in $B_k$。$O(logN)$ 在二项队列中移除$B_k$。$O(1)$ 移除$B_k$的根节点。$O(logN)$ 合并两个二项队列。$O(logN)$ 因此，总时间复杂度为$O(logN)$。</description>
     </item>
     
   </channel>
